@@ -136,7 +136,10 @@
     </style>
 </head>
 <body>
+<a href="home.php">
     <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
+</a>
+
 
     <h2>Buscar Livro</h2>
 

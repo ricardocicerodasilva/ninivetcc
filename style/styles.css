@@ -1,0 +1,370 @@
+
+.menu-container {
+position: absolute; /* Fixa o menu na tela */
+top: 10px; /* Alinha o menu ao topo da página */
+left: 0; /* Alinha o menu à esquerda da página */
+z-index: 1000; /* Garante que o menu fique acima de outros elementos */
+background-color: white; /* Adiciona fundo branco para o menu, se necessário */
+}
+/*botão */
+/* Estilos para o botão de menu */
+.menu-toggle {
+cursor: pointer;
+width: 40px;
+height: 20px;
+position: relative;
+top: 10px; /* Ajuste a posição vertical conforme necessário */
+left: 40px; /* Ajuste a posição horizontal conforme necessário */
+}
+
+/* Estilos para as barras do botão */
+.bar {
+background-color: #333;
+height: 3px;
+width: 100%;
+position: absolute;
+transition: all 0.3s ease;
+border-radius: 3px; /* Adiciona arredondamento para um estilo mais suave */
+}
+
+.bar1 {
+top: 0;
+}
+
+.bar2 {
+top: 50%;
+transform: translateY(-50%);
+}
+
+.bar3 {
+bottom: 0;
+}
+
+/* Estilos para o botão de menu quando ativo (transforma em "X") */
+.menu-toggle.active .bar1 {
+transform: rotate(45deg);
+top: 50%;
+transform: translateY(-50%) rotate(45deg);
+background-color: red;
+}
+
+.menu-toggle.active .bar2 {
+opacity: 0;
+}
+
+.menu-toggle.active .bar3 {
+transform: rotate(-45deg);
+bottom: 50%;
+transform: translateY(50%) rotate(-45deg);
+background-color: red;
+}
+
+/* Estilos para o menu de navegação */
+.nav-menu {
+display: none;
+height: 500px;
+width: 100%; /* Ajustado para 100% da largura da tela */
+position: absolute; /* Garante que o menu seja posicionado corretamente */
+top: 50px; /* Ajusta a posição abaixo do botão de menu */
+left: 0;
+background-color: rgb(131, 126, 126); /* Fundo branco para o menu */
+z-index: 1000; /* Garante que o menu fique acima de outros elementos */
+}
+
+/* Exibe o menu quando o botão está ativo */
+.menu-toggle.active + .nav-menu {
+display: block;
+}
+
+/* Estilos para itens do menu */
+.nav-menu ul {
+list-style-type: none;
+padding: 0;
+margin: 0;
+}
+
+.nav-menu li {
+background-color: white; /* Cor de fundo */
+height: 90px;
+width:200px;
+font-size: 20px;
+color: black; /* Cor da fonte */
+font-weight: bold; /* Fonte em negrito */
+display: flex;
+align-items: center;
+justify-content: center; /* Centraliza o texto no item */
+position: relative;
+}
+
+/* Estilos para submenus */
+.submenu {
+display: none; /* Esconde o submenu por padrão */
+position: absolute;
+top: 70%; /* Posiciona o submenu logo abaixo do item do menu principal */
+left: 70px;
+background-color: white; /* Fundo branco para o submenu */
+width: 100%; /* Ajusta a largura do submenu para o item principal */
+z-index: 1000; /* Garante que o submenu fique acima de outros elementos */
+
+}
+
+.nav-menu li:hover .submenu {
+display: block; /* Exibe o submenu quando o item do menu principal é hover */
+}
+
+.submenu li {
+height: 30px; /* Permite que a altura do submenu se ajuste ao conteúdo */
+}
+
+
+
+.content {
+margin: 10px 0; /* Adiciona margem vertical ao conteúdo */
+padding: 50px;
+}
+
+a{
+    color: black; /* Cor da fonte, aqui é vermelho */
+font-weight: bold; /* Para tornar a fonte em negrito */
+
+}
+        
+        h3 {
+            margin-top:1px;
+            color: bold;
+            font-size: 40px;
+            height: auto; /* Permite que a altura se ajuste ao conteúdo */
+            text-align: center; /* Alinha o texto à esquerda dentro da caixa */
+            text-decoration: underline;
+        }
+        .login-usuario {
+            position: absolute;
+            right: 120px; /* Posiciona a 20px da borda direita */
+           /* top: 1px; /* Posiciona a 10px do topo da página */
+            font-family: Arial, sans-serif;
+            color: #333;
+            border-radius:10px;
+        }
+        .container-botao {
+            display: flex;          /* Ativa o Flexbox */
+            justify-content: flex-end; /* Alinha o conteúdo à direita */
+           /* padding: 1px;          /* Opcional: Adiciona um pouco de espaço ao redor do botão */
+        }
+        
+        .botao-sair {
+            padding: 10px 20px;
+            background-color: #ff4b5c;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+          
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .botao-sair:hover {
+            background-color: #ff6b7c;
+        }
+        
+        
+        
+        
+        
+        .ferramentas {
+            margin-top:5px;
+            color: bold;
+            font-size: 40px;
+            height: auto; /* Permite que a altura se ajuste ao conteúdo */
+            text-align: center; /* Alinha o texto à esquerda dentro da caixa */
+            text-decoration: underline;
+        }
+        .container {
+  display: grid; /* Usa Grid para alinhar as caixas */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Define o layout das colunas */
+  gap: 90px; /* Espaçamento entre as caixas */
+  padding: 58px;
+ 
+}
+
+      
+     .caixa {
+            color: black;
+            font-size: 20px;
+            width: 250px; /* Ajuste o tamanho conforme necessário */
+            height: 220px; /* Permite que a altura se ajuste ao conteúdo */
+            text-align:left; /* Alinha o texto à esquerda dentro da caixa */
+            border: 2px solid #000; /* Adiciona uma borda preta ao redor da caixa */
+            padding: 10px; /* Adiciona um espaço interno ao redor do texto */
+            box-sizing: border-box; /* Inclui o padding e a borda na largura total da caixa */
+            margin-bottom:5px; /* Espaçamento abaixo de cada caixa */
+            /*display: inline-block; /* Faz com que as caixas fiquem lado a lado */
+            margin: 0 auto; /* Espaçamento entre as caixas */
+        }
+       
+        .caixa2 {
+    display: flex; /* Exibe a imagem e o texto lado a lado */
+    align-items: center; /* Alinha o texto e a imagem no início da linha */
+    border-top-right-radius: 25px; /* Aplica o border-radius ao canto superior direito */
+    border-bottom-right-radius: 25px; /* Aplica o border-radius ao canto inferior direito */
+    margin: 0 auto; /* Centraliza horizontalmente */
+    color: blue;
+    font-size: 20px;
+    width: 1000px; /* Ajuste o tamanho conforme necessário */
+    height: auto; /* Permite que a altura se ajuste ao conteúdo */
+    text-align: left; /* Alinha o texto à esquerda dentro da caixa */
+    border: 2px solid #000; /* Adiciona uma borda preta ao redor da caixa */
+    padding: 10px; /* Adiciona um espaço interno ao redor do texto */
+    box-sizing: border-box; /* Inclui o padding e a borda na largura total da caixa */
+    gap: 20px; /* Espaçamento entre a imagem e o texto */
+    margin-bottom: 20px; /* Espaçamento abaixo de cada caixa */
+    background-color: #6BE3D8; /* Cor para a primeira caixa */
+
+        }
+        .caixa2-cor1 {
+    background-color: lightcoral; /* Cor para a primeira caixa */
+}
+        p{
+            color: black;
+            font-size:15px;
+        }
+
+
+      
+        .button {
+            position: fixed; /* Fixa o botão na tela */
+            top: 10px; /* Ajuste a posição conforme necessário */
+            left: 30px; /* Ajuste a posição conforme necessário */
+            width: 60px; /* Ajuste o tamanho conforme necessário */
+            height: 50px; /* Ajuste o tamanho conforme necessário */
+            background: url('assets/menu.ico') no-repeat center center;
+            background-size: contain; /* Ajusta a imagem para caber dentro do botão */
+            border: none; /* Remove a borda padrão */
+            cursor: pointer; /* Muda o cursor para indicar que é clicável */
+            z-index: 1000; /* Garante que o botão esteja acima de outros elementos */
+        }
+
+        .button:focus {
+            outline: none; /* Remove a borda de foco padrão */
+        }
+
+        .img {
+            position: absolute; /* Fixa a imagem na tela */
+            top: 10px; /* Ajuste a posição vertical conforme necessário */
+            left: 130px; /* Ajuste a posição horizontal conforme necessário */
+            width: 45px; /* Ajuste o tamanho conforme necessário */
+            height: auto; /* Mantém a proporção da imagem */
+           /* z-index: 1000; /* Garante que a imagem esteja acima de outros elementos */
+        }
+        .imgico {
+            max-width: 80%;
+            height: 90px;
+        }
+        .img2 {
+            max-width: 350px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+    margin-right: 20px; /* Espaçamento entre a imagem e o texto */;
+        }
+        .caixa2 p {
+            padding: 35px;
+    margin:0; /* Remove a margem padrão dos parágrafos */
+    font-size:20px;
+}
+
+.form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            margin: 0 auto; /* Centraliza horizontalmente */
+        }
+
+        
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            resize: vertical; /* Permite redimensionar verticalmente */
+            min-height: 100px;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /*slide show*/
+             
+
+
+body, html {
+    height: 100%;
+}
+
+.slideshow-container {
+    position: relative;
+    height: 100vh; /* A altura do slideshow ocupa toda a tela */
+    overflow: hidden;
+}
+
+.mySlides {
+    position: absolute;
+    width: 100%;
+    height: 80%;
+    background-size: cover; /* Faz as imagens cobrir todo o container */
+    background-position: center; /* Centraliza as imagens */
+    opacity: 0; /* Inicia com opacidade zero */
+    transition: opacity 1.5s ease-in-out; /* Transição suave para a opacidade */
+    margin-top:50px;
+}
+
+.mySlides.active {
+    opacity: 1; /* Mostra a imagem atual */
+}
+
+.text-overlay {
+    position: absolute;
+   top: 200px;
+   color: white;
+  font-size: 30px;
+ width: 800px; /* Ajuste o tamanho conforme necessário */
+ height: 400px; /* Permite que a altura se ajuste ao conteúdo */
+    background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo semitransparente */
+     border-radius: 10px; /* Bordas arredondadas da caixa */
+   box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5); /* Sombra da caixa */
+   z-index: 1; /* Garante que o texto fique sobre as imagens */
+ padding: 20px; /* Espaço interno da caixa */
+  text-align: left; /* Alinha o texto à esquerda dentro da caixa */         
+}

@@ -1,140 +1,80 @@
+
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NINIVE</title>
-    <link rel="stylesheet" href="style/styles.css">  
-  
+    <title>LOGIN</title>
+    <style>
+        body {
+            background-image: url('assets/ninive.png');
+            background-size: 50%; /* Diminui a imagem de fundo */
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            background-color: #D2DCE5;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          
+           
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;  
+            margin-right: 80px
+        }
+
+        .button {
+    width: 30%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+
+        label {
+            font-weight: 800;
+        }
+    </style>
+
+
 </head>
 <body>
-<div class="overlay"></div>
-<div class="menu-container">
-    <div class="menu-toggle" id="menu-toggle">
-        <div class="bar bar1"></div>
-        <div class="bar bar2"></div>
-        <div class="bar bar3"></div>
-    </div>
-    <nav class="nav-menu">
-        <ul>
-            <li>
-                <a href="#">Gerenciar livros</a>
-                <ul class="submenu">
-                    <li><a href="cadastrar.php">Cadastrar </a></li>
-                    <li><a href="atualizar.php">Atualizar</a></li>
-                    <li><a href="buscar.php">Buscar</a></li>
-                    <li><a href="deletar.php">Arquivar</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Gerenciar alunos</a>
-                <ul class="submenu">
-                    <li><a href="cadastrar_aluno.php">Cadastrar</a></li>
-                    <li><a href="atualizar_aluno.php">Atualizar</a></li>
-                    <li><a href="buscar_aluno.php">Buscar</a></li>
-                    <li><a href="bloquear_aluno.php">Bloquear</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Acervo</a>
-                <ul class="submenu">
-                    <li><a href="listar_acervo.php">Listar</a></li>
-                    <li><a href="reserva.php">Reservar</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Notificações</a>
-                <ul class="submenu">
-                    <li><a href="notificacoes.php">Visualizar notificações</a></li>
-                   
-                </ul>
-            </li>
-            <li>
-                <a href="#">Relatório</a>
-                <ul class="submenu">
-                    <li><a href="gerar_relatorio.php">Gerar relatório</a></li>
-                    <li><a href="listar_relatorio.php">Visualizar relatórios</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Anotações</a>
-                <ul class="submenu">
-                    <li><a href="adicionar_anotacoes.php">Adicionar anotações</a></li>
-                    <li><a href="listar_anotacoes.php">Listar anotações</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Suporte / FAQ</a>
-                <ul class="submenu">
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="contactForm">Suporte técnico</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-</div>
-<div class="slideshow-container">
-        <div class="mySlides" style="background-image: url('assets/fundo.avif');"></div>
-        <div class="mySlides" style="background-image: url('assets/etec.jpeg');"></div>
-        <div class="mySlides" style="background-image: url('assets/relaxante.jpg');"></div>
-        <!-- Adicione mais imagens conforme necessário -->
-    </div>
+<form action="login.php" method="POST">
+    <label for="login">Login:</label>
+    <input type="text" id="login" name="login"><br>
 
-    <script src="script.js"></script>
-<img class="img" src="assets/ninive.png" alt="Descrição da Imagem">
-<div class="content">       
-<div class="text-overlay">
-        <h2>Bem-vindo ao Nínive, sua<br> ferramenta para organizar,<br> acompanhar e otimizar o acervo<br> de livros, facilitando o acesso e <br>a gestão de recursos educacionais.</h2>
-    </div>
+    <label for="senha">Senha:</label>
+    <input type="password" id="senha" name="senha"><br>
 
-</div>   
+    <button type="submit" name="btn-entrar" class="button">Entrar</button>
 
-<h3 class="ferramentas">Ferramentas e recursos</h3>
+</form>
 
-<div class="container">
-<h4 class="caixa"> <img class="imgico" src="assets/livroico.jpg" alt="Descrição da Imagem">Gerenciamento do Acervo<p>Adicione, Altere e delete livros de maneira rapida e simples</p></h4>
-    
-
-<h4 class="caixa"> <img class="imgico" src="assets/livroestrelaico.png" alt="Descrição da Imagem">Controle dos livros<p>Tenha um controle e monitoramento dos livros em uso</p></h4>
-
-
-<h4 class="caixa"> <img class="imgico" src="assets/lendoico.jpeg" alt="Descrição da Imagem">administração dos alunos<p>Mantenha a gestão dos alunos em relação ao tempo, situação e a utilização dos livros</p></h4>
-
-<h4 class="caixa"> <img class="imgico" src="assets/relatorioico.jpg" alt="Descrição da Imagem">Relatorio e anotações <p>Registre e organize as informações dos livros e dos alunos</p></h4>
-
-
-<h4 class="caixa"> <img class="imgico" src="assets/interacaoico.jpg" alt="Descrição da Imagem">Interação e atualizações<p>Sempre mantenha contato com seus usuarios, alertando eles com novas atualizações</p></h4>
-
-</div>
-<h3>Sobre nós</h3>
-
-<h4 class="caixa2"> <img class="img2" src="assets/quemsomos1.jpg" alt="Descrição da Imagem"> <p>Somos a NextByte, e com o projeto Nínive, estamos revolucionando a gestão de bibliotecas. Nosso objetivo é proporcionar sistemas de gerenciamento simples e práticos, que facilitam a administração e aprimoram a experiência dos usuários.</p>
-
-<h4 class="caixa2"> <img class="img2" src="assets/quemsomos2.jpg" alt="Descrição da Imagem"><p>Nosso compromisso é oferecer soluções tecnológicas que sejam intuitivas e acessíveis, permitindo que bibliotecas de todos os tamanhos possam gerenciar suas coleções com eficiência e sem complicações.</p>
-    
-<h3> Fale conosco </h3>
-
-<div class="form-container">
-       
-        <form action="contactForm" method="post">
-            <div class="form-group">
-                <label for="name">Nome:</label>
-                <input type="text" id="name" name="name" placeholder="Seu nome" required>
-            </div>
-            <div class="form-group">
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
-            </div>
-            <div class="form-group">
-                <label for="message">Mensagem:</label>
-                <textarea id="message" name="message" placeholder="Sua mensagem" required></textarea>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Enviar">
-            </div>
-        </form>
-    </div>
-    <script src="script/script.js"></script>
+ 
 </body>
-
 </html>

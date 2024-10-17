@@ -136,9 +136,10 @@
     </style>
 </head>
 <body>
+<a href="home.php">
     <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
+</a>
 
-    <h2>Buscar Aluno</h2>
 
     <form id="aluno-form" action="buscar_aluno.php" method="post" class="formulario">
         <div class="form-group">

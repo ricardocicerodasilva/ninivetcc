@@ -1,45 +1,52 @@
-<meta charset="utf-8"> 
 <?php
+    // Conexão com o banco de dados
+    $host  = "localhost:3306";
+    $user  = "root";
+    $pass  = "";
+    $base  = "bd_login";
+    $con   = mysqli_connect($host, $user, $pass, $base);
 
-    $nome = $_POST['nome'];
-	$senha = $_POST['senha'];
-	$host  = "localhost:3306";
-	$user  = "root";
-	$pass  = "";
-	$base  = "bd_login";
-	$con   = mysqli_connect($host, $user, $pass, $base);
+    if (!$con) {
+        die("Falha na conexão: " . mysqli_connect_error());
+    }
 
-	if (!$con)
-	{
-		die("Falha na Conexao".mysqli_connect_erro());
-	}
+    session_start();
+    
 
-	// Monta uma consulta SQL (query) para procurar um usuário
+    
+    // Verifica se o botão foi pressionado e processa o login
+    if (isset($_POST['btn-entrar'])) {
+        $erros = array();
 
- $sql = "SELECT * FROM tb_dados where nome='$nome' AND senha='$senha'";
- $result= mysqli_query($con, $sql);
- //VERIFICAMOS AS LINHAS AFETADAS PELA CONSULTA
+        if (!empty($_POST['login']) && !empty($_POST['senha'])) {
+            $login = mysqli_escape_string($con, $_POST['login']);
+            $senha = mysqli_escape_string($con, $_POST['senha']);
+            $senha = md5($senha); // Se estiver usando MD5 para criptografar senhas
 
-//VERIFICAMO SE RETORNOU ALGO
-if(mysqli_num_rows($result) > 0) 
-{
-    header("Location: index.php");
-    exit();
+            // Consulta ao banco de dados
+            $sql = "SELECT * FROM usuario WHERE login = '$login' AND senha = '$senha'";
+            $resultado = mysqli_query($con, $sql);
 
-	//while ($row = mysqli_fetch_assoc($result))
-	//{
-	//	echo "<br> User BD: ".$row["nome"]." - Senha BD: ".$row["senha"]."<br>";
-	//}
-	//echo "<br> User PHP: ".$nome." - Senha PHP: ".$senha."<br>";
-}
-//SE $row É DIFERENTE DE ZERO, RETORNOU ALGO
-else 
-{ 
+            if (mysqli_num_rows($resultado) > 0) {
+                $dados = mysqli_fetch_array($resultado);
+                $_SESSION['logado'] = true;
+                $_SESSION['id_usuario'] = $dados['id_usuario'];
+                header("Location: home.php");
+                exit();
+            } else {
+                $erros[] = "Usuário ou senha inválidos!";
+            }
+        } else {
+            $erros[] = "O campo login/senha precisa ser preenchido";
+        }
+    }
 
-echo "Usuários ou senhas Inválidos!";
+    // Exibe os erros, se houver
+    if (!empty($erros)) {
+        foreach ($erros as $erro) {
+            echo "<li>$erro</li>";
+        }
+    }
 
-}
-
-	mysqli_close($con);
-
+  
 ?>
