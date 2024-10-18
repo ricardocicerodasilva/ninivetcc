@@ -1,19 +1,18 @@
-<?php
+/<?php
+session_start();
+
     // Conexão com o banco de dados
     $host  = "localhost:3306";
     $user  = "root";
     $pass  = "";
     $base  = "bd_login";
     $con   = mysqli_connect($host, $user, $pass, $base);
+    
+    
 
     if (!$con) {
         die("Falha na conexão: " . mysqli_connect_error());
     }
-
-    session_start();
-    
-
-    
     // Verifica se o botão foi pressionado e processa o login
     if (isset($_POST['btn-entrar'])) {
         $erros = array();
@@ -31,7 +30,8 @@
                 $dados = mysqli_fetch_array($resultado);
                 $_SESSION['logado'] = true;
                 $_SESSION['id_usuario'] = $dados['id_usuario'];
-                header("Location: home.php");
+              header("Location: home.php");
+        
                 exit();
             } else {
                 $erros[] = "Usuário ou senha inválidos!";

@@ -1,4 +1,10 @@
+
+<?php
+session_start();
+include('./verifica_login.php');
+?>
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">

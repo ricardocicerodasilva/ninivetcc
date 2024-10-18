@@ -1,40 +1,51 @@
-<?php
-// Inclui o arquivo de conexão do login
-require_once 'login.php';
+<?php   
+session_start(['cookie_lifetime' => 60]);
 
-// Inicia a sessão se ainda não foi iniciada
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
+if (!isset($_SESSION['iniciado'])) {
+    $_SESSION['iniciado'] = time(); // Marca o início da sessão
 }
 
-// Verificação se o usuário está logado
-if (!isset($_SESSION['logado'])) {
-    header('Location: index.php');
+if (time() - $_SESSION['iniciado'] > 60) { // Verifica se passou 60 segundos
+    session_destroy(); // Destrói a sessão
+    header('Location: logout.php'); // Redireciona para a página de logout, se necessário
     exit();
 }
+
+include('./verifica_login.php');
+require_once 'home.php';
 
 // Verifica se a conexão está ativa
 if (!$con || mysqli_connect_errno()) {
     die("Falha na conexão com o banco de dados.");
 }
 
+// Verifica se o usuário está logado
+if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true) {
+    header('Location: home.php'); // redireciona para a página de login
+    exit();
+}
+
 // Pega o ID do usuário logado da sessão
 $id = $_SESSION['id_usuario'];
 
-// Realiza a consulta no banco de dados
-$sql = "SELECT * FROM usuario WHERE id_usuario = '$id'";
-$result = mysqli_query($con, $sql);
+// Consulta usando prepared statements para maior segurança
+$sql = "SELECT * FROM usuario WHERE id_usuario = ?";
+$stmt = mysqli_prepare($con, $sql);
+mysqli_stmt_bind_param($stmt, 'i', $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
 // Verifica se a consulta retornou resultados
 if ($result && mysqli_num_rows($result) > 0) {
     $dados = mysqli_fetch_array($result);
     // Exibe o nome do usuário
-    
+   // echo "Bem-vindo, " . htmlspecialchars($dados['nome']) . "!";
 } else {
     echo "Usuário não encontrado.";
 }
 
 // Fecha a conexão com o banco de dados
+mysqli_stmt_close($stmt);
 mysqli_close($con);
 ?>
 
