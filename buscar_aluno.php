@@ -145,7 +145,7 @@ include('./verifica_login.php');
 </a>
 
 
-    <form id="aluno-form" action="buscar_aluno.php" method="post" class="formulario">
+    <form id="aluno-form" action="busca_aluno.php" method="post" class="formulario">
         <div class="form-group">
             <label for="rm">Rm Aluno:</label>
             <input type="text" id="rm" name="rm" required oninput="fetchBookDetails()">

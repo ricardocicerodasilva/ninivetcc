@@ -7,7 +7,7 @@ include('./verifica_login.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Livro </title>
+    <title>Atualizar Livro </title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,7 +44,7 @@ include('./verifica_login.php');
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            background-image: url('imgcadastro.jpg');
+            background-image: url('assets/imgcadastro.jpg');
             background-repeat: no-repeat;
           /*  background-attachment: fixed;*/
             background-size: auto; /* Ajusta a largura para 100% e a altura para 50% */
@@ -129,7 +129,7 @@ input[type="submit"]:hover {
 
         input[type="submit"] {
     background-color: #4CAF50;
-  /* width: 50%;*/
+  /*/  width: 50%;*/
     color: white;
     justify-content:center;
     padding: 12px 20px;
@@ -199,54 +199,91 @@ input[type="submit"]:hover {
     <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
 </a>
 
+<h2>Atualizar Livro</h2>
 
-    <h2>Cadastro de Livro</h2>
+<form action="atualiza_livro.php" method="post" class="formulario">
+        
+    <div class="form-group">
+        <label for="titulo">Título do Livro:</label>
+        <input type="text" id="titulo" name="titulo" required>
+        <button type="button" id="buscar-titulo" onclick="buscarLivro()">Buscar</button>
+    </div>
 
-    <form action="cadastro_livro.php" method="post" class="formulario">
-        <div class="form-group">
-            <label for="titulo">Título do Livro:</label>
-            <input type="text" id="titulo" name="titulo" required>
-        </div>
+    <div class="form-group">
+        <label for="autor">Autor:</label>
+        <input type="text" id="autor" name="autor" required>
+    </div>
 
-        <div class="form-group">
-            <label for="autor">Autor:</label>
-            <input type="text" id="autor" name="autor" required>
-        </div>
+    <div class="form-group">
+        <label for="editora">Editora:</label>
+        <input type="text" id="editora" name="editora" required>
+    </div>
 
-        <div class="form-group">
-            <label for="editora">Editora:</label>
-            <input type="text" id="editora" name="editora" required>
-        </div>
+    <div class="form-group">
+        <label for="datapubli">Data de Publicação:</label>
+        <input type="date" id="datapubli" name="datapubli" required>
+    </div>
 
-        <div class="form-group">
-            <label for="datapubli">Data de Publicação:</label>
-            <input type="date" id="datapubli" name="datapubli" required>
-        </div>
+    <div class="form-group">
+        <label for="edicao">Edição:</label>
+        <input type="text" id="edicao" name="edicao" required>
+    </div>
 
-        <div class="form-group">
-            <label for="edicao">Edição:</label>
-            <input type="text" id="edicao" name="edicao" required>
-        </div>
+    <div class="form-group">
+        <label for="genero">Gênero:</label>
+        <input type="text" id="genero" name="genero" required>
+    </div>
 
-        <div class="form-group">
-            <label for="genero">Gênero:</label>
-            <input type="text" id="genero" name="genero" required>
-        </div>
+    <div class="form-group">
+        <label for="unidades">Unidades:</label>
+        <input type="text" id="unidades" name="unidades" required>
+    </div>
 
-        <div class="form-group">
-            <label for="unidades">Unidades:</label>
-            <input type="text" id="unidades" name="unidades" required>
-        </div>
+    <div class="form-group">
+        <label for="sinopse">Sinopse:</label>
+        <textarea id="sinopse" name="sinopse" rows="4" required></textarea>
+    </div><br>
 
-        <div class="form-group">
-            <label for="sinopse">Sinopse:</label>
-            <textarea id="sinopse" name="sinopse" rows="4" required></textarea>
-        </div><br>
+    <div class="button-container">
+        <input type="submit" value="Atualizar">
+    </div>
+</form>
 
-        <div class="button-container">
-    <input type="submit" value="Enviar">
-</div>
-
-    </form>
+<script>
+function buscarLivro() {
+    var titulo = document.getElementById("titulo").value;
+    if (titulo) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "buscar_livro.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    if (data) {
+                       // document.getElementById("codigo").value = data.is_livro; // Ajustado para o nome correto
+                        document.getElementById("autor").value = data.autor;
+                        document.getElementById("editora").value = data.editora;
+                        document.getElementById("datapubli").value = data.data_publi;
+                        document.getElementById("edicao").value = data.edicao;
+                        document.getElementById("genero").value = data.genero;
+                        document.getElementById("unidades").value = data.quantidade;
+                        document.getElementById("sinopse").value = data.descricao; // Ajustado para o nome correto
+                    } else {
+                        alert("Livro não encontrado.");
+                    }
+                } else {
+                    alert("Erro na requisição: " + xhr.status);
+                }
+            }
+        };
+        xhr.send("titulo=" + encodeURIComponent(titulo));
+    } else {
+        alert("Por favor, insira um título.");
+    }
+}
+</script>
 </body>
+
+
 </html>

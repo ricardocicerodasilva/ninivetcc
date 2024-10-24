@@ -1,37 +1,35 @@
 <?php
-header('Content-Type: application/json');
+$host = "localhost";
+$user = "root";
+$pass = "";
+$base = "bd_login";
 
-// Conectar ao banco de dados
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "biblioteca";
+$con = mysqli_connect($host, $user, $pass, $base);
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar conexão
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (mysqli_connect_errno()) {
+    echo json_encode(['error' => 'Falha na conexão com o banco de dados: ' . mysqli_connect_error()]);
+    exit();
 }
 
-// Receber o código do livro
-$codigo = $_GET['codigo'];
+if (isset($_POST['titulo'])) {
+    $titulo = $_POST['titulo'];
 
-// Preparar e executar a consulta
-$sql = "SELECT * FROM livros WHERE codigo = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $codigo);
-$stmt->execute();
-$result = $stmt->get_result();
+    // Prepare a consulta para evitar SQL injection
+    $stmt = $con->prepare("SELECT * FROM LIVRO WHERE nome_livro = ?");
+    $stmt->bind_param("s", $titulo);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-// Verificar se o livro foi encontrado
-if ($result->num_rows > 0) {
-    $livro = $result->fetch_assoc();
-    echo json_encode($livro);
-} else {
-    echo json_encode(array("error" => "Livro não encontrado"));
+    if ($result->num_rows > 0) {
+        $livro = $result->fetch_assoc();
+        // Retornar os dados como JSON
+        echo json_encode($livro);
+    } else {
+        echo json_encode(null);
+    }
+
+    $stmt->close();
 }
 
-$stmt->close();
-$conn->close();
+$con->close();
 ?>

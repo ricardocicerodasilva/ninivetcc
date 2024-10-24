@@ -200,26 +200,70 @@ input[type="submit"]:hover {
     <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
 </a>
 
+<form method="post">
+    <label for="rm_aluno">RM do aluno(a):</label>
+    <input type="number" name="rm_aluno" id="rm_aluno" required>
+    <input type="submit" name="buscar" value="Buscar">
+</form>
 
-    <h2>Bloquear aluno</h2>
+<?php
+if (isset($_POST['buscar'])) {
+    $rm_aluno = $_POST['rm_aluno'];
 
-    <form action="bloquear_aLUNO.php" method="post" class="formulario">
-    <div class="form-group">
-            <label for="rm">Rm Aluno:</label>
-            <input type="text" id="rm" name="rm" required>
-        </div>  <br>
-    
-    
+    // Consultar o aluno
+    $sql = "SELECT * FROM aluno WHERE rm_aluno = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("i", $rm_aluno);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-        <div class="form-group">
-            <label for="sinopse">Motivo do Bloqueio:</label>
-            <textarea id="sinopse" name="sinopse" rows="4" required></textarea>
-        </div><br>
+    if ($result->num_rows > 0) {
+        $aluno = $result->fetch_assoc();
+?>
+       <form action="bloqueio_aluno.php" method="post">
+    <h2>Detalhes do aluno</h2>
+    <table>
+        <tr>
+            <th>RM do aluno(a)</th>
+            <td><?php echo htmlspecialchars($aluno['rm_aluno']); ?></td>
+        </tr>
+        <tr>
+            <th>Nome do aluno(a)</th>
+            <td><?php echo htmlspecialchars($aluno['nome_aluno']); ?></td>
+        </tr>
+        <tr>
+            <th>Bloqueado</th>
+            <td><?php echo isset($aluno["bloqueado"]) && $aluno["bloqueado"] == 1 ? "Sim" : "Não"; ?></td>
+        </tr>
+    </table>
+    <?php
+    $bloqueado = $aluno['bloqueado'] ?? null; // Coalescência nula para evitar avisos
 
-        <div class="button-container">
-    <input type="submit" value="Bloquear">
-</div>
+    if ($bloqueado == 1) {
+        echo "<input type='hidden' name='motivo_bloq' id='motivo_bloq' value='null'>";
+    } else {
+        echo "Motivo do bloqueio:</p>";
+        echo "<textarea name='motivo_bloq' id='motivo_bloq' cols='30' rows='10' style='resize: none;' required></textarea></p>";
+    }
+    ?>
+    <input type="hidden" name="rm_aluno" value="<?php echo htmlspecialchars($aluno['rm_aluno']); ?>">
+    <input type="hidden" name="bloqueado" value="<?php echo htmlspecialchars($bloqueado); ?>">
 
-    </form>
+    <input type="submit" name="bloquear" value="<?php echo $bloqueado == 1 ? 'Desbloquear' : 'Bloquear'; ?>">
+</form>
+
+<?php
+    } else {
+        echo "Aluno não encontrado.";
+    }
+
+    $stmt->close();
+    $con->close();
+}
+?>
+
+<center>
+    <h3><a href='home.php'>Voltar para a página inicial</a></h3>
+</center>
 </body>
 </html>

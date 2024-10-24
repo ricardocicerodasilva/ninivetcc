@@ -1,13 +1,13 @@
 <?php
 session_start();
-include('./verifica_login.php');
+include('verifica_login.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atualizar Livro </title>
+    <title>Reservar livro </title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -141,7 +141,7 @@ input[type="submit"]:hover {
     text-align: center;
     position: relative;
     display: flex;
-    right:200px;
+    left:200px;
     
 }
 .button-container {
@@ -199,57 +199,36 @@ input[type="submit"]:hover {
     <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
 </a>
 
+    <h2>Reservar Livro</h2>
 
-    <h2>Atualizar Livro</h2>
-
-    <form action="atualizar_livro.php" method="post" class="formulario">
+    <form action="reserva_livro.php" method="post" class="formulario">
     <div class="form-group">
-            <label for="codigo">Código do Livro:</label>
-            <input type="text" id="codigo" name="codigo" required>
-        </div>  <br>
+            <label for="rm">Rm Aluno:</label>
+            <input type="text" id="rm" name="rm" required>
+        </div>  
     
-    <div class="form-group">
-            <label for="titulo">Título do Livro:</label>
-            <input type="text" id="titulo" name="titulo" required>
+   
+        <div class="form-group">
+            <label for="responsavel">Bibliotecario(a):</label>
+            <input type="text" id="responsavel" name="responsavel" required>
         </div>
 
         <div class="form-group">
-            <label for="autor">Autor:</label>
-            <input type="text" id="autor" name="autor" required>
+            <label for="idlivro">id_livro:</label>
+            <input type="text" id="idlivro" name="idlivro" required>
         </div>
 
         <div class="form-group">
-            <label for="editora">Editora:</label>
-            <input type="text" id="editora" name="editora" required>
+            <label for="dtreserva">Data Reserva:</label>
+            <input type="date" id="dtreserva" name="dtreserva" required>
         </div>
 
-        <div class="form-group">
-            <label for="datapubli">Data de Publicação:</label>
-            <input type="date" id="datapubli" name="datapubli" required>
-        </div>
+      
 
-        <div class="form-group">
-            <label for="edicao">Edição:</label>
-            <input type="text" id="edicao" name="edicao" required>
-        </div>
 
-        <div class="form-group">
-            <label for="genero">Gênero:</label>
-            <input type="text" id="genero" name="genero" required>
-        </div>
-
-        <div class="form-group">
-            <label for="unidades">Unidades:</label>
-            <input type="text" id="unidades" name="unidades" required>
-        </div>
-
-        <div class="form-group">
-            <label for="sinopse">Sinopse:</label>
-            <textarea id="sinopse" name="sinopse" rows="4" required></textarea>
-        </div><br>
 
         <div class="button-container">
-    <input type="submit" value="Atualizar">
+    <input type="submit" value="Reservar">
 </div>
 
     </form>

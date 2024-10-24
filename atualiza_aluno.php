@@ -1,4 +1,5 @@
 <?php
+
 $host = "localhost";
 $user = "root";
 $pass = "";
@@ -15,17 +16,21 @@ $turma = $_POST['turma'];
 $periodo = $_POST['periodo'];
 $senha = $_POST['senha'];
 
-// Usar prepared statements para evitar SQL injection
-$stmt = $con->prepare("INSERT INTO aluno (rm_aluno, nome_aluno, email, telefone, turma, periodo, senha) VALUES (?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("issssss", $rm_aluno, $nome_aluno, $email, $telefone, $turma, $periodo, $senha);
 
-if ($stmt->execute()) {
-    echo "Cadastro realizado com sucesso!";
+$sql = "UPDATE aluno SET rm_aluno= $rm_aluno, 
+nome_aluno='$nome_aluno', 
+email='$email', 
+telefone='$telefone', 
+turma='$turma', 
+periodo='$periodo', 
+senha='$senha' 
+WHERE rm_aluno= $rm_aluno";
+
+if ($con->query($sql) === TRUE) {
+    echo "Atualização realizado com sucesso!";
 } else {
-    echo "Erro ao cadastrar o Aluno: " . $stmt->error;
+    echo "Erro ao atualizar o aluno: " . $con->error;
 }
-
-$stmt->close();
 $con->close();
 ?>
 <center>

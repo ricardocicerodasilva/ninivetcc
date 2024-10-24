@@ -7,7 +7,7 @@ include('./verifica_login.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atualizar Aluno </title>
+    <title>Cadastro de Livro </title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,7 +44,7 @@ include('./verifica_login.php');
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            background-image: url('assets/imgcadastro.jpg');
+            background-image: url('imgcadastro.jpg');
             background-repeat: no-repeat;
           /*  background-attachment: fixed;*/
             background-size: auto; /* Ajusta a largura para 100% e a altura para 50% */
@@ -129,7 +129,7 @@ input[type="submit"]:hover {
 
         input[type="submit"] {
     background-color: #4CAF50;
-  /*/  width: 50%;*/
+  /* width: 50%;*/
     color: white;
     justify-content:center;
     padding: 12px 20px;
@@ -141,7 +141,7 @@ input[type="submit"]:hover {
     text-align: center;
     position: relative;
     display: flex;
-    left:200px;
+    right:200px;
     
 }
 .button-container {
@@ -199,39 +199,52 @@ input[type="submit"]:hover {
     <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
 </a>
 
-    <h2>Reservar Livro</h2>
 
-    <form action="reserva.php" method="post" class="formulario">
-    <div class="form-group">
-            <label for="rm">Rm Aluno:</label>
-            <input type="text" id="rm" name="rm" required>
-        </div>  <br>
-    
-   
+    <h2>Cadastro de Livro</h2>
+
+    <form action="cadastro_livro.php" method="post" class="formulario">
         <div class="form-group">
-            <label for="responsavel">Id_Responsável:</label>
-            <input type="text" id="responsavel" name="responsavel" required>
+            <label for="nome">Título do Livro:</label>
+            <input type="text" id="nome" name="nome" required>
         </div>
 
         <div class="form-group">
-            <label for="idlivro">id_livro:</label>
-            <input type="text" id="idlivro" name="idlivro" required>
+            <label for="autor">Autor:</label>
+            <input type="text" id="autor" name="autor" required>
         </div>
 
         <div class="form-group">
-            <label for="telefone">Telefone:</label>
-            <input type="date" id="telefone" name="telefone" required>
+            <label for="editora">Editora:</label>
+            <input type="text" id="editora" name="editora" required>
         </div>
 
         <div class="form-group">
-            <label for="periodo">Período:</label>
-            <input type="text" id="periodo" name="periodo" required>
+            <label for="datapubli">Data de Publicação:</label>
+            <input type="date" id="datapubli" name="datapubli" required>
         </div>
 
+        <div class="form-group">
+            <label for="edicao">Edição:</label>
+            <input type="text" id="edicao" name="edicao" required>
+        </div>
 
+        <div class="form-group">
+            <label for="genero">Gênero:</label>
+            <input type="text" id="genero" name="genero" required>
+        </div>
+
+        <div class="form-group">
+            <label for="unidade">Unidades:</label>
+            <input type="text" id="unidade" name="unidade" required>
+        </div>
+
+        <div class="form-group">
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao" rows="4" required></textarea>
+        </div><br>
 
         <div class="button-container">
-    <input type="submit" value="Reservar">
+    <input type="submit" value="Cadastrar">
 </div>
 
     </form>

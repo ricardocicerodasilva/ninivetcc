@@ -1,5 +1,5 @@
 <?php   
-session_start(['cookie_lifetime' => 60]);
+session_start(['cookie_lifetime' => 3600]);
 
 if (!isset($_SESSION['iniciado'])) {
     $_SESSION['iniciado'] = time(); // Marca o início da sessão
@@ -78,10 +78,10 @@ mysqli_close($con);
             <li>
                 <a href="#">Gerenciar livros</a>
                 <ul class="submenu">
-                    <li><a href="cadastrar.php">Cadastrar </a></li><br>
-                    <li><a href="atualizar.php">Atualizar</a></li><br>
-                    <li><a href="buscar.php">Buscar</a></li><br>
-                    <li><a href="deletar.php">Arquivar</a></li>
+                    <li><a href="cadastrar_livro.php">Cadastrar </a></li><br>
+                    <li><a href="atualizar_livro.php">Atualizar</a></li><br>
+                    <li><a href="buscar_livro.php">Buscar</a></li><br>
+                    <li><a href="arquivar_livro.php">Arquivar</a></li>
                 </ul>
             </li>
             <li>
@@ -97,7 +97,7 @@ mysqli_close($con);
                 <a href="#">Acervo</a>
                 <ul class="submenu">
                     <li><a href="listar_acervo.php">Listar</a></li><br>
-                    <li><a href="reserva.php">Reservar</a></li><br>
+                    <li><a href="reservar_livro.php">Reservar</a></li><br>
                 </ul>
             </li>
             <li>

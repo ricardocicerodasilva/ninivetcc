@@ -221,18 +221,26 @@ input[type="submit"]:hover {
 
         <div class="form-group">
             <label for="telefone">Telefone:</label>
-            <input type="date" id="telefone" name="telefone" required>
+            <input type="text" id="telefone" name="telefone" required>
+        </div>
+        <div class="form-group">
+            <label for="turma">Turma:</label>
+            <input type="text" id="turma" name="turma" required>
         </div>
 
         <div class="form-group">
             <label for="periodo">Período:</label>
             <input type="text" id="periodo" name="periodo" required>
         </div>
+        <div class="form-group">
+            <label for="senha">Senha:</label>
+            <input type="text" id="senha" name="senha" required>
+        </div>
 
        <br><br>       <br><br>
 
         <div class="button-container">
-    <input type="submit" value="Enviar">
+    <input type="submit" value="Cadastrar">
 </div>
 
     </form>

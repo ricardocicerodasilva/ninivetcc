@@ -202,7 +202,7 @@ input[type="submit"]:hover {
 
     <h2>Atualizar Aluno</h2>
 
-    <form action="atualizar_aluno.php" method="post" class="formulario">
+    <form action="atualiza_aluno.php" method="post" class="formulario">
     <div class="form-group">
             <label for="rm">Rm Aluno:</label>
             <input type="text" id="rm" name="rm" required>
@@ -221,12 +221,21 @@ input[type="submit"]:hover {
 
         <div class="form-group">
             <label for="telefone">Telefone:</label>
-            <input type="date" id="telefone" name="telefone" required>
+            <input type="text" id="telefone" name="telefone" required>
+        </div>
+        <div class="form-group">
+            <label for="turma">Turma:</label>
+            <input type="text" id="turma" name="turma" required>
         </div>
 
         <div class="form-group">
             <label for="periodo">Período:</label>
             <input type="text" id="periodo" name="periodo" required>
+        </div>
+
+        <div class="form-group">
+            <label for="senha">Senha:</label>
+            <input type="text" id="senha" name="senha" required>
         </div>
 
 
