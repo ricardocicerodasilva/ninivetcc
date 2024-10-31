@@ -1,6 +1,5 @@
 <?php
-session_start();
-include('./verifica_login.php');
+include('verifica_login.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -25,7 +24,7 @@ include('./verifica_login.php');
             position: absolute;
             top: 10px;
             left: 20px;
-            width: 100px;
+            width: 100px;1
             height: auto;
             z-index: 1000;
         }
@@ -37,36 +36,33 @@ include('./verifica_login.php');
             font-size: 40px;
         }
 
-        form {
+        .formulario {
             width: 60%;
             margin: 20px auto;
             background-color: #ffffff;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .formulario {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            max-width: 800px;
-            margin: auto;
-            width: 60%;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+           
+            
         }
 
         .form-group {
+            justify-content: center;
+            /*flex-direction: column;*/
+            position:absolute;
+            margin: 0 auto ;
             display: flex;
-            flex-direction: column;
+            left:500px
         }
 
-        .form-group label {
+       .form-group label {
             margin-bottom: 5px;
             font-weight: bold;
+            margin-top:15px
+           
+          
+            
         }
 
         .form-group input, 
@@ -75,14 +71,11 @@ include('./verifica_login.php');
             font-size: 1rem;
             border: 2px solid #cccccc;
             border-radius: 4px;
+            
         }
 
-        .form-group textarea {
-            resize: vertical;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
+       input[type="submit"] {
+            background-color: #0a6789;
             color: white;
             justify-content: center;
             padding: 12px 20px;
@@ -92,12 +85,12 @@ include('./verifica_login.php');
             cursor: pointer;
             font-size: 16px;
             text-align: center;
-            position: relative;
             display: flex;
+            margin-top:40px;
         }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color:#676767;
         }
 
         .hidden {
@@ -113,29 +106,32 @@ include('./verifica_login.php');
             text-decoration: underline;
         }
 
-        .activities {
-            margin-top: 20px;
-            text-align: center;
+        /* Estilo da tabela */
+        table {
+            width: 60%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         }
 
-        .activities a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 0 10px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 10px;
-            transition: background-color 0.3s ease;
+        th, td {
+            border: 1px solid #cccccc;
+            padding: 10px;
+            text-align: left;
         }
 
-        .activities a:hover {
-            background-color: #0056b3;
+        th {
+            background-color: white;
+            color: black;
         }
 
-        .activities h3 {
-            margin-bottom: 10px;
-            color: #333333;
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
         }
     </style>
 </head>
@@ -144,74 +140,118 @@ include('./verifica_login.php');
     <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
 </a>
 
+<h2>Buscar Aluno</h2>
 
-    <form id="aluno-form" action="busca_aluno.php" method="post" class="formulario">
-        <div class="form-group">
-            <label for="rm">Rm Aluno:</label>
-            <input type="text" id="rm" name="rm" required oninput="fetchBookDetails()">
-        </div>
+<form  method="post" >
+    <div class="form-group">
+        <label for="rm">RM Aluno:</label>
+        <input type="text" id="rm" name="rm" required oninput="fetchAlunoDetails()">
+    </div>
+    <br>
+    <div class="button-container">
+        <input type="submit" name="buscar" value="Buscar">
+    </div>
+</form>
 
-        <!-- Outros campos inicialmente ocultos -->
-        <div id="aluno-details" class="hidden">
-            <div class="form-group">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome">
-            </div>
+<?php
+    if (isset($_POST['buscar'])) {
+        $rm = $_POST['rm'];
 
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email">
-            </div>
+        // Consultar o livro
+        $sql = "SELECT * FROM aluno WHERE rm_aluno = ?";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("i", $rm);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-            <div class="form-group">
-                <label for="telefone">Telefone:</label>
-                <input type="text" id="telefone" name="telefone">
-            </div>
-
-            <div class="form-group">
-                <label for="periodo">Período:</label>
-                <input type="text" id="periodo" name="periodo">
-            </div>
-
-        </div>
-
-        <div class="button-container">
-            <input type="submit" value="Buscar">
-        </div>
-    </form>
-
-    <script>
-        function fetchBookDetails() {
-            const codeInput = document.getElementById('codigo').value;
-            const detailsContainer = document.getElementById('book-details');
-
-            if (codeInput.length > 0) {
-                fetch(`buscar_livro.php?codigo=${encodeURIComponent(codeInput)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.error) {
-                            detailsContainer.classList.add('hidden');
-                            alert(data.error);
+        if ($result->num_rows > 0) {
+            $rm = $result->fetch_assoc();
+    ?>
+            <h2>Detalhes do Aluno</h2>
+            <table>
+                <tr>
+                    <th>Rm</th>
+                    <td><?php echo $rm['rm_aluno']; ?></td>
+                </tr>
+                <tr>
+                    <th>Nome</th>
+                    <td><?php echo $rm['nome_aluno']; ?></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><?php echo $rm['email']; ?></td>
+                </tr>
+                <tr>
+                    <th>Gênero</th>
+                    <td><?php echo $rm['telefone']; ?></td>
+                </tr>
+                <tr>
+                    <th>Turma</th>
+                    <td><?php echo $rm['turma']; ?></td>
+                </tr>
+                <tr>
+                    <th>Periodo</th>
+                    <td><?php echo $rm['periodo']; ?></td>
+                </tr>
+                
+                <tr>
+                    <th>Bloqueado</th>
+                    <td><?php if ($rm["bloqueado"] == 1) {
+                            echo "Sim";
                         } else {
-                            document.getElementById('titulo').value = data.titulo || '';
-                            document.getElementById('autor').value = data.autor || '';
-                            document.getElementById('editora').value = data.editora || '';
-                            document.getElementById('datapubli').value = data.datapubli || '';
-                            document.getElementById('edicao').value = data.edicao || '';
-                            document.getElementById('genero').value = data.genero || '';
-                            document.getElementById('unidades').value = data.unidades || '';
-                            document.getElementById('sinopse').value = data.sinopse || '';
-
-                            detailsContainer.classList.remove('hidden');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erro ao buscar livro:', error);
-                    });
-            } else {
-                detailsContainer.classList.add('hidden');
-            }
+                            echo "Não";
+                        } ?></td>
+                </tr>
+                <tr>
+                    <th>Motivo Bloqueio</th>
+                    <td><?php echo $rm['motivo_bloq']; ?></td>
+                </tr>
+                
+               
+                <tr>
+                    <th>Foto</th>
+                    <td><?php echo $rm['foto_perfil']; ?></td>
+                </tr>
+               
+            </table>
+    <?php
+        } else {
+            echo "aluno não encontrado.";
         }
-    </script>
+
+        $stmt->close();
+        $con->close();
+    }
+    ?>
+
+<script>
+function fetchAlunoDetails() {
+    const rmInput = document.getElementById('rm').value;
+    const alunoDetailsContainer = document.getElementById('tabela-aluno');
+
+    if (rmInput.length > 0) {
+        fetch(`busca_aluno.php?rm=${encodeURIComponent(rmInput)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alunoDetailsContainer.classList.add('hidden');
+                    alert(data.error);
+                } else {
+                    document.getElementById('nome').textContent = data.nome_aluno || '';
+                    document.getElementById('email').textContent = data.email || '';
+                    document.getElementById('telefone').textContent = data.telefone || '';
+                    document.getElementById('periodo').textContent = data.periodo || '';
+                    alunoDetailsContainer.classList.remove('hidden');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao buscar aluno:', error);
+            });
+    } else {
+        alunoDetailsContainer.classList.add('hidden');
+    }
+}
+</script>
+
 </body>
 </html>

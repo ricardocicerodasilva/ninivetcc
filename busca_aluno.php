@@ -1,20 +1,17 @@
-<html>
-    <body>
-    </body>
-</html>
-
 <?php
+include('verifica_login.php');
 
 $host = "localhost";
 $user = "root";
 $pass = "";
-$base = "bd_login";
+$base = "etecguaru01";
 
 // Conexão com o banco de dados
 $con = mysqli_connect($host, $user, $pass, $base);
 
-if (!$con) {
-    die("Falha na conexão: " . mysqli_connect_error());
+if (mysqli_connect_errno()) {
+    echo json_encode(['error' => 'Falha na conexão com o banco de dados: ' . mysqli_connect_error()]);
+    exit();
 }
 
 // Verificando se o campo de busca foi enviado
@@ -22,30 +19,21 @@ if (isset($_POST['rm'])) {
     $rm = $_POST['rm'];
 
     // Comando SELECT para buscar os dados do aluno com base no RM
-    $sql = "SELECT * FROM aluno WHERE rm_aluno = '$rm'";
-    
-    // Executando a consulta
-    $result = $con->query($sql);
+    $sql = "SELECT * FROM aluno WHERE rm_aluno = ?";
+    $stmt = $con->prepare($sql);  // Preparando a consulta SQL
+    $stmt->bind_param("s", $rm);  // Passando o valor de $rm
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Verificando se houve algum resultado
     if ($result->num_rows > 0) {
-        // Exibindo os dados do aluno
-        while($row = $result->fetch_assoc()) {
-            echo "RM: " . $row["rm_aluno"] . "<br>";
-            echo "Nome: " . $row["nome_aluno"] . "<br>";
-            echo "Email: " . $row["email"] . "<br>";
-            echo "Telefone: " . $row["telefone"] . "<br>";
-            echo "Período: " . $row["periodo"] . "<br>";
-            echo "<br>";
-        }
+        $aluno = $result->fetch_assoc();
+        // Retornar os dados como JSON
+        echo json_encode($aluno);
     } else {
-        echo "Nenhum aluno encontrado com esse RM.";
+        echo json_encode(null);
     }
-} else {
-    echo "Por favor, insira o RM do aluno para buscar.";
+
+    $stmt->close();
 }
 
 $con->close();
-?>
-
-<center><h3><a href='home.php'>Voltar para a página inicial</a></h3></center>

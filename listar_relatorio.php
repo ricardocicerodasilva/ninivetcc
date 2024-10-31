@@ -1,13 +1,12 @@
 <?php
-session_start();
-include('./verifica_login.php');
+include('verifica_login.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar Acervo</title>
+    <title>Listar Relatórios</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,16 +43,6 @@ include('./verifica_login.php');
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
         .relatorios {
             list-style: none;
             padding: 0;
@@ -62,6 +51,9 @@ include('./verifica_login.php');
 
         .relatorio-item {
             margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .relatorio-item a {
@@ -73,32 +65,74 @@ include('./verifica_login.php');
         .relatorio-item a:hover {
             text-decoration: underline;
         }
+
+        .apagar-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .apagar-btn:hover {
+            background-color: #cc0000;
+        }
     </style>
 </head>
 <body>
-<a href="home.php">
-    <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
-</a>
+    <a href="home.php">
+        <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
+    </a>
 
-
-    <h2>Listar Relatórios</h2>
-
-    <form action="listar_acervo.php" method="post" class="formulario">
+    <form  method="post" class="formulario">
         <div class="form-group">
             <label for="relatorio">Relatórios:</label>
             <ul class="relatorios">
-                <li class="relatorio-item">
-                    <a href="relatorio1.php" target="_blank">Relatório 1</a>
-                </li>
-                <li class="relatorio-item">
-                    <a href="relatorio2.php" target="_blank">Relatório 2</a>
-                </li>
-                <li class="relatorio-item">
-                    <a href="relatorio3.php" target="_blank">Relatório 3</a>
-                </li>
-                <!-- Adicione mais relatórios conforme necessário -->
+                <?php
+                $dir = 'relatorios/';
+                if (is_dir($dir)) {
+                    $files = scandir($dir);
+                    foreach ($files as $file) {
+                        if ($file !== '.' && $file !== '..') {
+                            echo '<li class="relatorio-item">
+                                    <a href="' . $dir . $file . '" target="_blank">' . $file . '</a>
+                                    <form action="apagar_relatorio.php" method="post" style="display:inline;">
+                                        <input type="hidden" name="file" value="' . $file . '">
+                                        <button type="submit" class="apagar-btn" onclick="return confirm(\'Tem certeza que deseja apagar este relatório?\')">Apagar</button>
+                                    </form>
+                                  </li>';
+                        }
+                    }
+                } else {
+                    echo "<li>Nenhum relatório encontrado.</li>";
+                }
+                ?>
             </ul>
         </div>
     </form>
+    <?php
+$dir = 'relatorios/';
+
+if (isset($_POST['file'])) {
+    $file = basename($_POST['file']); // Obter o nome do arquivo
+    $filePath = $dir . $file;
+
+    // Verifica se o arquivo existe
+    if (file_exists($filePath)) {
+        if (unlink($filePath)) {
+            echo "Relatório apagado com sucesso.";
+        } else {
+            echo "Erro ao apagar o relatório.";
+        }
+    } else {
+        echo "Relatório não encontrado.";
+    }
+}
+
+// Redireciona de volta para a lista de relatórios
+//header("Location: listar_relatorios.php");
+exit;
+?>
 </body>
 </html>

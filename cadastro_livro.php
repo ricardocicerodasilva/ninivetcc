@@ -1,8 +1,12 @@
 <?php
-$host = "localhost";
+
+
+include('verifica_login.php');
+
+$host = "localhost:3306";
 $user = "root";
 $pass = "";
-$base = "bd_login";
+$base = "etecguaru01";
 
 // Conexão com o banco de dados
 $con = mysqli_connect($host, $user, $pass, $base);
@@ -17,8 +21,11 @@ $genero = $_POST['genero'];
 $unidade = (int)$_POST['unidade']; // Converta para inteiro
 $descricao = $_POST['descricao'];
 
+
+
+
 // Usar prepared statements para evitar SQL injection
-$stmt = $con->prepare("INSERT INTO LIVRO (nome_livro, autor, genero, edicao, editora, data_publi, quantidade, descricao) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt = $con->prepare("INSERT INTO livro (nome_livro, autor, genero, edicao, editora, data_publicacao, quantidade, descricao) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 for ($i = 0; $i < $unidade; $i++) {
     $stmt->bind_param("ssssssss", $nome, $autor, $genero, $edicao, $editora, $datapubli, $unidade, $descricao);

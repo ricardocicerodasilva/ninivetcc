@@ -1,55 +1,7 @@
 <?php   
-session_start(['cookie_lifetime' => 3600]);
-
-if (!isset($_SESSION['iniciado'])) {
-    $_SESSION['iniciado'] = time(); // Marca o início da sessão
-}
-
-if (time() - $_SESSION['iniciado'] > 60) { // Verifica se passou 60 segundos
-    session_destroy(); // Destrói a sessão
-    header('Location: logout.php'); // Redireciona para a página de logout, se necessário
-    exit();
-}
-
-include('./verifica_login.php');
+include('verifica_login.php');
 require_once 'home.php';
-
-// Verifica se a conexão está ativa
-if (!$con || mysqli_connect_errno()) {
-    die("Falha na conexão com o banco de dados.");
-}
-
-// Verifica se o usuário está logado
-if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true) {
-    header('Location: home.php'); // redireciona para a página de login
-    exit();
-}
-
-// Pega o ID do usuário logado da sessão
-$id = $_SESSION['id_usuario'];
-
-// Consulta usando prepared statements para maior segurança
-$sql = "SELECT * FROM usuario WHERE id_usuario = ?";
-$stmt = mysqli_prepare($con, $sql);
-mysqli_stmt_bind_param($stmt, 'i', $id);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-
-// Verifica se a consulta retornou resultados
-if ($result && mysqli_num_rows($result) > 0) {
-    $dados = mysqli_fetch_array($result);
-    // Exibe o nome do usuário
-   // echo "Bem-vindo, " . htmlspecialchars($dados['nome']) . "!";
-} else {
-    echo "Usuário não encontrado.";
-}
-
-// Fecha a conexão com o banco de dados
-mysqli_stmt_close($stmt);
-mysqli_close($con);
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -61,10 +13,16 @@ mysqli_close($con);
   
 </head>
 <body>
-<h2 class="login-usuario"><?php echo $dados['login']; ?></h2>
-<div class="container-botao">
-    <a href="logout.php" class="botao-sair">Sair</a>
+<div class= "perfil">
+    <a href='logout.php' class="botao-sair">Sair</a>
 </div>
+<div class="foto">
+    <a href='./ronie/configurarPerfil.php'>
+        <img src="<?php echo $foto_perfil ?>" width="50px" height="50px"  alt="Foto de Perfil">
+    </a>
+    <p><?php echo $_SESSION['login']; ?></p> <!-- Exibe o nome do usuário -->
+</div>
+
 
 <div class="overlay"></div>
 <div class="menu-container">
@@ -80,7 +38,7 @@ mysqli_close($con);
                 <ul class="submenu">
                     <li><a href="cadastrar_livro.php">Cadastrar </a></li><br>
                     <li><a href="atualizar_livro.php">Atualizar</a></li><br>
-                    <li><a href="buscar_livro.php">Buscar</a></li><br>
+                    <li><a href="buscar.php">Buscar</a></li><br>
                     <li><a href="arquivar_livro.php">Arquivar</a></li>
                 </ul>
             </li>
@@ -98,6 +56,7 @@ mysqli_close($con);
                 <ul class="submenu">
                     <li><a href="listar_acervo.php">Listar</a></li><br>
                     <li><a href="reservar_livro.php">Reservar</a></li><br>
+                    <li><a href="reservas_livro.php">Reservas</a></li><br>
                 </ul>
             </li>
             <li>
@@ -110,7 +69,7 @@ mysqli_close($con);
             <li>
                 <a href="#">Relatório</a>
                 <ul class="submenu">
-                    <li><a href="gerar_relatorio.php">Gerar relatório</a></li><br>
+                    <li><a href="relatorio.php">Gerar relatório</a></li><br>
                     <li><a href="listar_relatorio.php">Visualizar relatórios</a></li><br>
                 </ul>
             </li>
@@ -129,9 +88,18 @@ mysqli_close($con);
 
                 </ul>
             </li>
+            <li>
+                <a href="cadastrar_usuario.php">Cadastro usuario</a>
+              
+
+                </ul>
+            </li>
         </ul>
     </nav>
 </div>
+
+
+
 <div class="slideshow-container">
         <div class="mySlides" style="background-image: url('assets/fundo.avif');"></div>
         <div class="mySlides" style="background-image: url('assets/etec.jpeg');"></div>
@@ -175,7 +143,7 @@ mysqli_close($con);
 
 <div class="form-container">
        
-<form id="contactForm" action="contactForm" method="post">
+<form id="contactForm" action="contactForm.php" method="post">
 
             <div class="form-group">
                 <label for="name">Nome:</label>
@@ -195,7 +163,7 @@ mysqli_close($con);
         </form>
     </div>
     <script src="script/script.js"></script>
-  
+
 
 </body>
 

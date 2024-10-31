@@ -1,9 +1,12 @@
 <?php
 
+include('verifica_login.php');
+
+
 $host = "localhost";
 $user = "root";
 $pass = "";
-$base = "bd_login";
+$base = "etecguaru01";
 
 // Conexão com o banco de dados
 $con = mysqli_connect($host, $user, $pass, $base);

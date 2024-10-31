@@ -1,6 +1,6 @@
 <?php
-session_start();
-include('./verifica_login.php');
+
+include('verifica_login.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -128,7 +128,7 @@ input[type="submit"]:hover {
         }
 
         input[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #0a6789;
   /* width: 50%;*/
     color: white;
     justify-content:center;
@@ -154,7 +154,7 @@ input[type="submit"]:hover {
 }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #676767;
         }
 
         a {
@@ -225,7 +225,7 @@ input[type="submit"]:hover {
 
         <div class="form-group">
             <label for="edicao">Edição:</label>
-            <input type="text" id="edicao" name="edicao" required>
+            <input type="number" id="edicao" name="edicao" required>
         </div>
 
         <div class="form-group">
@@ -235,7 +235,7 @@ input[type="submit"]:hover {
 
         <div class="form-group">
             <label for="unidade">Unidades:</label>
-            <input type="text" id="unidade" name="unidade" required>
+            <input type="number" id="unidade" name="unidade" required>
         </div>
 
         <div class="form-group">

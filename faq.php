@@ -1,6 +1,6 @@
 <?php
-session_start();
-include('./verifica_login.php');
+
+include('verifica_login.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -8,6 +8,7 @@ include('./verifica_login.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ</title>
+    
     <style>
         body {
             font-family: Arial, sans-serif;

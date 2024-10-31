@@ -1,50 +1,45 @@
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.querySelector('.nav-menu');
-    const menuItems = document.querySelectorAll('.nav-menu > ul > li');
+    const overlay = document.querySelector('.overlay');
 
-    // Toggle menu visibility
+    // Alterna visibilidade do menu e overlay
     menuToggle.addEventListener('click', function(event) {
-    event.stopPropagation();
-    this.classList.toggle('active');
-    navMenu.classList.toggle('active');
-    document.querySelector('.overlay').style.display = this.classList.contains('active') ? 'block' : 'none'; // Mostrar ou ocultar overlay
-});
-
-// Adicione o seguinte para esconder o menu e o overlay ao clicar fora
-document.addEventListener('click', function() {
-    menuToggle.classList.remove('active');
-    navMenu.classList.remove('active');
-    document.querySelector('.overlay').style.display = 'none'; // Esconder overlay
-});
-// Toggle submenu visibility
-menuItems.forEach(function(item) {
-    item.addEventListener('click', function(event) {
         event.stopPropagation();
-        // Esconde outros submenus
-        menuItems.forEach(function(menuItem) {
-            if (menuItem !== item) {
-                menuItem.querySelector('.submenu').style.display = 'none';
-            }
-        });
-        // Alterna a visibilidade do submenu do item clicado
-        const submenu = item.querySelector('.submenu');
-        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        const isActive = this.classList.toggle('active');
+        navMenu.classList.toggle('active', isActive);
+        overlay.style.display = isActive ? 'block' : 'none';
     });
+
+    // Esconde o menu e overlay ao clicar fora
     document.addEventListener('click', function() {
-    menuItems.forEach(function(item) {
-        item.querySelector('.submenu').style.display = 'none'; // Esconde todos os submenus
+        menuToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+        overlay.style.display = 'none';
     });
-});
 
-});
-
-
-    // Prevent menu from closing when clicking inside it
+    // Impede que o menu feche ao clicar dentro dele
     navMenu.addEventListener('click', function(event) {
-        event.stopPropagation(); // Evita que o clique no menu se propague para o document
+        event.stopPropagation();
+    });
+
+    // Controle do submenu dentro do menu principal
+    navMenu.querySelectorAll('.nav-menu > ul > li').forEach(item => {
+        const submenu = item.querySelector('.submenu');
+        if (submenu) {
+            item.addEventListener('click', function(event) {
+                event.stopPropagation();
+                
+                // Alterna a visibilidade do submenu
+                const isVisible = submenu.style.display === 'block';
+                navMenu.querySelectorAll('.submenu').forEach(sm => sm.style.display = 'none');
+                submenu.style.display = isVisible ? 'none' : 'block';
+            });
+        }
     });
 });
+
+
 
 
 let slideIndex = 0;

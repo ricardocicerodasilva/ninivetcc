@@ -1,6 +1,6 @@
 <?php
-session_start();
-include('./verifica_login.php');
+
+include('verifica_login.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -93,16 +93,7 @@ include('./verifica_login.php');
     resize: vertical;
 }
 
-/* input[type="submit"] {
-    grid-column: span 2;
-    padding: 10px;
-    font-size: 1rem;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-} */
+
 
 input[type="submit"]:hover {
     background-color: #45a049;
@@ -128,7 +119,7 @@ input[type="submit"]:hover {
         }
 
         input[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #0a6789;
   /*/  width: 50%;*/
     color: white;
     justify-content:center;
@@ -144,6 +135,9 @@ input[type="submit"]:hover {
     left:200px;
     
 }
+input[type="submit"]:hover {
+            background-color: #676767;
+        }
 .button-container {
     display: flex;
     justify-content: center;
@@ -152,10 +146,25 @@ input[type="submit"]:hover {
     
   
 }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
+button{
+    background-color: #0a6789;
+      color: white;
+    justify-content:center;
+    padding: 12px 20px;
+    border: none;
+   margin: 0 auto; /* Centraliza horizontalmente */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    right:10px;
         }
+        button[type="button"]:hover {
+            background-color: #676767;
+        }
+        
 
         a {
             color: #007bff;
@@ -202,48 +211,105 @@ input[type="submit"]:hover {
 
     <h2>Atualizar Aluno</h2>
 
-    <form action="atualiza_aluno.php" method="post" class="formulario">
-    <div class="form-group">
-            <label for="rm">Rm Aluno:</label>
-            <input type="text" id="rm" name="rm" required>
-        </div>  <br>
     
-   
-        <div class="form-group">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
-        </div>
+<form id="aluno-form" class="formulario" onsubmit="atualizarAluno(); return false;">
+    <div class="form-group">
+        <label for="rm">RM Aluno:</label>
+        <input type="text" id="rm" name="rm" required>
+        <button type="button" onclick="buscarAluno()">Buscar</button>
+    </div><br>
 
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="email" required>
-        </div>
+    <div class="form-group">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+    </div>
 
-        <div class="form-group">
-            <label for="telefone">Telefone:</label>
-            <input type="text" id="telefone" name="telefone" required>
-        </div>
-        <div class="form-group">
-            <label for="turma">Turma:</label>
-            <input type="text" id="turma" name="turma" required>
-        </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
 
-        <div class="form-group">
-            <label for="periodo">Período:</label>
-            <input type="text" id="periodo" name="periodo" required>
-        </div>
+    <div class="form-group">
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" name="telefone" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="turma">Turma:</label>
+        <input type="text" id="turma" name="turma" required>
+    </div>
 
-        <div class="form-group">
-            <label for="senha">Senha:</label>
-            <input type="text" id="senha" name="senha" required>
-        </div>
+    <div class="form-group">
+        <label for="periodo">Período:</label>
+        <input type="text" id="periodo" name="periodo" required>
+    </div>
 
+    <div class="form-group">
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+    </div>
 
+    <div class="button-container">
+        <input type="submit" value="Atualizar">
+    </div>
+</form>
 
-        <div class="button-container">
-    <input type="submit" value="Atualizar">
-</div>
+<script>
+function buscarAluno() {
+    var rm = document.getElementById("rm").value;
+    if (rm) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "busca_aluno.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                        if (data) {
+                            document.getElementById("nome").value = data.nome_aluno;
+                            document.getElementById("email").value = data.email;
+                            document.getElementById("telefone").value = data.telefone;
+                            document.getElementById("turma").value = data.turma;
+                            document.getElementById("periodo").value = data.periodo;
+                            document.getElementById("senha").value = data.senha;
+                        } else {
+                            alert("Aluno não encontrado.");
+                        }
+                    } catch (e) {
+                        alert("Erro ao processar os dados: " + e.message);
+                    }
+                } else {
+                    alert("Erro na requisição: " + xhr.status);
+                }
+            }
+        };
+        xhr.send("rm=" + encodeURIComponent(rm));
+    } else {
+        alert("Por favor, insira um RM.");
+    }
+}
 
-    </form>
+function atualizarAluno() {
+    const formData = new FormData(document.getElementById('aluno-form'));
+
+    fetch('atualiza_aluno.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        if (data.status === 'success') {
+            document.getElementById('aluno-form').reset(); // Limpa o formulário se a atualização for bem-sucedida
+        }
+    })
+    .catch(error => {
+        console.error('Erro na atualização:', error);
+        alert('Erro ao processar a solicitação.');
+    });
+}
+</script>
+
 </body>
 </html>

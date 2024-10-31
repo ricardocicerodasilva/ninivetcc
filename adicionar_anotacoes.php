@@ -1,43 +1,35 @@
-<?php
-session_start();
-include('./verifica_login.php');
-?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anotações </title>
+    <title>Anotações</title>
     
     <style>
-
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
             background-image: url('assets/imgcadastro.jpg');
-            background-repeat: no-repeat;
-          /*  background-attachment: fixed;*/
-            background-size: cover; /* Ajusta a largura para 100% e a altura para 50% */
-            height:auto;
-           /* background-position: center top 60px; /* Ajuste a posição da imagem de fundo */
+            background-size: cover;
         }
 
         .image {
-            position: absolute; /* Fixa a imagem na tela */
-            top: 10px; /* Ajuste a posição vertical conforme necessário */
-            left: 20px; /* Ajuste a posição horizontal conforme necessário */
-            width: 100px; /* Ajuste o tamanho conforme necessário */
-            height: auto; /* Mantém a proporção da imagem */
-            z-index: 1000; /* Garante que a imagem esteja acima de outros elementos */
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 100px;
+            height: auto;
+            z-index: 1000;
         }
 
         h2 {
             text-align: center;
             margin-top: 40px;
-            color: bold;
-            font-size: 40px;        }
+            font-size: 40px;
+            color: #333;
+        }
 
         form {
             width: 60%;
@@ -46,119 +38,69 @@ include('./verifica_login.php');
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            background-image: url('assets/imgcadastro.jpg');
-            background-repeat: no-repeat;
-          /*  background-attachment: fixed;*/
-            background-size: auto; /* Ajusta a largura para 100% e a altura para 50% */
-            height:auto;
         }
 
-    
-
-.formulario {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    max-width: 800px;
-    margin: auto;
-    width: 60%;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            background-image: url('assets/imgcadastro.jpg');
-            background-repeat: no-repeat;
-          /*  background-attachment: fixed;*/
-            background-size: auto; /* Ajusta a largura para 100% e a altura para 50% */
-            height:auto;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-group input, 
-.form-group textarea {
-    padding: 45px;
-    font-size: 1rem;
-    border: 4px solid blackgray color;
-    border-radius: 4px;
-    
-}
-
-.form-group textarea {
-    resize: vertical;
-    left:200px;
-}
-
-/* input[type="submit"] {
-    grid-column: span 2;
-    padding: 10px;
-    font-size: 1rem;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-} */
-
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
-
-    input[type="text"],
-        input[type="text"],
-        input[type="text"],
-        input[type="date"],
-        input[type="text"],
-        input[type="text"],
-        input[type="text"],
-        input[type="text"],
-        
-        textarea {
-            width: 100%;
-            padding: 20px;
+        .form-group {
+            display: flex;
+            flex-direction: column;
             margin-bottom: 15px;
-            border: 4px solid #cccccc;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            width: 60%;
+            margin-top:20px;
+           
+        }
+
+        .form-group input{
+            width: 20%;
+            padding: 15px;
+            font-size: 1rem;
+            border: 2px solid #cccccc;
             border-radius: 6px;
             box-sizing: border-box;
-            font-size: 16px;
+            position: absolute;
+            left:365px
+
+        }
+        .form-group textarea {
+            width: 80%;
+            padding: 60px;
+            font-size: 1rem;
+            border: 2px solid #cccccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            display: flex;
+            margin:0 auto
+            
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
         }
 
         input[type="submit"] {
-    background-color: #4CAF50;
-  /*/  width: 50%;*/
-    color: white;
-    justify-content:center;
-    padding: 12px 20px;
-    border: none;
-   margin: 0 auto; /* Centraliza horizontalmente */
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    position: relative;
-    display: flex;
-    left:200px;
-    
-}
-.button-container {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto; /* Centraliza horizontalmente */
-    align-items: center;
-    
-  
-}
+            background-color: #0a6789;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            margin-top:25px
+        }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #676767;
         }
 
         a {
@@ -169,33 +111,6 @@ input[type="submit"]:hover {
         a:hover {
             text-decoration: underline;
         }
-
-        .activities {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .activities a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 0 10px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 10px;
-            transition: background-color 0.3s ease;
-        }
-
-        .activities a:hover {
-            background-color: #0056b3;
-        }
-
-        .activities h3 {
-            margin-bottom: 10px;
-            color: #333333;
-        }
-
-      
     </style>
 </head>
 <body>
@@ -203,21 +118,57 @@ input[type="submit"]:hover {
     <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
 </a>
 
+<h2>Anotações</h2>
 
-    <h2>Anotações</h2>
-
-    <form action="atualizar_livro.php" method="post" class="formulario">
+<form method="post">
     <div class="form-group">
-          
-        <div class="form-group">
-            <label for="sinopse"></label>
-            <textarea id="sinopse" name="sinopse" rows="4" required></textarea>
-        </div><br>
+        <label for="sinopse"></label>
+        <textarea id="sinopse" name="sinopse" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="data"></label>
+        <input type="date" id="data" name="data" required/>
+    </div>
 
-        <div class="button-container">
-    <input type="submit" value="Cadastrar">
-</div>
-
-    </form>
+    <div class="button-container">
+        <input type="submit" value="Cadastrar">
+    </div>
+</form>
 </body>
 </html>
+
+
+<?php
+$host = "localhost:3306";
+$user = "root";
+$pass = "";
+$base = "etecguaru01";
+
+// Conexão com o banco de dados
+$con = mysqli_connect($host, $user, $pass, $base);
+
+// Verifica se a conexão foi bem-sucedida
+if (!$con) {
+    die("Falha na conexão: " . mysqli_connect_error());
+}
+
+// Executa a inserção somente se o formulário tiver sido enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Obtenha os dados do formulário
+    $sinopse = $_POST['sinopse'];
+    $data = $_POST['data'];
+
+    // Usar prepared statements para evitar SQL injection
+    $stmt = $con->prepare("INSERT INTO anotacao (anotacao, data_anotacao) VALUES (?, ?)");
+    $stmt->bind_param("ss", $sinopse, $data);
+
+    if ($stmt->execute()) {
+        echo "Cadastro realizado com sucesso!";
+    } else {
+        echo "Erro ao cadastrar: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+$con->close();
+?>

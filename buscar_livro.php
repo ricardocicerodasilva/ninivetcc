@@ -1,8 +1,13 @@
 <?php
+
+
+include('verifica_login.php');
+
+
 $host = "localhost";
 $user = "root";
 $pass = "";
-$base = "bd_login";
+$base = "etecguaru01";
 
 $con = mysqli_connect($host, $user, $pass, $base);
 
@@ -15,7 +20,7 @@ if (isset($_POST['titulo'])) {
     $titulo = $_POST['titulo'];
 
     // Prepare a consulta para evitar SQL injection
-    $stmt = $con->prepare("SELECT * FROM LIVRO WHERE nome_livro = ?");
+    $stmt = $con->prepare("SELECT * FROM livro WHERE nome_livro = ?");
     $stmt->bind_param("s", $titulo);
     $stmt->execute();
     $result = $stmt->get_result();

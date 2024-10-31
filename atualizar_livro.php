@@ -1,6 +1,6 @@
 <?php
-session_start();
-include('./verifica_login.php');
+
+include('verifica_login.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -128,7 +128,7 @@ input[type="submit"]:hover {
         }
 
         input[type="submit"] {
-    background-color: #4CAF50;
+    background-color:#0a6789;
   /*/  width: 50%;*/
     color: white;
     justify-content:center;
@@ -150,11 +150,28 @@ input[type="submit"]:hover {
     margin: 0 auto; /* Centraliza horizontalmente */
     align-items: center;
     
-  
 }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #676767;
+        }
+        button{
+        background-color: #0a6789;
+      color: white;
+    justify-content:center;
+    padding: 12px 20px;
+    border: none;
+   margin: 0 auto; /* Centraliza horizontalmente */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    right:10px;
+        }
+        button[type="button"]:hover {
+            background-color: #676767;
         }
 
         a {

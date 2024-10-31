@@ -1,28 +1,33 @@
+
+<?php
+include('verifica_login.php');
+?>
 <?php
 $host = "localhost";
 $user = "root";
 $pass = "";
-$base = "bd_login";
+$base = "etecguaru01";
 
-// Conexão com o banco de dados
 $con = mysqli_connect($host, $user, $pass, $base);
 
-$rm_aluno = $_POST['rm'];
-$responsavel = $_POST['responsavel'];
-$idlivro = $_POST['idlivro'];
-$dtreserva = $_POST['dtreserva'];
-
-// Usar prepared statements para evitar SQL injection
-$stmt = $con->prepare("INSERT INTO reserva (data_reserva,rm_aluno, id_livro,login) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("issss", $dtreserva, $rm_aluno, $id_livro, $responsavel);
-
-if ($stmt->execute()) {
-    echo "Reserva realizada com sucesso!";
-} else {
-    echo "Erro ao reservar livro: " . $stmt->error;
+if ($con->connect_error) {
+    die("Falha na conexão: " . $con->connect_error);
 }
 
-$stmt->close();
+$id_livro = $_POST['idLivro'];
+$rm_aluno = $_POST['rmAluno'];
+$data_reserva = $_POST['dataReserva'];
+$data_devolucao = $_POST['dataDevolucao'];
+
+$sql = "INSERT INTO reserva (id_livro, rm_aluno, data_reserva, data_devolucao) 
+        VALUES ($id_livro, $rm_aluno, '$data_reserva', '$data_devolucao')";
+
+
+if ($con->query($sql) === TRUE) {
+    echo "Reserva realizado com sucesso!";
+} else {
+    echo "Erro ao cadastrar o Aluno: " . $con->error;
+}
 $con->close();
 ?>
 <center>

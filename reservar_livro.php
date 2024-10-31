@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include('verifica_login.php');
 ?>
 <!DOCTYPE html>
@@ -9,189 +9,106 @@ include('verifica_login.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservar livro </title>
     <style>
+        /* Estilos básicos */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            background-image: url('assets/imgcadastro.jpg');
-            background-repeat: no-repeat;
-          /*  background-attachment: fixed;*/
-            background-size: cover; /* Ajusta a largura para 100% e a altura para 50% */
-            height:auto;
-           /* background-position: center top 60px; /* Ajuste a posição da imagem de fundo */
+            background: #f4f4f4 url('assets/imgcadastro.jpg') no-repeat center center / cover;
         }
 
+        /* Logo */
         .image {
-            position: absolute; /* Fixa a imagem na tela */
-            top: 10px; /* Ajuste a posição vertical conforme necessário */
-            left: 20px; /* Ajuste a posição horizontal conforme necessário */
-            width: 100px; /* Ajuste o tamanho conforme necessário */
-            height: auto; /* Mantém a proporção da imagem */
-            z-index: 1000; /* Garante que a imagem esteja acima de outros elementos */
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 100px;
+            height: auto;
         }
 
+        /* Título */
         h2 {
             text-align: center;
             margin-top: 40px;
-            color: bold;
-            font-size: 40px;        }
-
-        form {
-            width: 60%;
-            margin: 20px auto;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            background-image: url('assets/imgcadastro.jpg');
-            background-repeat: no-repeat;
-          /*  background-attachment: fixed;*/
-            background-size: auto; /* Ajusta a largura para 100% e a altura para 50% */
-            height:auto;
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
         }
 
-    
-
-.formulario {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    max-width: 800px;
-    margin: auto;
-    width: 60%;
-            background-color: #ffffff;
-            padding: 30px;
+        /* Estilos de formulário */
+        form {
+            width: 50%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            background-image: url('assets/imgcadastro.jpg');
-            background-repeat: no-repeat;
-          /*  background-attachment: fixed;*/
-            background-size: auto; /* Ajusta a largura para 100% e a altura para 50% */
-            height:auto;
-}
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
+        label {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
 
-.form-group label {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-group input, 
-.form-group textarea {
-    padding: 45px;
-    font-size: 1rem;
-    border: 4px solid blackgray color;
-    border-radius: 4px;
-}
-
-.form-group textarea {
-    resize: vertical;
-}
-
-/* input[type="submit"] {
-    grid-column: span 2;
-    padding: 10px;
-    font-size: 1rem;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-} */
-
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
-
-    input[type="text"],
+        input[type="number"],
         input[type="text"],
-        input[type="text"],
-        input[type="date"],
-        input[type="text"],
-        input[type="text"],
-        input[type="text"],
-        input[type="text"],
-        
         textarea {
             width: 100%;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 4px solid #cccccc;
-            border-radius: 6px;
-            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
             font-size: 16px;
+            box-sizing: border-box;
         }
 
         input[type="submit"] {
-    background-color: #4CAF50;
-  /*/  width: 50%;*/
-    color: white;
-    justify-content:center;
-    padding: 12px 20px;
-    border: none;
-   margin: 0 auto; /* Centraliza horizontalmente */
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    position: relative;
-    display: flex;
-    left:200px;
-    
-}
-.button-container {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto; /* Centraliza horizontalmente */
-    align-items: center;
-    
-  
-}
+            padding: 10px 20px;
+            background-color: #0a6789;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #005f77;
         }
 
-        a {
-            color: #007bff;
-            text-decoration: none;
+        /* Tabela */
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        a:hover {
-            text-decoration: underline;
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 15px;
         }
 
-        .activities {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .activities a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 0 10px;
-            background-color: #007bff;
+        th {
+            background-color: #0a6789;
             color: #fff;
-            text-decoration: none;
-            border-radius: 10px;
-            transition: background-color 0.3s ease;
+            font-weight: bold;
         }
 
-        .activities a:hover {
-            background-color: #0056b3;
+        /* Caixa de texto ajustável */
+        textarea {
+            resize: none;
         }
-
-        .activities h3 {
-            margin-bottom: 10px;
-            color: #333333;
-        }
-
-      
     </style>
 </head>
 <body>
@@ -201,36 +118,58 @@ input[type="submit"]:hover {
 
     <h2>Reservar Livro</h2>
 
-    <form action="reserva_livro.php" method="post" class="formulario">
-    <div class="form-group">
-            <label for="rm">Rm Aluno:</label>
-            <input type="text" id="rm" name="rm" required>
-        </div>  
-    
-   
-        <div class="form-group">
-            <label for="responsavel">Bibliotecario(a):</label>
-            <input type="text" id="responsavel" name="responsavel" required>
-        </div>
 
-        <div class="form-group">
-            <label for="idlivro">id_livro:</label>
-            <input type="text" id="idlivro" name="idlivro" required>
-        </div>
+    <form action="reserva_livro.php" method="post">
 
-        <div class="form-group">
-            <label for="dtreserva">Data Reserva:</label>
-            <input type="date" id="dtreserva" name="dtreserva" required>
-        </div>
+        <label for="idLivro">ID do livro</label>
+        <input type="text" name="idLivro" id="idLivro" required></p>
 
-      
+        <label for="rmAluno">RM do Aluno(a):</label>
+        <input type="text" name="rmAluno" id="rmAluno" required></p>
 
+        <label for="dataReserva">Data da reserva:</label>
+        <input type="date" name="dataReserva" id="dataReserva" required></p>
 
+        <label for="dataDevolucao">Data de devolução:</label>
+        <input type="date" name="dataDevolucao" id="dataDevolucao" required ></p>
 
-        <div class="button-container">
-    <input type="submit" value="Reservar">
-</div>
-
+        <input type="submit" value="Reservar">
     </form>
+
+
+    <script>
+        // Função para formatar a data no formato YYYY-MM-DD
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Mês começa em 0
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        const today = new Date();
+
+        // Define o min da data de reserva como a data atual
+        document.getElementById("dataReserva").setAttribute("min", formatDate(today));
+
+        // Adiciona um listener ao campo de reserva
+        document.getElementById("dataReserva").addEventListener("input", function() {
+            const selectedDate = new Date(this.value);
+            const minDevolucao = new Date(selectedDate);
+            const maxDevolucao = new Date(selectedDate);
+
+            // Define a data mínima como a data da reserva
+            minDevolucao.setDate(selectedDate.getDate());
+            // Define a data máxima como um mês a partir da data da reserva
+            maxDevolucao.setMonth(selectedDate.getMonth() + 1);
+
+            // Atualiza os atributos min e max do campo de devolução
+            document.getElementById("dataDevolucao").setAttribute("min", formatDate(minDevolucao));
+            document.getElementById("dataDevolucao").setAttribute("max", formatDate(maxDevolucao));
+
+            // Habilita o campo de devolução
+            document.getElementById("dataDevolucao").disabled = false;
+        });
+    </script>
 </body>
+
 </html>

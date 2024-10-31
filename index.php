@@ -1,6 +1,3 @@
-h
-
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -25,126 +22,120 @@ h
             padding: 15px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          
-           
         }
 
         input[type="text"], input[type="password"] {
-            width: 95%;
+            width: 90%;
             padding: 10px;
-            margin: 10px 0;
+            margin: 15px 0;
             border: 1px solid #ccc;
             border-radius: 5px;  
-            margin-right: 80px
+        }
+        .button-container {
+        display: flex;
+         justify-content: center; /* Alinha os botões no centro horizontalmente */
+        gap: 10px; /* Espaço entre os botões */
+        margin-top: 20px; /* Espaço acima do contêiner de botões */
+        }
+        .button {
+            width: 30%;
+            padding: 10px;
+            background-color: #0a6789;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 0 auto;
+                     
         }
 
-        .button {
-    width: 30%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    display: block;
-    margin: 0 auto;
-}
-
-.button:hover {
-    background-color: #45a049;
-}
-
+        .button:hover {
+            background-color: #676767;
+        }
 
         label {
             font-weight: 800;
         }
+       /* .btn{
+            position: fixed;
+             top: 20px;
+            right: 20px;
+             background-color: #ff4d4d;
+          
+            padding: 10px;
+            background-color: #0a6789;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+           display: block;              
+        }
+        .btn:hover{
+            background-color: #676767;
+        }*/
     </style>
-
-
 </head>
 <body>
-<form action="login.php" method="POST">
+<form method="POST">
     <label for="login">Login:</label>
-    <input type="text" id="login" name="login"><br>
+    <input type="text" id="login" name="login" required><br>
 
     <label for="senha">Senha:</label>
-    <input type="password" id="senha" name="senha"><br>
+    <input type="password" id="senha" name="senha" required><br>
 
-    <button type="submit" name="btn-entrar" class="button">Entrar</button>
-
+    <button type="submit" name="acessar" class="button">Entrar</button>
 </form>
 
- 
 </body>
 </html>
+
 <?php
+session_start(); // Inicia a sessão
+
 // Conexão com o banco de dados
 $host  = "localhost:3306";
 $user  = "root";
 $pass  = "";
-$base  = "bd_login";
+$base  = "etecguaru01";
 $con   = mysqli_connect($host, $user, $pass, $base);
 
-if (!$con) {
-    die("Falha na conexão: " . mysqli_connect_error());
+if ($con->connect_error) {
+    die("Falha na conexão: " . $con->connect_error);
 }
 
-// Inicia a sessão
-session_start();
-
-// Verifica se o usuário já está logado
-if (isset($_SESSION['logado']) && $_SESSION['logado'] === true) {
+// Se o usuário já estiver logado, redirecione para a página inicial
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     header("Location: home.php");
     exit();
 }
 
-// Verifica se o botão foi pressionado e processa o login
-if (isset($_POST['btn-entrar'])) {
-    $erros = array();
+if (isset($_POST['acessar'])) {
+    $login = $_POST['login']; // Corrigido aqui
+    $senha = $_POST['senha'];
+    $senha = md5($senha); // Se estiver usando MD5 para criptografar senhas
 
-    if (!empty($_POST['login']) && !empty($_POST['senha'])) {
-        $login = mysqli_real_escape_string($con, $_POST['login']);
-        $senha = mysqli_real_escape_string($con, $_POST['senha']);
+    // Utilize prepared statements para evitar SQL Injection
+    $stmt = $con->prepare("SELECT * FROM bibliotecario WHERE login = ? AND senha = ?");
+    $stmt->bind_param("ss", $login, $senha);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-        // Consulta ao banco de dados usando prepared statements
-        $sql = "SELECT * FROM usuario WHERE login = ?";
-        $stmt = mysqli_prepare($con, $sql);
-        mysqli_stmt_bind_param($stmt, 's', $login);
-        mysqli_stmt_execute($stmt);
-        $resultado = mysqli_stmt_get_result($stmt);
-
-        if (mysqli_num_rows($resultado) > 0) {
-            $dados = mysqli_fetch_array($resultado);
-            // Verifica a senha usando password_verify()
-            if (password_verify($senha, $dados['senha'])) { // Alterar para verificar hash
-                $_SESSION['logado'] = true;
-                $_SESSION['id_usuario'] = $dados['id_usuario'];
-                header("Location: home.php");
-                exit();
-            } else {
-                $erros[] = "Usuário ou senha inválidos!";
-            }
-        } else {
-            $erros[] = "Usuário ou senha inválidos!";
-        }
+    if ($result->num_rows > 0) {
+        $bibliotecario = $result->fetch_assoc();
+        $_SESSION['loggedin'] = true; // Define a variável de sessão
+        $_SESSION['login'] = $bibliotecario['login']; // Armazena o login do bibliotecário na sessão
+        $_SESSION['foto_perfil'] = $bibliotecario['foto_perfil']; // Armazena o caminho da foto de perfil
+        header("Location: home.php");
+        exit();
     } else {
-        $erros[] = "O campo login/senha precisa ser preenchido";
+        echo "<script>alert('Usuário ou senha inválidos!');</script>"; // Melhora a notificação de erro
     }
 
-    // Exibe os erros, se houver
-    if (!empty($erros)) {
-        foreach ($erros as $erro) {
-            echo "<li>$erro</li>";
-        }
-    }
-
-    // Fecha o statement
-    mysqli_stmt_close($stmt);
+    $stmt->close();
 }
 
-// Fecha a conexão com o banco de dados
 mysqli_close($con);
 ?>
-
-

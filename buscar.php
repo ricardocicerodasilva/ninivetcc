@@ -1,6 +1,6 @@
 <?php
-session_start();
-include('./verifica_login.php');
+
+include('verifica_login.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -46,43 +46,33 @@ include('./verifica_login.php');
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         }
 
-        .formulario {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            max-width: 800px;
-            margin: auto;
-            width: 60%;
+        input {          
+          
+            gap: 40px;
+            max-width: 600px;
+            margin: 20px;
+            width: 10%;
             background-color: #ffffff;
-            padding: 30px;
+            padding: 10px;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         }
 
-        .form-group {
+       /* .form-group {
             display: flex;
             flex-direction: column;
         }
-
-        .form-group label {
+*/
+      label {
+        font-family: Arial, sans-serif;
             margin-bottom: 5px;
             font-weight: bold;
+            font-size:30px
         }
 
-        .form-group input, 
-        .form-group textarea {
-            padding: 10px;
-            font-size: 1rem;
-            border: 2px solid #cccccc;
-            border-radius: 4px;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-        }
 
         input[type="submit"] {
-            background-color: #4CAF50;
+            background-color: #0a6789;
             color: white;
             justify-content: center;
             padding: 12px 20px;
@@ -97,46 +87,34 @@ include('./verifica_login.php');
         }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #676767;
         }
-
-        .hidden {
-            display: none;
-        }
-
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .activities {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .activities a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 0 10px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 10px;
-            transition: background-color 0.3s ease;
-        }
-
-        .activities a:hover {
-            background-color: #0056b3;
-        }
-
-        .activities h3 {
-            margin-bottom: 10px;
-            color: #333333;
-        }
+        table {
+        width: 50%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        
+    }
+    th, td {
+        border: 4px solid #ddd;
+        padding: 8px;
+        text-align: center;
+        font-family:Arial, sans-serif;
+        font-weight: bold;
+        
+        
+    }
+    th {
+        background-color: bold;
+        color: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+       
     </style>
 </head>
 <body>
@@ -147,92 +125,100 @@ include('./verifica_login.php');
 
     <h2>Buscar Livro</h2>
 
-    <form id="book-form" action="buscar.php" method="post" class="formulario">
-        <div class="form-group">
-            <label for="codigo">Código do Livro:</label>
-            <input type="text" id="codigo" name="codigo" required oninput="fetchBookDetails()">
-        </div>
+    
 
-        <!-- Outros campos inicialmente ocultos -->
-        <div id="book-details" class="hidden">
-            <div class="form-group">
-                <label for="titulo">Título do Livro:</label>
-                <input type="text" id="titulo" name="titulo">
-            </div>
+<!DOCTYPE html>
+<html lang="pt-br">
 
-            <div class="form-group">
-                <label for="autor">Autor:</label>
-                <input type="text" id="autor" name="autor">
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar</title>
+</head>
 
-            <div class="form-group">
-                <label for="editora">Editora:</label>
-                <input type="text" id="editora" name="editora">
-            </div>
-
-            <div class="form-group">
-                <label for="datapubli">Data de Publicação:</label>
-                <input type="date" id="datapubli" name="datapubli">
-            </div>
-
-            <div class="form-group">
-                <label for="edicao">Edição:</label>
-                <input type="text" id="edicao" name="edicao">
-            </div>
-
-            <div class="form-group">
-                <label for="genero">Gênero:</label>
-                <input type="text" id="genero" name="genero">
-            </div>
-
-            <div class="form-group">
-                <label for="unidades">Unidades:</label>
-                <input type="text" id="unidades" name="unidades">
-            </div>
-
-            <div class="form-group">
-                <label for="sinopse">Sinopse:</label>
-                <textarea id="sinopse" name="sinopse" rows="4"></textarea>
-            </div>
-        </div>
-
-        <div class="button-container">
-            <input type="submit" value="Buscar">
-        </div>
+<body>
+    <form method="post">
+        <label for="codigoLivro">Código do Livro:</label>
+        <input type="number" name="codigoLivro" id="codigoLivro" required>
+        <input type="submit" name="buscar" value="Buscar">
     </form>
 
-    <script>
-        function fetchBookDetails() {
-            const codeInput = document.getElementById('codigo').value;
-            const detailsContainer = document.getElementById('book-details');
+    <?php
+    if (isset($_POST['buscar'])) {
+        $codigoLivro = $_POST['codigoLivro'];
 
-            if (codeInput.length > 0) {
-                fetch(`buscar_livro.php?codigo=${encodeURIComponent(codeInput)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.error) {
-                            detailsContainer.classList.add('hidden');
-                            alert(data.error);
+        // Consultar o livro
+        $sql = "SELECT * FROM livro WHERE id_livro = ?";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("i", $codigoLivro);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $livro = $result->fetch_assoc();
+    ?>
+            <h2>Detalhes do Livro</h2>
+            <table>
+                <tr>
+                    <th>Código</th>
+                    <td><?php echo $livro['id_livro']; ?></td>
+                </tr>
+                <tr>
+                    <th>Data de cadastro</th>
+                </tr>
+                <tr>
+                    <th>Arquivado</th>
+                    <td><?php if ($livro["arquivar_livro"] == 1) {
+                            echo "Sim";
                         } else {
-                            document.getElementById('titulo').value = data.titulo || '';
-                            document.getElementById('autor').value = data.autor || '';
-                            document.getElementById('editora').value = data.editora || '';
-                            document.getElementById('datapubli').value = data.datapubli || '';
-                            document.getElementById('edicao').value = data.edicao || '';
-                            document.getElementById('genero').value = data.genero || '';
-                            document.getElementById('unidades').value = data.unidades || '';
-                            document.getElementById('sinopse').value = data.sinopse || '';
-
-                            detailsContainer.classList.remove('hidden');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erro ao buscar livro:', error);
-                    });
-            } else {
-                detailsContainer.classList.add('hidden');
-            }
+                            echo "Não";
+                        } ?></td>
+                </tr>
+                
+                <tr>
+                    <th>Título</th>
+                    <td><?php echo $livro['nome_livro']; ?></td>
+                </tr>
+                <tr>
+                    <th>Autor</th>
+                    <td><?php echo $livro['autor']; ?></td>
+                </tr>
+                <tr>
+                    <th>Gênero</th>
+                    <td><?php echo $livro['genero']; ?></td>
+                </tr>
+                <tr>
+                    <th>Edição</th>
+                    <td><?php echo $livro['edicao']; ?></td>
+                </tr>
+                <tr>
+                    <th>Editora</th>
+                    <td><?php echo $livro['editora']; ?></td>
+                </tr>
+                <tr>
+                    <th>Data de Publicação</th>
+                    <td><?php echo $livro['data_publicacao']; ?></td>
+                </tr>
+                <tr>
+                    <th>Quantidade</th>
+                    <td><?php echo $livro['quantidade']; ?></td>
+                </tr>
+                <tr>
+                    <th>Descrição</th>
+                    <td><?php echo $livro['descricao']; ?></td>
+                </tr>
+            </table>
+    <?php
+        } else {
+            echo "Livro não encontrado.";
         }
-    </script>
+
+        $stmt->close();
+        $con->close();
+    }
+    ?>
+
+    
 </body>
+
 </html>

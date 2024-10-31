@@ -1,11 +1,11 @@
-/<?php
+<?php
 session_start();
 
     // Conexão com o banco de dados
     $host  = "localhost:3306";
     $user  = "root";
     $pass  = "";
-    $base  = "bd_login";
+    $base  = "etecguaru01";
     $con   = mysqli_connect($host, $user, $pass, $base);
     
     
@@ -23,13 +23,13 @@ session_start();
             $senha = md5($senha); // Se estiver usando MD5 para criptografar senhas
 
             // Consulta ao banco de dados
-            $sql = "SELECT * FROM usuario WHERE login = '$login' AND senha = '$senha'";
+            $sql = "SELECT * FROM bibliotecario WHERE login = '$login' AND senha = '$senha'";
             $resultado = mysqli_query($con, $sql);
 
             if (mysqli_num_rows($resultado) > 0) {
                 $dados = mysqli_fetch_array($resultado);
                 $_SESSION['logado'] = true;
-                $_SESSION['id_usuario'] = $dados['id_usuario'];
+                $_SESSION['id_bibli'] = $dados['id_bibli'];
               header("Location: home.php");
         
                 exit();

@@ -1,7 +1,7 @@
 
 <?php
-session_start();
-include('./verifica_login.php');
+
+include('verifica_login.php');
 ?>
 <!DOCTYPE html>
 
@@ -130,7 +130,7 @@ input[type="submit"]:hover {
         }
 
         input[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #0a6789;
   /* width: 50%;*/
     color: white;
     justify-content:center;
@@ -156,7 +156,7 @@ input[type="submit"]:hover {
 }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #676767;
         }
 
         a {

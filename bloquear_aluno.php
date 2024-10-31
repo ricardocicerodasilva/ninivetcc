@@ -1,6 +1,6 @@
 <?php
-session_start();
-include('./verifica_login.php');
+
+include('verifica_login.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -9,6 +9,7 @@ include('./verifica_login.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bloquear Aluno </title>
     <style>
+        /* Estilo básico */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -16,183 +17,109 @@ include('./verifica_login.php');
             padding: 0;
             background-image: url('assets/imgcadastro.jpg');
             background-repeat: no-repeat;
-          /*  background-attachment: fixed;*/
-            background-size: cover; /* Ajusta a largura para 100% e a altura para 50% */
-            height:auto;
-           /* background-position: center top 60px; /* Ajuste a posição da imagem de fundo */
+            background-size: cover;
+            height: auto;
         }
 
+        /* Logo */
         .image {
-            position: absolute; /* Fixa a imagem na tela */
-            top: 10px; /* Ajuste a posição vertical conforme necessário */
-            left: 20px; /* Ajuste a posição horizontal conforme necessário */
-            width: 100px; /* Ajuste o tamanho conforme necessário */
-            height: auto; /* Mantém a proporção da imagem */
-            z-index: 1000; /* Garante que a imagem esteja acima de outros elementos */
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 100px;
+            height: auto;
+            z-index: 1000;
         }
 
+        /* Título */
         h2 {
             text-align: center;
             margin-top: 40px;
-            color: bold;
-            font-size: 40px;        }
-
-        form {
-            width: 60%;
-            margin: 20px auto;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            background-image: url('assets/imgcadastro.jpg');
-            background-repeat: no-repeat;
-          /*  background-attachment: fixed;*/
-            background-size: auto; /* Ajusta a largura para 100% e a altura para 50% */
-            height:auto;
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
         }
 
-    
-
-.formulario {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    max-width: 800px;
-    margin: auto;
-    width: 60%;
-            background-color: #ffffff;
-            padding: 30px;
+        /* Formulário de busca */
+        form {
+            width: 50%;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            background-image: url('assets/imgcadastro.jpg');
-            background-repeat: no-repeat;
-          /*  background-attachment: fixed;*/
-            background-size: auto; /* Ajusta a largura para 100% e a altura para 50% */
-            height:auto;
-}
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-group input, 
-.form-group textarea {
-    padding: 45px;
-    font-size: 1rem;
-    border: 4px solid blackgray color;
-    border-radius: 4px;
-}
-
-.form-group textarea {
-    resize: vertical;
-}
-
-/* input[type="submit"] {
-    grid-column: span 2;
-    padding: 10px;
-    font-size: 1rem;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-} */
-
-input[type="submit"]:hover {
-    background-color: #45a049;
-    align-items: center;
-    left:180px;
-}
-
-    input[type="text"],
-        input[type="text"],
-        input[type="text"],
-        input[type="date"],
-        input[type="text"],
-        input[type="text"],
-        input[type="text"],
-        input[type="text"],
-        
-        textarea {
-            width: 100%;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 4px solid #cccccc;
-            border-radius: 6px;
-            box-sizing: border-box;
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
             font-size: 16px;
+            color: #333;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        textarea {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
         }
 
         input[type="submit"] {
-    background-color: #4CAF50;
-  /*/  width: 50%;*/
-    color: white;
-    justify-content:center;
-    padding: 12px 20px;
-    border: none;
-   margin: 0 auto; /* Centraliza horizontalmente */
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    position: relative;
-    display: flex;
-    left:180px;
-    
-}
-.button-container {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto; /* Centraliza horizontalmente */
-    align-items: center;
-  
-}
+            width: fit-content;
+            background-color: #0a6789;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: background-color 0.3s;
+        }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #676767;
         }
 
-        a {
-            color: #007bff;
-            text-decoration: none;
+        /* Tabela */
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        a:hover {
-            text-decoration: underline;
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
 
-        .activities {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .activities a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 0 10px;
-            background-color: #007bff;
+        th {
+            background-color: #0a6789;
             color: #fff;
-            text-decoration: none;
-            border-radius: 10px;
-            transition: background-color 0.3s ease;
+            font-weight: bold;
         }
 
-        .activities a:hover {
-            background-color: #0056b3;
+        td {
+            font-size: 15px;
+            color: #333;
         }
 
-        .activities h3 {
-            margin-bottom: 10px;
-            color: #333333;
+        textarea {
+            resize: none;
         }
-
-      
     </style>
 </head>
 <body>
@@ -262,8 +189,6 @@ if (isset($_POST['buscar'])) {
 }
 ?>
 
-<center>
-    <h3><a href='home.php'>Voltar para a página inicial</a></h3>
-</center>
+
 </body>
 </html>
