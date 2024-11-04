@@ -1,7 +1,14 @@
 <?php   
 include('verifica_login.php');
 require_once 'home.php';
+
+
+
 ?>
+
+<!-- Exibe a imagem de perfil, impedindo cache com o parâmetro ?time -->
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,8 +24,24 @@ require_once 'home.php';
     <a href='logout.php' class="botao-sair">Sair</a>
 </div>
 <div class="foto">
-    <a href='./ronie/configurarPerfil.php'>
-        <img src="<?php echo $foto_perfil ?>" width="50px" height="50px"  alt="Foto de Perfil">
+    <a href='alterar_perfil.php'>
+ <?php   
+$login = $_SESSION['login'] ?? null;
+// Consulta a imagem de perfil do banco de dados
+$sql = "SELECT foto_perfil FROM bibliotecario WHERE login = '$login'";
+$result = mysqli_query($con, $sql);
+
+
+
+// Define o caminho da imagem de perfil ou uma imagem padrão, caso não exista
+if ($result && mysqli_num_rows($result) > 0) {
+    $userData = mysqli_fetch_assoc($result);
+    $foto_perfil = !empty($userData['foto_perfil']) ? $userData['foto_perfil'] : 'assets/perfil/default.jpg';
+} else {
+    $foto_perfil = 'assets/perfil/default.jpg';
+}
+?>
+    <img src="<?php echo $foto_perfil . '?' . time(); ?>" width="50px" height="50px" alt="Imagem de Perfil">
     </a>
     <p><?php echo $_SESSION['login']; ?></p> <!-- Exibe o nome do usuário -->
 </div>

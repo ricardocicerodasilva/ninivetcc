@@ -10,20 +10,32 @@ include('verifica_login.php');
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background-color: #f4f4f4;
             margin: 0;
-            background-color: #f0f2f5;
+            padding: 0;
+            background-image: url('assets/imgcadastro.jpg');
+            background-repeat: no-repeat;
+            background-size: cover; /* Ajusta a largura para 100% e a altura para 50% */
+            height:auto;
+                       
         }
-
+        .image {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 100px;
+            height: auto;
+            z-index: 1000;
+        }
         form {
             background-color: #ffffff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            width: 500px;
+            height:400px;
+            margin:0 auto;
+            margin-top:120px;
         }
 
         h2 {
@@ -38,30 +50,41 @@ include('verifica_login.php');
         }
 
         input[type="text"], input[type="password"], input[type="file"] {
-            width: 100%;
+            width: 80%;
             padding: 8px;
             margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+        
+        
 
-        .button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 15px;
+        button[type="submit"] {
+    background-color: #0a6789;
+   width: 30%;
+    color: white;
+    justify-content:center;
+    padding: 12px 10px;
+    border: none;
+   margin: 0 auto; /* Centraliza horizontalmente */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    margin-top:40px;
+    
         }
-
-        .button:hover {
-            background-color: #45a049;
+        button[type="submit"]:hover {
+            background-color: #676767;
         }
     </style>
 </head>
 <body>
+<a href="home.php">
+        <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
+    </a>
 
 <form method="POST" enctype="multipart/form-data">
     <h2>Cadastrar Usuário</h2>
@@ -100,7 +123,7 @@ if (isset($_POST['cadastrar'])) {
     // Tratamento do upload da foto de perfil
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
         $foto = $_FILES['foto'];
-        $pasta_destino = "assets/";
+        $pasta_destino = "assets/perfil/";
         $nome_arquivo = uniqid() . "_" . basename($foto['name']);
         $caminho_arquivo = $pasta_destino . $nome_arquivo;
 

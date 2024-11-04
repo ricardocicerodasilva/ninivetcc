@@ -1,6 +1,7 @@
 <?php
 
 include('verifica_login.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -202,7 +203,7 @@ input[type="submit"]:hover {
 
     <h2>Cadastro de Livro</h2>
 
-    <form action="cadastro_livro.php" method="post" class="formulario">
+    <form action="cadastro_livro" method="post" class="formulario">
         <div class="form-group">
             <label for="nome">Título do Livro:</label>
             <input type="text" id="nome" name="nome" required>
@@ -248,5 +249,9 @@ input[type="submit"]:hover {
 </div>
 
     </form>
+    
+
+
+
 </body>
 </html>
