@@ -203,7 +203,26 @@ input[type="submit"]:hover {
 
     <h2>Cadastro de Aluno</h2>
 
-    <form action="cadastro_aluno.php" method="post" class="formulario">
+    <script>
+        function cadastrarAluno(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            fetch('cadastro_aluno.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert("Aluno cadastrado com sucesso");
+                event.target.reset();
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+    </script>
+
+
+<form onsubmit="cadastrarAluno(event)">
         <div class="form-group">
             <label for="rm">Rm Aluno:</label>
             <input type="text" id="rm" name="rm" required>

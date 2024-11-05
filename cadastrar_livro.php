@@ -203,7 +203,26 @@ input[type="submit"]:hover {
 
     <h2>Cadastro de Livro</h2>
 
-    <form action="cadastro_livro" method="post" class="formulario">
+    <script>
+        function cadastrarLivro(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            fetch('cadastro_livro.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert("Livro cadastrado com sucesso");
+                event.target.reset();
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+    </script>
+
+
+<form onsubmit="cadastrarLivro(event)">
         <div class="form-group">
             <label for="nome">Título do Livro:</label>
             <input type="text" id="nome" name="nome" required>

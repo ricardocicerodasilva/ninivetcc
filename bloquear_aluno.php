@@ -134,6 +134,8 @@ include('verifica_login.php');
 </form>
 
 <?php
+// Certifique-se de que $con está definido e conectado ao banco de dados
+
 if (isset($_POST['buscar'])) {
     $rm_aluno = $_POST['rm_aluno'];
 
@@ -147,37 +149,55 @@ if (isset($_POST['buscar'])) {
     if ($result->num_rows > 0) {
         $aluno = $result->fetch_assoc();
 ?>
-       <form action="bloqueio_aluno.php" method="post">
-    <h2>Detalhes do aluno</h2>
-    <table>
-        <tr>
-            <th>RM do aluno(a)</th>
-            <td><?php echo htmlspecialchars($aluno['rm_aluno']); ?></td>
-        </tr>
-        <tr>
-            <th>Nome do aluno(a)</th>
-            <td><?php echo htmlspecialchars($aluno['nome_aluno']); ?></td>
-        </tr>
-        <tr>
-            <th>Bloqueado</th>
-            <td><?php echo isset($aluno["bloqueado"]) && $aluno["bloqueado"] == 1 ? "Sim" : "Não"; ?></td>
-        </tr>
-    </table>
-    <?php
-    $bloqueado = $aluno['bloqueado'] ?? null; // Coalescência nula para evitar avisos
+        <script>
+            function bloquearAluno(event) {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                
+                fetch('bloqueio_aluno.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data || "Aluno bloqueado com sucesso");
+                    event.target.reset();
+                    
+                })
+                .catch(error => console.error('Erro:', error));
+            }
+        </script>
 
-    if ($bloqueado == 1) {
-        echo "<input type='hidden' name='motivo_bloq' id='motivo_bloq' value='null'>";
-    } else {
-        echo "Motivo do bloqueio:</p>";
-        echo "<textarea name='motivo_bloq' id='motivo_bloq' cols='30' rows='10' style='resize: none;' required></textarea></p>";
-    }
-    ?>
-    <input type="hidden" name="rm_aluno" value="<?php echo htmlspecialchars($aluno['rm_aluno']); ?>">
-    <input type="hidden" name="bloqueado" value="<?php echo htmlspecialchars($bloqueado); ?>">
+        <form onsubmit="bloquearAluno(event)">
+            <h2>Detalhes do aluno</h2>
+            <table>
+                <tr>
+                    <th>RM do aluno(a)</th>
+                    <td><?php echo htmlspecialchars($aluno['rm_aluno']); ?></td>
+                </tr>
+                <tr>
+                    <th>Nome do aluno(a)</th>
+                    <td><?php echo htmlspecialchars($aluno['nome_aluno']); ?></td>
+                </tr>
+                <tr>
+                    <th>Bloqueado</th>
+                    <td><?php echo isset($aluno["bloqueado"]) && $aluno["bloqueado"] == 1 ? "Sim" : "Não"; ?></td>
+                </tr>
+            </table>
+            <?php
+            $bloqueado = $aluno['bloqueado'] ?? null;
 
-    <input type="submit" name="bloquear" value="<?php echo $bloqueado == 1 ? 'Desbloquear' : 'Bloquear'; ?>">
-</form>
+            if ($bloqueado == 1) {
+                echo "<input type='hidden' name='motivo_bloq' id='motivo_bloq' value='null'>";
+            } else {
+                echo "Motivo do bloqueio:</p>";
+                echo "<textarea name='motivo_bloq' id='motivo_bloq' cols='30' rows='10' style='resize: none;' required></textarea></p>";
+            }
+            ?>
+            <input type="hidden" name="rm_aluno" value="<?php echo htmlspecialchars($aluno['rm_aluno']); ?>">
+            <input type="hidden" name="bloqueado" value="<?php echo htmlspecialchars($bloqueado); ?>">
+            <input type="submit" name="bloquear" value="<?php echo $bloqueado == 1 ? 'Desbloquear' : 'Bloquear'; ?>">
+        </form>
 
 <?php
     } else {
@@ -188,7 +208,6 @@ if (isset($_POST['buscar'])) {
     $con->close();
 }
 ?>
-
-
 </body>
 </html>
+

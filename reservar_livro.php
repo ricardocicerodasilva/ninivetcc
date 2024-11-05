@@ -119,7 +119,26 @@ include('verifica_login.php');
     <h2>Reservar Livro</h2>
 
 
-    <form action="reserva_livro.php" method="post">
+    <script>
+        function reservaLivro(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            fetch('reserva_livro.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert("Reserva realizada com sucesso");
+                event.target.reset();
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+    </script>
+
+
+<form onsubmit="reservarLivro(event)">
 
         <label for="idLivro">ID do livro</label>
         <input type="text" name="idLivro" id="idLivro" required></p>
@@ -131,7 +150,7 @@ include('verifica_login.php');
         <input type="date" name="dataReserva" id="dataReserva" required></p>
 
         <label for="dataDevolucao">Data de devolução:</label>
-        <input type="date" name="dataDevolucao" id="dataDevolucao" required ></p>
+        <input type="date" name="dataDevolucao" id="dataDevolucao" ></p>
 
         <input type="submit" value="Reservar">
     </form>

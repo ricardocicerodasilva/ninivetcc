@@ -25,7 +25,7 @@ if (isset($_POST['titulo'])) {
     $sinopse = $_POST['sinopse'];
 
     // Usar prepared statements para evitar SQL injection
-    $stmt = $con->prepare("UPDATE LIVRO SET nome_livro = ?, autor = ?, editora = ?, data_publi = ?, edicao = ?, genero = ?, quantidade = ?, descricao = ? ");
+    $stmt = $con->prepare("UPDATE LIVRO SET nome_livro = ?, autor = ?, editora = ?, data_publicacao = ?, edicao = ?, genero = ?, quantidade = ?, descricao = ? ");
     $stmt->bind_param("ssssssss", $titulo, $autor, $editora, $datapubli, $edicao, $genero, $unidades, $sinopse, );
 
     if ($stmt->execute()) {

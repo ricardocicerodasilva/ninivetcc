@@ -17,21 +17,30 @@ $login = $_SESSION['login'];
 
 // Verificar e fazer o upload da nova imagem de perfil
 if (isset($_FILES['arquivo']) && $_FILES['arquivo']['error'] == 0) {
+    // Verificar a extensão do arquivo para aceitar apenas formatos de imagem
     $extensao = strtolower(pathinfo($_FILES['arquivo']['name'], PATHINFO_EXTENSION));
-    $novoNomeArquivo = md5(time()) . '.' . $extensao;
-    $diretorio = "assets/perfil/";
+    $extensoesPermitidas = ['jpg', 'jpeg', 'png'];
+    
+    if (in_array($extensao, $extensoesPermitidas)) {
+        // Gerar um novo nome único para o arquivo
+        $novoNomeArquivo = md5(time() . $_FILES['arquivo']['name']) . '.' . $extensao;
+        $diretorio = "assets/perfil/";
 
-    // Move o arquivo e atualiza o caminho no banco de dados
-    if (move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio . $novoNomeArquivo)) {
-        $sqlInsertQuery = "UPDATE bibliotecario SET foto_perfil = '$diretorio$novoNomeArquivo' WHERE login = '$login'";
-        
-        if (mysqli_query($con, $sqlInsertQuery)) {
-            $msg = "Foto de perfil alterada com sucesso!";
+        // Verificar se a pasta tem permissões para escrita
+        if (move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio . $novoNomeArquivo)) {
+            // Atualizar o caminho da imagem no banco de dados
+            $sqlInsertQuery = "UPDATE bibliotecario SET foto_perfil = '$diretorio$novoNomeArquivo' WHERE login = '$login'";
+            
+            if (mysqli_query($con, $sqlInsertQuery)) {
+                $msg = "Foto de perfil alterada com sucesso!";
+            } else {
+                $msg = "Erro ao atualizar a foto de perfil no banco: " . mysqli_error($con);
+            }
         } else {
-            $msg = "Erro ao atualizar a foto de perfil no banco: " . mysqli_error($con);
+            $msg = "Erro ao mover o arquivo para o diretório.";
         }
     } else {
-        $msg = "Erro ao mover o arquivo para o diretório.";
+        $msg = "Formato de arquivo não permitido. Por favor, envie uma imagem JPEG ou PNG.";
     }
 } elseif (isset($_FILES['arquivo'])) {
     $msg = "Erro no upload do arquivo: " . $_FILES['arquivo']['error'];
@@ -55,8 +64,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 <html>
 <head>
     <title>Configurar Perfil</title>
-</head>
-<style>
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -64,10 +72,8 @@ if ($result && mysqli_num_rows($result) > 0) {
             padding: 0;
             background-image: url('assets/imgcadastro.jpg');
             background-repeat: no-repeat;
-          /*  background-attachment: fixed;*/
-            background-size: cover; /* Ajusta a largura para 100% e a altura para 50% */
-            height:auto;
-           /* background-position: center top 60px; /* Ajuste a posição da imagem de fundo */
+            background-size: cover;
+            height: auto;
         }
         .image {
             position: absolute;
@@ -77,98 +83,80 @@ if ($result && mysqli_num_rows($result) > 0) {
             height: auto;
             z-index: 1000;
         }
-        /* Centraliza o conteúdo */
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f3f3f3;
-    padding: 70px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    margin: auto;
-    margin-top:80px
-}
-
-/* Estilo para o título */
-.container h1 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-/* Estilo para o subtítulo */
-.container h3 {
-    font-size: 16px;
-    color: #555;
-    margin-top: 15px;
-}
-
-/* Estilo para a imagem de perfil */
-.container img {
-    border-radius: 50%;
-    border: 2px solid #ddd;
-    margin: 10px 0;
-}
-
-/* Estilo para o input de arquivo */
-.file {
-    margin-top: 10px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    
-}
-
-/* Estilo para o botão de envio */
-        
-    input[type="submit"] {
-    background-color: #0a6789;
-   width: 30%;
-    color: white;
-    justify-content:center;
-    padding: 12px 10px;
-    border: none;
-   margin: 0 auto; /* Centraliza horizontalmente */
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    position: relative;
-    display: flex;
-    margin-top:10px;
-    
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f3f3f3;
+            padding: 70px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 80px auto;
+        }
+        .container h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .container h3 {
+            font-size: 16px;
+            color: #555;
+            margin-top: 15px;
+        }
+        .container img {
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            margin: 10px 0;
+        }
+        .file {
+            margin-top: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        input[type="submit"] {
+            background-color: #0a6789;
+            width: 30%;
+            color: white;
+            padding: 12px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
         }
         input[type="submit"]:hover {
             background-color: #676767;
         }
-        
     </style>
 </head>
 <body>
 <a href="home.php">
-        <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
-    </a>
-   
-    <center>
-        <h2><?php if ($msg) echo "<p>$msg</p>"; ?></h2>
-        <form method="POST" action="alterar_perfil.php" enctype="multipart/form-data">
-        <div class="container">
+    <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
+</a>
+
+<center>
+    <h2><?php if ($msg) echo "<p>$msg</p>"; ?></h2>
+    <form method="POST" action="alterar_perfil.php" enctype="multipart/form-data">
+    <div class="container">
         <div>
-                <h1>Alterar Imagem</h1>
-                <h3>Imagem Atual</h3>
-                <!-- Verifica se o caminho da imagem está correto -->
-                <img src="<?php echo $foto_perfil; ?>" width="100px" height="100px" alt="Imagem de Perfil">
-                <h3>Envie a Imagem Nova</h3>
-                <input type="file" class="file" required name="arquivo" />
-            </div>
-            <input type="submit" class="button" value="Atualizar" />
-        </form>
-     
-    </center>
+            <h1>Alterar Imagem</h1>
+            <h3>Imagem Atual</h3>
+            <!-- Exibe a imagem atual com um parâmetro para evitar cache -->
+            <img src="<?php echo $foto_perfil . '?v=' . time(); ?>" width="100px" height="100px" alt="Imagem de Perfil">
+            <h3>Envie a Imagem Nova</h3>
+<input type="file" name="arquivo" accept=".jpg, .jpeg, .png" class="file">
+
+        </div>
+        <input type="submit" class="button" value="Atualizar" />
     </div>
+    </form>
+</center>
 </body>
 </html>

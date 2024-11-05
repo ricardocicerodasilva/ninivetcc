@@ -218,8 +218,26 @@ input[type="submit"]:hover {
 
 <h2>Atualizar Livro</h2>
 
-<form action="atualiza_livro.php" method="post" class="formulario">
-        
+<script>
+        function atualizarLivro(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            fetch('atualiza_livro.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert("Livro atualizado com sucesso");
+                event.target.reset();
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+    </script>
+
+
+<form onsubmit="atualizarLivro(event)">
     <div class="form-group">
         <label for="titulo">Título do Livro:</label>
         <input type="text" id="titulo" name="titulo" required>

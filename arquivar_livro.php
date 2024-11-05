@@ -117,15 +117,49 @@ include('verifica_login.php');
     }
        
     </style>
+
+
+ 
+<?php
+
+$con = mysqli_connect("localhost", "root", "", "etecguaru01");
+if (!$con) {
+    die("Falha na conexão com o banco de dados: " . mysqli_connect_error());
+}
+
+// Verifica se o formulário foi enviado para arquivar/ativar o livro
+if (isset($_POST['arquivar'])) {
+    $codigoLivro = $_POST['codigoLivro'];
+    $motivo = isset($_POST['motivo_arq']) ? $_POST['motivo_arq'] : null;
+    $novoStatus = $_POST['arquivar_livro'] == 1 ? 0 : 1;
+
+    // Atualiza o status de arquivamento no banco de dados
+    $sqlUpdate = "UPDATE livro SET arquivar_livro = ?, motivo_arq = ? WHERE id_livro = ?";
+    $stmt = $con->prepare($sqlUpdate);
+    $stmt->bind_param("isi", $novoStatus, $motivo, $codigoLivro);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Status do livro atualizado com sucesso!');</script>";
+    } else {
+        echo "<script>alert('Erro ao atualizar o status do livro.');</script>";
+    }
+    $stmt->close();
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquivar Livro</title>
+    
 </head>
 <body>
 <a href="home.php">
     <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
 </a>
-    <title>Arquivar</title>
-</head>
-
-<body>
     <form method="post">
         <label for="codigoLivro">Código do Livro:</label>
         <input type="number" name="codigoLivro" id="codigoLivro" required>
@@ -136,7 +170,7 @@ include('verifica_login.php');
     if (isset($_POST['buscar'])) {
         $codigoLivro = $_POST['codigoLivro'];
 
-        // Consultar o livro
+        // Consulta o livro no banco de dados
         $sql = "SELECT id_livro, nome_livro, arquivar_livro FROM livro WHERE id_livro = ?";
         $stmt = $con->prepare($sql);
         $stmt->bind_param("i", $codigoLivro);
@@ -146,7 +180,7 @@ include('verifica_login.php');
         if ($result->num_rows > 0) {
             $livro = $result->fetch_assoc();
     ?>
-            <form action="arquiva_livro.php" method="post">
+            <form method="post">
                 <h2>Detalhes do Livro</h2>
                 <table>
                     <tr>
@@ -159,50 +193,33 @@ include('verifica_login.php');
                     </tr>
                     <tr>
                         <th>Arquivado</th>
-                        <td>
-                            <?php 
-                            if (isset($livro["arquivar_livro"])) {
-                                echo $livro["arquivar_livro"] == 1 ? "Sim" : "Não"; 
-                            } else {
-                                echo "Não disponível";
-                            }
-                            ?>
-                        </td>
+                        <td><?php echo $livro['arquivar_livro'] == 1 ? "Sim" : "Não"; ?></td>
                     </tr>
                 </table>
 
                 <?php
-                if (isset($livro["arquivar_livro"]) && $livro["arquivar_livro"] == 1) {
-                    echo "<input type='hidden' name='motivo_arq' id='motivo_arq' value='null'>";
+                if ($livro['arquivar_livro'] == 1) {
+                    echo "<input type='hidden' name='motivo_arq' id='motivo_arq' value=''>";
                 } else {
-                    echo "Motivo do arquivamento: </p>";
-                    echo "<textarea name='motivo_arq' id='motivo_arq' cols='30' rows='10' style='resize: none;' required></textarea></p>";
+                    echo "<label>Motivo do arquivamento:</label><textarea name='motivo_arq' required></textarea>";
                 }
                 ?>
-                
+
                 <input type="hidden" name="codigoLivro" value="<?php echo htmlspecialchars($livro['id_livro']); ?>">
                 <input type="hidden" name="arquivar_livro" value="<?php echo htmlspecialchars($livro['arquivar_livro']); ?>">
 
-                <?php 
-                if (isset($livro["arquivar_livro"]) && $livro["arquivar_livro"] == 1) {
-                    echo "<input type='submit' name='arquivar' value='Ativar'>";
-                } else {
-                    echo "<input type='submit' name='arquivar' value='Arquivar'>";
-                } 
-                ?>
+                <input type="submit" name="arquivar" value="<?php echo $livro['arquivar_livro'] == 1 ? 'Ativar' : 'Arquivar'; ?>">
             </form>
 
     <?php
         } else {
             echo "Livro não encontrado.";
         }
-
         $stmt->close();
-        $con->close();
     }
+    $con->close();
     ?>
-
-    
 </body>
-
 </html>
+
+
