@@ -80,6 +80,8 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <li><a href="listar_acervo.php">Listar</a></li><br>
                     <li><a href="reservar_livro.php">Reservar</a></li><br>
                     <li><a href="reservas_livro.php">Reservas</a></li><br>
+                    <li><a href="confirma_reserva.php">Confirmar Reservas</a></li><br>
+                    <li><a href="devolucao.php">Devolução</a></li><br>
                 </ul>
             </li>
             <li>

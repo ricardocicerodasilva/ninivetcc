@@ -1,6 +1,17 @@
 <?php
-
 include('verifica_login.php');
+
+if (!isset($_SESSION['usuario_tipo'])) {
+    echo "Você não tem permissão para acessar esta página.";
+    exit;
+}
+
+if ($_SESSION['usuario_tipo'] !== 'master') {
+    echo "Você não tem permissão para acessar esta página.";
+    exit;
+}
+
+// O restante do código para o formulário
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -8,6 +19,7 @@ include('verifica_login.php');
     <meta charset="UTF-8">
     <title>Cadastrar Usuário</title>
     <style>
+       
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -83,8 +95,8 @@ include('verifica_login.php');
 </head>
 <body>
 <a href="home.php">
-        <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
-    </a>
+    <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
+</a>
 
 <form method="POST" enctype="multipart/form-data">
     <h2>Cadastrar Usuário</h2>
@@ -105,7 +117,7 @@ include('verifica_login.php');
 </html>
 
 <?php
-// Conexão com o banco de dados
+// Conexão com o banco de dados e código de cadastro
 $host = "localhost";
 $user = "root";
 $pass = "";

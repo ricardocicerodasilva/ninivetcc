@@ -10,13 +10,14 @@ include('verifica_login.php');
     <style>
          body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #d7d7d7;
             margin: 0;
             padding: 0;
-            background-image: url('assets/imgcadastro.jpg');
+            color:bold;
+          /*  background-image: url('assets/imgcadastro.jpg');
             background-repeat: no-repeat;
             background-size: cover;
-            height: auto;
+            height: auto;*/
         }
         .image {
             position: absolute;

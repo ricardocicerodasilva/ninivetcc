@@ -104,58 +104,50 @@ if (!$con) {
     die("Falha na conexão: " . mysqli_connect_error());
 }
 
-// Consulta para obter dados de reserva com o nome do livro
-$sql = "SELECT reserva.*, livro.nome_livro 
-        FROM reserva
-        JOIN livro ON reserva.id_livro = livro.id_livro"; // Ajuste no nome da coluna
 
-$result = $con->query($sql); // Executa a consulta e armazena o resultado em $result
+// Processar a atualização se o formulário for enviado
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['num_reserva'])) {
+    $id_notificacao = $_POST['num_reserva'];
 
-if ($result && $result->num_rows > 0) {
+    // Atualiza a notificação para marcada como lida
+    $update_sql = "UPDATE notificacao SET menssagem_lida = TRUE WHERE id_notificacao = ?";
+    $stmt = $con->prepare($update_sql);
+    $stmt->bind_param("i", $id_notificacao); // "i" indica que estamos esperando um inteiro
+
+    if ($stmt->execute()) {
+        echo "Notificação marcada como lida com sucesso!";
+    } else {
+        echo "Erro ao atualizar notificação: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+
+$sql = "SELECT * FROM notificacao WHERE menssagem_lida = FALSE";
+$result = $con->query($sql);
+
+if ($result->num_rows > 0) {
     echo "<center><table border='1'>
             <tr>
-                <th>ID</th>
-                <th>Data de Reserva</th>
-                <th>Data de Devolução</th>
-                <th>RM do aluno</th>
-                <th>Nome do livro</th>
-                <th>Ação</th>
+                <th>Título da Notificação</th>
+                <th>Mensagem</th>
+                <th>Lida</th>
             </tr>";
 
     // Exibindo cada linha de dados
     while ($row = $result->fetch_assoc()) {
-
-        $num_reserva = $row["num_reserva"];
-        $sql_confirma = "SELECT * FROM confirma_reserva WHERE num_reserva = '$num_reserva'";
-        $result_confirma = $con->query($sql_confirma);
-        
-        $disponivel = true; 
-
-        if ($result_confirma && $result_confirma->num_rows > 0) {
-            $confirma_row = $result_confirma->fetch_assoc();
-            $disponivel = !empty($confirma_row["disponibilidade"]) ? $confirma_row["disponibilidade"] : false;
-        }
-
-        if (!$disponivel) {
-            continue;
-        }
-
-        echo "<tr>
-                <td>" . $row["num_reserva"] . "</td>
-                <td>" . $row["data_reserva"] . "</td>
-                <td>" . $row["data_devolucao"] . "</td>
-                <td>" . $row["rm_aluno"] . "</td>
-                <td>" . $row["nome_livro"] . "</td>
+        echo "
+            <tr>
+                <td>" . htmlspecialchars($row["titulo_notificacao"]) . "</td>
+                <td>" . htmlspecialchars($row["menssagem_notificacao"]) . "</td>
                 <td>                
-                    <form method='post' action='confirma_reserva.php'>
-                        <input type='hidden' value='" . $row["num_reserva"] . "' name='num_reserva'>
-                        <input type='hidden' value='" . $row["rm_aluno"] . "' name='rm_aluno'>
-                        <input type='submit' value='confirmar'>
+                    <form method='post'>
+                        <input type='hidden' value='" . $row["id_notificacao"] . "' name='num_reserva'>
+                        <input type='submit' name='buscar' value='Confirmar'>
                     </form>
                 </td>
-              </tr>";
+            </tr>";
     }
-
     echo "</table></center>";
 } else {
     echo "Nenhum resultado encontrado.";
@@ -163,6 +155,3 @@ if ($result && $result->num_rows > 0) {
 
 $con->close();
 ?>
-<center>
-    <h3><a href='home.php'>Voltar para a página inicial</a></h3>
-</center>

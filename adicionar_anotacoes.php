@@ -120,7 +120,26 @@
 
 <h2>Anotações</h2>
 
-<form method="post">
+<script>
+        function anotacoes(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            fetch('adicionar_anotacoes.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(" cadastrado com sucesso");
+                event.target.reset();
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+    </script>
+
+<form onsubmit="anotacoes(event)">
+
     <div class="form-group">
         <label for="sinopse"></label>
         <textarea id="sinopse" name="sinopse" required></textarea>

@@ -6,9 +6,12 @@ CREATE TABLE bibliotecario(
     login varchar (30) not null UNIQUE,
 	senha varchar (255) NOT NULL,
     foto_perfil varchar(255) default './assets/default.png',
-    usuario_tipo ENUM ('comum', 'master') DEFAULT 'comum'
+    usuario_tipo varchar(20)
 );
 INSERT INTO bibliotecario (login, senha, usuario_tipo) VALUES ('admin', MD5('senha123'), 'master');
+INSERT INTO bibliotecario (login, senha, usuario_tipo) VALUES ('elvira', MD5('123'), 'comum');
+
+
 
 
 CREATE TABLE aluno (
@@ -29,7 +32,7 @@ CREATE TABLE livro(
 	data_cadastro timestamp DEFAULT current_timestamp,
 	arquivar_livro boolean DEFAULT false,
 	motivo_arq varchar(50),
-	nome_livro varchar(30) NOT NULL,
+	nome_livro varchar(30) NOT NULL ,
 	autor varchar(30),
 	genero varchar(30),
 	edicao int(4),
@@ -75,6 +78,32 @@ anotacao varchar (30),
 data_anotacao date
 
 );
+
+CREATE TABLE notificacao(
+	id_notificacao int(4) PRIMARY KEY AUTO_INCREMENT,
+    titulo_notificacao varchar(30) NOT NULL,
+    menssagem_notificacao varchar(100) NOT NULL,
+	data_notificacao timestamp DEFAULT current_timestamp,
+    menssagem_lida boolean DEFAULT false,
+	rm_aluno int(4),
+	id_bibli int(4),
+	FOREIGN KEY (rm_aluno) REFERENCES aluno (rm_aluno) ON DELETE CASCADE,
+	FOREIGN KEY (id_bibli) REFERENCES bibliotecario (id_bibli) ON DELETE CASCADE	
+);
+
+CREATE TABLE relatorio(
+	id_relatorio int(4) PRIMARY KEY AUTO_INCREMENT,
+	data_relatorio timestamp DEFAULT current_timestamp,
+	livros_cadastrados int(4) NOT NULL,
+    livros_arquivados int(4) NOT NULL,
+    total_livros int(4) NOT NULL,
+    alunos_cadastrados int(4) NOT NULL,
+    alunos_bloqueados int(4) NOT NULL,
+    livros_reservados int(4) NOT NULL,
+    livros_devolvidos int(4) NOT NULL
+);
+
+
 
 INSERT INTO livro (nome_livro, autor, genero, edicao, editora, data_publicacao, quantidade, descricao) VALUES
 ('O Senhor dos Anéis', 'J.R.R. Tolkien', 'Fantasia', 1, 'HarperCollins', '1954-07-29', 5, 'Uma das maiores obras da fantasia.'),
