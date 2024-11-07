@@ -224,43 +224,75 @@ input[type="submit"]:hover {
 
 <form onsubmit="cadastrarLivro(event)">
         <div class="form-group">
-            <label for="nome">Título do Livro:</label>
-            <input type="text" id="nome" name="nome" required>
+            <label for="titulo">Título do Livro:</label>
+            <input type="text" id="titulo" name="titulo" required>
         </div>
-
+        <div class="form-group">
+            <label for="subtitulo">Subtítulo do Livro:</label>
+            <input type="text" id="subtitulo" name="subtitulo" required>
+        </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="serie">Série/coleção:</label>
+            <input type="text" id="serie" name="serie" required>
+        </div>
         <div class="form-group">
             <label for="autor">Autor:</label>
             <input type="text" id="autor" name="autor" required>
         </div>
-
+    
         <div class="form-group">
             <label for="editora">Editora:</label>
             <input type="text" id="editora" name="editora" required>
         </div>
-
+        <div class="form-group">
+            <label for="datacad">Data Cadastro:</label>
+            <input type="date" id="datacad" name="datacad" required>
+        </div>
         <div class="form-group">
             <label for="datapubli">Data de Publicação:</label>
             <input type="date" id="datapubli" name="datapubli" required>
         </div>
-
+        <div class="form-group">
+            <label for="cutter">Cutter:</label>
+            <input type="text" id="cutter" name="cutter" required>
+        </div>
+        <div class="form-group">
+            <label for="aquisicao">Aquisição:</label>
+            <input type="text" id="aquisicao" name="aquisicao" required>
+        </div>
+        <div class="form-group">
+            <label for="exemplar">Exemplar:</label>
+            <input type="number" id="exemplar" name="exemplar" required>
+        </div>
         <div class="form-group">
             <label for="edicao">Edição:</label>
-            <input type="number" id="edicao" name="edicao" required>
+            <input type="text" id="edicao" name="edicao" required>
         </div>
-
         <div class="form-group">
-            <label for="genero">Gênero:</label>
-            <input type="text" id="genero" name="genero" required>
+            <label for="cdd">Cdd:</label>
+            <input type="number" id="cdd" name="cdd" required>
         </div>
-
         <div class="form-group">
-            <label for="unidade">Unidades:</label>
-            <input type="number" id="unidade" name="unidade" required>
+            <label for="volume">Volume:</label>
+            <input type="text" id="volume" name="volume" required>
         </div>
-
         <div class="form-group">
-            <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao" rows="4" required></textarea>
+            <label for="local">local:</label>
+            <input type="text" id="local" name="local" required>
+        </div>
+        <div class="form-group">
+            <label for="editor">Editor:</label>
+            <input type="text" id="editor" name="editor" required>
+        </div>
+        <div class="form-group">
+            <label for="lingua">Lingua:</label>
+            <input type="text" id="lingua" name="lingua" required>
+        </div>
+        <div class="form-group">
+            <label for="observacao">Observação:</label>
+            <textarea id="observacao" name="observacao" rows="4" required></textarea>
         </div><br>
 
         <div class="button-container">

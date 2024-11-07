@@ -30,6 +30,3 @@ if ($con->query($sql) === TRUE) {
 }
 $con->close();
 ?>
-<center>
-<h3><a href='home.php'>Voltar para a página inicial</a></h3>
-</center>

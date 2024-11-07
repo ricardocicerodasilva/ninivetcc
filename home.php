@@ -1,12 +1,8 @@
 <?php   
 include('verifica_login.php');
-require_once 'home.php';
-
 
 
 ?>
-
-<!-- Exibe a imagem de perfil, impedindo cache com o parâmetro ?time -->
 
 
 
@@ -34,6 +30,10 @@ $result = mysqli_query($con, $sql);
 
 
 // Define o caminho da imagem de perfil ou uma imagem padrão, caso não exista
+$login = $_SESSION['login'] ?? null;
+$sql = "SELECT foto_perfil FROM bibliotecario WHERE login = '$login'";
+$result = mysqli_query($con, $sql);
+
 if ($result && mysqli_num_rows($result) > 0) {
     $userData = mysqli_fetch_assoc($result);
     $foto_perfil = !empty($userData['foto_perfil']) ? $userData['foto_perfil'] : 'assets/perfil/default.jpg';
@@ -41,7 +41,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     $foto_perfil = 'assets/perfil/default.jpg';
 }
 ?>
-    <img src="<?php echo $foto_perfil . '?' . time(); ?>" width="50px" height="50px" alt="Imagem de Perfil">
+   <img src="<?php echo $foto_perfil . '?' . time(); ?>" width="50px" height="50px" alt="Imagem de Perfil">
     </a>
     <p><?php echo $_SESSION['login']; ?></p> <!-- Exibe o nome do usuário -->
 </div>
@@ -80,14 +80,12 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <li><a href="listar_acervo.php">Listar</a></li><br>
                     <li><a href="reservar_livro.php">Reservar</a></li><br>
                     <li><a href="reservas_livro.php">Reservas</a></li><br>
-                    <li><a href="confirma_reserva.php">Confirmar Reservas</a></li><br>
-                    <li><a href="devolucao.php">Devolução</a></li><br>
+                                  
                 </ul>
             </li>
             <li>
-                <a href="#">Notificações</a>
-                <ul class="submenu">
-                    <li><a href="notificacoes.php">Visualizar notificações</a></li>
+                <a href="notificacoes.php">Notificações</a>
+                
                    
                 </ul>
             </li>

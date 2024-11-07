@@ -93,61 +93,91 @@ include('verifica_login.php');
     <?php
 
 
-// Conexão com o banco de dados
-$host  = "localhost:3306";
-$user  = "root";
-$pass  = "";
-$base  = "etecguaru01";
-$con   = mysqli_connect($host, $user, $pass, $base);
-
-if (!$con) {
-    die("Falha na conexão: " . mysqli_connect_error());
-}
-
-
-// Processar a atualização se o formulário for enviado
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['num_reserva'])) {
-    $id_notificacao = $_POST['num_reserva'];
-
-    // Atualiza a notificação para marcada como lida
-    $update_sql = "UPDATE notificacao SET menssagem_lida = TRUE WHERE id_notificacao = ?";
-    $stmt = $con->prepare($update_sql);
-    $stmt->bind_param("i", $id_notificacao); // "i" indica que estamos esperando um inteiro
-
-    if ($stmt->execute()) {
-        echo "Notificação marcada como lida com sucesso!";
-    } else {
-        echo "Erro ao atualizar notificação: " . $stmt->error;
-    }
-
-    $stmt->close();
-}
-
-$sql = "SELECT * FROM notificacao WHERE menssagem_lida = FALSE";
+$sql = "SELECT * FROM reserva";
 $result = $con->query($sql);
 
 if ($result->num_rows > 0) {
     echo "<center><table border='1'>
             <tr>
-                <th>Título da Notificação</th>
-                <th>Mensagem</th>
-                <th>Lida</th>
+                <th>ID</th>
+                <th>Data de Reserva</th>
+                <th>Data de Devolução</th>
+                <th>RM do Aluno</th>
+                <th>Nome do Livro</th>
+                <th>Ação</th>
             </tr>";
 
     // Exibindo cada linha de dados
     while ($row = $result->fetch_assoc()) {
-        echo "
-            <tr>
-                <td>" . htmlspecialchars($row["titulo_notificacao"]) . "</td>
-                <td>" . htmlspecialchars($row["menssagem_notificacao"]) . "</td>
-                <td>                
-                    <form method='post'>
-                        <input type='hidden' value='" . $row["id_notificacao"] . "' name='num_reserva'>
-                        <input type='submit' name='buscar' value='Confirmar'>
+
+        $num_reserva = $row["num_reserva"];
+        $sql_confirma = "SELECT * FROM confirma_reserva WHERE num_reserva = '$num_reserva'";
+        $result_confirma = $con->query($sql_confirma);
+
+        $disponivel = true;
+
+        if ($result_confirma->num_rows > 0) {
+            $confirma_row = $result_confirma->fetch_assoc();
+
+            $confirmar_reserva = $confirma_row["confirmar_reserva"];
+            $confirmar_devolucao = $confirma_row["confirmar_devolucao"];
+
+            if ($confirmar_reserva && $confirmar_devolucao) {
+                $disponivel = false;
+            } else {
+                $disponivel = !empty($confirma_row["livro_disponivel"]) ? $confirma_row["livro_disponivel"] : false;
+            }
+        }
+
+        if (!$disponivel) {
+            $num_reserva = $row['num_reserva'];
+            $sql_verifica_devolucao = "SELECT * FROM confirma_reserva WHERE num_reserva = '$num_reserva' AND confirmar_devolucao = FALSE";
+            $result_verifica_devolucao = $con->query($sql_verifica_devolucao);
+
+            if ($result_verifica_devolucao->num_rows > 0) {
+
+                echo "<tr>
+                <td>" . $row["num_reserva"] . "</td>
+                <td>" . $row["data_reserva"] . "</td>
+                <td>" . $row["data_devolucao"] . "</td>
+                <td>" . $row["rm_aluno"] . "</td>
+                <td>" . $row["id_livro"] . "</td>
+                <td>
+                    <form method='post' action='devolucao.php'>
+                        <input type='hidden' value='" . $row["num_reserva"] . "' name='num_reserva'>
+                        <input type='hidden' value='" . $row["rm_aluno"] . "' name='rm_aluno'>
+                        <input type='submit' value='Devolução'>
                     </form>
                 </td>
             </tr>";
+            } else {
+                echo "<tr>
+                <td>" . $row["num_reserva"] . "</td>
+                <td>" . $row["data_reserva"] . "</td>
+                <td>" . $row["data_devolucao"] . "</td>
+                <td>" . $row["rm_aluno"] . "</td>
+                <td>" . $row["id_livro"] . "</td>
+                <td>Devolução já confirmada</td>
+            </tr>";
+            }
+        } else {
+            echo "<tr>
+            <td>" . $row["num_reserva"] . "</td>
+            <td>" . $row["data_reserva"] . "</td>
+            <td>" . $row["data_devolucao"] . "</td>
+            <td>" . $row["rm_aluno"] . "</td>
+            <td>" . $row["id_livro"] . "</td>
+            <td>
+                <form method='post' action='confirma_reserva.php'>
+                    <input type='hidden' value='" . $row["num_reserva"] . "' name='num_reserva'>
+                    <input type='hidden' value='" . $row["rm_aluno"] . "' name='rm_aluno'>
+                    <input type='submit' value='Confirmar'>
+                </form>
+            </td>
+        </tr>";
+        }
     }
+
     echo "</table></center>";
 } else {
     echo "Nenhum resultado encontrado.";
@@ -155,3 +185,4 @@ if ($result->num_rows > 0) {
 
 $con->close();
 ?>
+

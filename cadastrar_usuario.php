@@ -1,15 +1,13 @@
 <?php
 include('verifica_login.php');
 
-if (!isset($_SESSION['usuario_tipo'])) {
-    echo "Você não tem permissão para acessar esta página.";
-    exit;
+// Verifica se o usuário está logado e se a sessão 'usuario_tipo' está definida
+if (!isset($_SESSION['loggedin']) || $_SESSION['usuario_tipo'] !== 'master') {
+    // Redireciona para a página inicial ou exibe uma mensagem de acesso negado
+    header("Location: home.php");
+    exit();
 }
 
-if ($_SESSION['usuario_tipo'] !== 'master') {
-    echo "Você não tem permissão para acessar esta página.";
-    exit;
-}
 
 // O restante do código para o formulário
 ?>
@@ -124,33 +122,26 @@ $pass = "";
 $base = "etecguaru01";
 $con = new mysqli($host, $user, $pass, $base);
 
-if ($con->connect_error) {
-    die("Falha na conexão: " . $con->connect_error);
-}
-
-if (isset($_POST['cadastrar'])) {
-    $login = $_POST['login'];
-    $senha = md5($_POST['senha']);
-
-    // Tratamento do upload da foto de perfil
-    if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
-        $foto = $_FILES['foto'];
-        $pasta_destino = "assets/perfil/";
-        $nome_arquivo = uniqid() . "_" . basename($foto['name']);
-        $caminho_arquivo = $pasta_destino . $nome_arquivo;
-
-        if (move_uploaded_file($foto['tmp_name'], $caminho_arquivo)) {
-            $stmt = $con->prepare("INSERT INTO bibliotecario (login, senha, foto_perfil) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $login, $senha, $caminho_arquivo);
-            $stmt->execute();
-            $stmt->close();
-            echo "Usuário cadastrado com sucesso!";
-        } else {
-            echo "Erro ao salvar a imagem.";
-        }
-    } else {
-        echo "Erro ao fazer o upload da imagem.";
+if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
+    $foto = $_FILES['foto'];
+    $pasta_destino = "assets/perfil/";
+    if (!is_dir($pasta_destino)) {
+        mkdir($pasta_destino, 0777, true);
     }
+    $nome_arquivo = uniqid() . "_" . basename($foto['name']);
+    $caminho_arquivo = $pasta_destino . $nome_arquivo;
+
+    if (move_uploaded_file($foto['tmp_name'], $caminho_arquivo)) {
+        $stmt = $con->prepare("INSERT INTO bibliotecario (login, senha, foto_perfil) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $login, $senha, $caminho_arquivo);
+        $stmt->execute();
+        $stmt->close();
+        echo "<p>Usuário cadastrado com sucesso!</p>";
+    } else {
+        echo "<p>Erro ao salvar a imagem.</p>";
+    }
+} else {
+    echo "<p>Erro ao fazer o upload da imagem.</p>";
 }
 
 $con->close();

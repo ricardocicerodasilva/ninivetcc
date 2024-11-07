@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Redireciona de volta para a página de reservas
-    header("Location: confirmarReserva.php"); // Altere para o nome correto da página
+    header("Location: notificacoes.php"); // Altere para o nome correto da página
     exit();
 }
 

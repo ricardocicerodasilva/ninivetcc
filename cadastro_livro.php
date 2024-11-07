@@ -13,23 +13,31 @@ $base = "etecguaru01";
 $con = mysqli_connect($host, $user, $pass, $base);
 
 // Obtenha os dados do formulário
-$nome = $_POST['nome'];
+
+$titulo = $_POST['titulo'];
+$subtitulo = $_POST['subtitulo'];
+$serie = $_POST['serie'];
 $autor = $_POST['autor'];
 $editora = $_POST['editora'];
+$datacad = $_POST['datacad'];
 $datapubli = $_POST['datapubli'];
+$cutter = $_POST['cutter'];
+$aquisicao = $_POST['aquisicao'];
+$exemplar = $_POST['exemplar'];
 $edicao = $_POST['edicao'];
-$genero = $_POST['genero'];
-$unidade = (int)$_POST['unidade']; // Converta para inteiro
-$descricao = $_POST['descricao'];
-
-
+$cdd = $_POST['cdd'];
+$volume = $_POST['volume'];
+$local = (int)$_POST['local']; // Converta para inteiro
+$editor = $_POST['editor'];
+$lingua = $_POST['lingua'];
+$observacao = $_POST['observacao'];
 
 
 // Usar prepared statements para evitar SQL injection
-$stmt = $con->prepare("INSERT INTO livro (nome_livro, autor, genero, edicao, editora, data_publicacao, quantidade, descricao) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt = $con->prepare("INSERT INTO livro (data_cadastro, cdd, cutter, autor, nome_livro, subtitulo, série_colecao, edicao,volume,editor,data_publicacao,aquisicao,exemplar,lingua,observacao,local,capa_livro) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)");
 
 for ($i = 0; $i < $unidade; $i++) {
-    $stmt->bind_param("ssssssss", $nome, $autor, $genero, $edicao, $editora, $datapubli, $unidade, $descricao);
+    $stmt->bind_param("sssssssssssssssss", $datacad, $cdd, $cutter, $autor, $titulo, $subtitulo, $serie, $edicao,$volume,$editor,$datapubli,$aquisicao,$exemplar,$lingua,$observacao,$local,$capa_livro);
     
     if ($stmt->execute()) {
         $last_id = $stmt->insert_id; 
@@ -42,6 +50,3 @@ for ($i = 0; $i < $unidade; $i++) {
 $stmt->close();
 $con->close();
 ?>
-<center>
-<h3><a href='home.php'>Voltar para a página inicial</a></h3>
-</center>

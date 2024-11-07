@@ -1,4 +1,3 @@
-
 <?php
 include('verifica_login.php');
 $num_reserva = $_POST['num_reserva'];
@@ -35,7 +34,7 @@ $rm_aluno = $_POST['rm_aluno'];
 
         if ($con->query($sql) === TRUE) {
             echo "Confirmação realizado com sucesso!";
-            header("Location: confirma_Reserva.php"); 
+            header("Location: confirmarReserva.php"); 
             exit();
         } else {
             echo "Erro ao Confirmação o Livro: " . $con->error;

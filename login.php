@@ -16,7 +16,7 @@ if (!$con) {
 if (isset($_POST['btn-entrar'])) {
     $erros = array();
 
-    if (!empty($_POST['login']) && !empty($_POST['senha'])) {
+    if (!empty($_POST['loggedin']) && !empty($_POST['senha'])) {
         $login = mysqli_escape_string($con, $_POST['login']);
         $senha = mysqli_escape_string($con, $_POST['senha']);
         $senha = md5($senha); // Se estiver usando MD5 para criptografar senhas
@@ -29,9 +29,9 @@ if (isset($_POST['btn-entrar'])) {
             $dados = mysqli_fetch_array($resultado);
             print_r($dados); // Verifica o que está sendo recuperado
 
-            $_SESSION['logado'] = true;
+            $_SESSION['loggedin'] = true;
             $_SESSION['id_bibli'] = $dados['id_bibli'];
-            $_SESSION['login'] = $dados['login'];
+            $_SESSION['loggedin'] = $dados['login'];
             $_SESSION['usuario_tipo'] = $dados['usuario_tipo']; // Armazena `usuario_tipo` na sessão
 
             header("Location: home.php");

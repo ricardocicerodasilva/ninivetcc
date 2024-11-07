@@ -10,7 +10,7 @@ CREATE TABLE bibliotecario(
 );
 INSERT INTO bibliotecario (login, senha, usuario_tipo) VALUES ('admin', MD5('senha123'), 'master');
 INSERT INTO bibliotecario (login, senha, usuario_tipo) VALUES ('elvira', MD5('123'), 'comum');
-
+INSERT INTO bibliotecario (login, senha, usuario_tipo) VALUES ('master', MD5('123'), 'master');
 
 
 
@@ -31,15 +31,23 @@ CREATE TABLE livro(
 	id_livro int(4) PRIMARY KEY AUTO_INCREMENT,
 	data_cadastro timestamp DEFAULT current_timestamp,
 	arquivar_livro boolean DEFAULT false,
-	motivo_arq varchar(50),
-	nome_livro varchar(30) NOT NULL ,
-	autor varchar(30),
-	genero varchar(30),
+	motivo_arq varchar(50),    
+    cdd varchar(10),
+    cutter varchar(5),
+	autor varchar(50),
+	nome_livro varchar(50) NOT NULL ,
+    subtitulo varchar(50),
+    série_colecao varchar(50),
 	edicao int(4),
-	editora varchar(30),
-	data_publicacao date,
-	quantidade int(4),
-	descricao varchar(50)
+    volume int(4),
+	local varchar(50),
+    editor varchar(50),
+	data_publicacao int(4),
+    aquisicao varchar(50),
+    exemplar int(4),
+    lingua varchar(50),
+    observacao varchar(50),
+	capa_livro varchar(255) default './assets/capa/default.jpg'
 );
 
 CREATE TABLE reserva (

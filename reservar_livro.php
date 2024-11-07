@@ -138,7 +138,7 @@ include('verifica_login.php');
     </script>
 
 
-<form onsubmit="reservarLivro(event)">
+<form onsubmit="reservaLivro(event)">
 
         <label for="idLivro">ID do livro</label>
         <input type="text" name="idLivro" id="idLivro" required></p>
@@ -157,7 +157,7 @@ include('verifica_login.php');
 
 
     <script>
-        // Função para formatar a data no formato YYYY-MM-DD
+    /*    // Função para formatar a data no formato YYYY-MM-DD
         function formatDate(date) {
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0'); // Mês começa em 0
@@ -187,7 +187,7 @@ include('verifica_login.php');
 
             // Habilita o campo de devolução
             document.getElementById("dataDevolucao").disabled = false;
-        });
+        });*/
     </script>
 </body>
 
