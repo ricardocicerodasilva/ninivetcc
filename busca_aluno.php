@@ -1,18 +1,7 @@
 <?php
 include('verifica_login.php');
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$base = "etecguaru01";
-
-// Conexão com o banco de dados
-$con = mysqli_connect($host, $user, $pass, $base);
-
-if (mysqli_connect_errno()) {
-    echo json_encode(['error' => 'Falha na conexão com o banco de dados: ' . mysqli_connect_error()]);
-    exit();
-}
+include('includes/db.php');
 
 // Verificando se o campo de busca foi enviado
 if (isset($_POST['rm'])) {

@@ -1,6 +1,7 @@
 <?php
 
 include('verifica_login.php');
+include('includes/db.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -122,10 +123,6 @@ include('verifica_login.php');
  
 <?php
 
-$con = mysqli_connect("localhost", "root", "", "etecguaru01");
-if (!$con) {
-    die("Falha na conexão com o banco de dados: " . mysqli_connect_error());
-}
 
 // Verifica se o formulário foi enviado para arquivar/ativar o livro
 if (isset($_POST['arquivar'])) {

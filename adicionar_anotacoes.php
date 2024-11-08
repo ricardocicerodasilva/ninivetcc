@@ -1,3 +1,9 @@
+<?php
+
+include('verifica_login.php');
+include('includes/db.php');
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -158,18 +164,6 @@
 
 
 <?php
-$host = "localhost:3306";
-$user = "root";
-$pass = "";
-$base = "etecguaru01";
-
-// Conexão com o banco de dados
-$con = mysqli_connect($host, $user, $pass, $base);
-
-// Verifica se a conexão foi bem-sucedida
-if (!$con) {
-    die("Falha na conexão: " . mysqli_connect_error());
-}
 
 // Executa a inserção somente se o formulário tiver sido enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

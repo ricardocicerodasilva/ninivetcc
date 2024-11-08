@@ -1,6 +1,7 @@
 <?php
 
 include('verifica_login.php');
+include('includes/db.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">

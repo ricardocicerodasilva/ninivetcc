@@ -1,16 +1,8 @@
 <?php
 session_start();
 
-// Conexão com o banco de dados
-$host  = "localhost:3306";
-$user  = "root";
-$pass  = "";
-$base  = "etecguaru01";
-$con   = mysqli_connect($host, $user, $pass, $base);
+include('includes/db.php');
 
-if (!$con) {
-    die("Falha na conexão: " . mysqli_connect_error());
-}
 
 // Verifica se o botão foi pressionado e processa o login
 if (isset($_POST['btn-entrar'])) {

@@ -95,16 +95,7 @@
 <?php
 session_start(); // Inicia a sessão
 
-// Conexão com o banco de dados
-$host  = "localhost:3306";
-$user  = "root";
-$pass  = "";
-$base  = "etecguaru01";
-$con   = mysqli_connect($host, $user, $pass, $base);
-
-if ($con->connect_error) {
-    die("Falha na conexão: " . $con->connect_error);
-}
+include('includes/db.php');
 
 // Se o usuário já estiver logado, redirecione para a página inicial
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {

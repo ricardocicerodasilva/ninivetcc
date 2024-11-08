@@ -29,7 +29,7 @@ CREATE TABLE aluno (
 
 CREATE TABLE livro(
 	id_livro int(4) PRIMARY KEY AUTO_INCREMENT,
-	data_cadastro timestamp DEFAULT current_timestamp,
+	data_cadastro date,
 	arquivar_livro boolean DEFAULT false,
 	motivo_arq varchar(50),    
     cdd varchar(10),
@@ -37,7 +37,7 @@ CREATE TABLE livro(
 	autor varchar(50),
 	nome_livro varchar(50) NOT NULL ,
     subtitulo varchar(50),
-    série_colecao varchar(50),
+    serie_colecao varchar(50),
 	edicao int(4),
     volume int(4),
 	local varchar(50),
@@ -57,6 +57,8 @@ CREATE TABLE reserva (
 	rm_aluno int(4) NOT NULL,
 	id_livro  int(4) NOT NULL,
     login varchar (30),
+    status ENUM('ativo', 'devolvido') DEFAULT 'ativo',
+    notificado BOOLEAN DEFAULT FALSE,
 	FOREIGN KEY (rm_aluno) REFERENCES aluno (rm_aluno) ON DELETE CASCADE,
 	FOREIGN KEY (id_livro) REFERENCES livro (id_livro) ON DELETE CASCADE,
     FOREIGN KEY (login) REFERENCES bibliotecario (login) ON DELETE CASCADE
@@ -145,4 +147,5 @@ INSERT INTO reserva (data_reserva, data_devolucao, rm_aluno, id_livro) VALUES
 ('2024-10-02', '2024-10-16', 1002, '5'),
 ('2024-10-03', '2024-10-17', 1003, '8');
 
-select * from bibliotecario
+select * from reserva
+

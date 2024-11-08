@@ -2,14 +2,7 @@
 
 
 include('verifica_login.php');
-
-$host = "localhost";
-$user = "root";
-$pass = "";
-$base = "etecguaru01";
-
-// Conexão com o banco de dados
-$con = mysqli_connect($host, $user, $pass, $base);
+include('includes/db.php');
 
 $rm_aluno = $_POST['rm'];
 $nome_aluno = $_POST['nome'];

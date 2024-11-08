@@ -2,6 +2,7 @@
 
 include('verifica_login.php');
 
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -202,110 +203,103 @@ input[type="submit"]:hover {
 
 
     <h2>Cadastro de Livro</h2>
+ 
 
-    <script>
-        function cadastrarLivro(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            
-            fetch('cadastro_livro.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert("Livro cadastrado com sucesso");
+<script>
+    function cadastrarLivro(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+
+        fetch('cadastro_livro.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            if (data.includes("sucesso")) {
+                alert("Livro cadastrado com sucesso!");
                 event.target.reset();
-            })
-            .catch(error => console.error('Erro:', error));
-        }
-    </script>
+            } else {
+                alert("Erro ao cadastrar o livro: " + data);
+            }
+        })
+        .catch(error => console.error('Erro:', error));
+    }
+</script>
 
-
-<form onsubmit="cadastrarLivro(event)">
-        <div class="form-group">
-            <label for="titulo">Título do Livro:</label>
-            <input type="text" id="titulo" name="titulo" required>
-        </div>
-        <div class="form-group">
-            <label for="subtitulo">Subtítulo do Livro:</label>
-            <input type="text" id="subtitulo" name="subtitulo" required>
-        </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="serie">Série/coleção:</label>
-            <input type="text" id="serie" name="serie" required>
-        </div>
-        <div class="form-group">
-            <label for="autor">Autor:</label>
-            <input type="text" id="autor" name="autor" required>
-        </div>
-    
-        <div class="form-group">
-            <label for="editora">Editora:</label>
-            <input type="text" id="editora" name="editora" required>
-        </div>
-        <div class="form-group">
-            <label for="datacad">Data Cadastro:</label>
-            <input type="date" id="datacad" name="datacad" required>
-        </div>
-        <div class="form-group">
-            <label for="datapubli">Data de Publicação:</label>
-            <input type="date" id="datapubli" name="datapubli" required>
-        </div>
-        <div class="form-group">
-            <label for="cutter">Cutter:</label>
-            <input type="text" id="cutter" name="cutter" required>
-        </div>
-        <div class="form-group">
-            <label for="aquisicao">Aquisição:</label>
-            <input type="text" id="aquisicao" name="aquisicao" required>
-        </div>
-        <div class="form-group">
-            <label for="exemplar">Exemplar:</label>
-            <input type="number" id="exemplar" name="exemplar" required>
-        </div>
-        <div class="form-group">
-            <label for="edicao">Edição:</label>
-            <input type="text" id="edicao" name="edicao" required>
-        </div>
-        <div class="form-group">
-            <label for="cdd">Cdd:</label>
-            <input type="number" id="cdd" name="cdd" required>
-        </div>
-        <div class="form-group">
-            <label for="volume">Volume:</label>
-            <input type="text" id="volume" name="volume" required>
-        </div>
-        <div class="form-group">
-            <label for="local">local:</label>
-            <input type="text" id="local" name="local" required>
-        </div>
-        <div class="form-group">
-            <label for="editor">Editor:</label>
-            <input type="text" id="editor" name="editor" required>
-        </div>
-        <div class="form-group">
-            <label for="lingua">Lingua:</label>
-            <input type="text" id="lingua" name="lingua" required>
-        </div>
-        <div class="form-group">
-            <label for="observacao">Observação:</label>
-            <textarea id="observacao" name="observacao" rows="4" required></textarea>
-        </div>
-        <div class="form-group">
-        <label for="foto">Foto do livro:</label>
-    <input type="file" id="foto" name="foto" accept="image/*">
+<form onsubmit="cadastrarLivro(event)" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="titulo">Título do Livro:</label>
+        <input type="text" id="titulo" name="titulo" required>
     </div>
-        <div class="button-container">
-    <input type="submit" value="Cadastrar">
-</div>
-
-    </form>
-    
-
-
+    <div class="form-group">
+        <label for="subtitulo">Subtítulo do Livro:</label>
+        <input type="text" id="subtitulo" name="subtitulo" required>
+    </div>
+    <div class="form-group">
+        <label for="serie">Série/coleção:</label>
+        <input type="text" id="serie" name="serie" required>
+    </div>
+    <div class="form-group">
+        <label for="autor">Autor:</label>
+        <input type="text" id="autor" name="autor" required>
+    </div>
+    <div class="form-group">
+        <label for="datacad">Data Cadastro:</label>
+        <input type="date" id="datacad" name="datacad" required>
+    </div>
+    <div class="form-group">
+        <label for="datapubli">Data de Publicação:</label>
+        <input type="date" id="datapubli" name="datapubli" required>
+    </div>
+    <div class="form-group">
+        <label for="cutter">Cutter:</label>
+        <input type="text" id="cutter" name="cutter" required>
+    </div>
+    <div class="form-group">
+        <label for="aquisicao">Aquisição:</label>
+        <input type="text" id="aquisicao" name="aquisicao" required>
+    </div>
+    <div class="form-group">
+        <label for="exemplar">Exemplar:</label>
+        <input type="number" id="exemplar" name="exemplar" required>
+    </div>
+    <div class="form-group">
+        <label for="edicao">Edição:</label>
+        <input type="text" id="edicao" name="edicao" required>
+    </div>
+    <div class="form-group">
+        <label for="cdd">Cdd:</label>
+        <input type="number" id="cdd" name="cdd" required>
+    </div>
+    <div class="form-group">
+        <label for="volume">Volume:</label>
+        <input type="text" id="volume" name="volume" required>
+    </div>
+    <div class="form-group">
+        <label for="local">Local:</label>
+        <input type="text" id="local" name="local" required>
+    </div>
+    <div class="form-group">
+        <label for="editor">Editor:</label>
+        <input type="text" id="editor" name="editor" required>
+    </div>
+    <div class="form-group">
+        <label for="lingua">Língua:</label>
+        <input type="text" id="lingua" name="lingua" required>
+    </div>
+    <div class="form-group">
+        <label for="observacao">Observação:</label>
+        <textarea id="observacao" name="observacao" rows="4" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="foto">Foto do livro:</label>
+        <input type="file" id="foto" name="foto" accept="image/*">
+    </div>
+    <div class="button-container">
+        <input type="submit" value="Cadastrar">
+    </div>
+</form>
 
 </body>
 </html>

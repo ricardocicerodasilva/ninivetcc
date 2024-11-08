@@ -1,16 +1,7 @@
 <?php
+
 include('verifica_login.php');
-
-// Conexão com o banco de dados
-$host = "localhost:3306";
-$user = "root";
-$pass = "";
-$base = "etecguaru01";
-$con = mysqli_connect($host, $user, $pass, $base);
-
-if (!$con) {
-    die("Falha na conexão: " . mysqli_connect_error());
-}
+include('includes/db.php');
 
 // Consulta para obter as anotações
 $sql = "SELECT id_anotacao, anotacao, data_anotacao FROM anotacao ORDER BY data_anotacao DESC";

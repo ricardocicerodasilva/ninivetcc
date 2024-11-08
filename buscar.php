@@ -137,85 +137,126 @@ include('verifica_login.php');
 </head>
 
 <body>
-    <form method="post">
-        <label for="codigoLivro">Código do Livro:</label>
-        <input type="number" name="codigoLivro" id="codigoLivro" required>
-        <input type="submit" name="buscar" value="Buscar">
-    </form>
+<!-- Formulário de Busca -->
+<form method="post">
+    <label for="nome_livro">Título:</label>
+    <input type="text" name="nome_livro" id="nome_livro" required>
+    <input type="submit" name="buscar" value="Buscar">
+</form>
 
-    <?php
-    if (isset($_POST['buscar'])) {
-        $codigoLivro = $_POST['codigoLivro'];
+<?php
+if (isset($_POST['buscar'])) {
+    // Conectar ao banco de dados (certifique-se de que a variável $con está configurada corretamente)
+    // Exemplo: $con = new mysqli('localhost', 'usuario', 'senha', 'database');
 
-        // Consultar o livro
-        $sql = "SELECT * FROM livro WHERE id_livro = ?";
-        $stmt = $con->prepare($sql);
-        $stmt->bind_param("i", $codigoLivro);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    $nome_livro = $_POST['nome_livro'];
 
-        if ($result->num_rows > 0) {
-            $livro = $result->fetch_assoc();
-    ?>
+    // Preparar a consulta SQL para buscar o livro pelo título
+    $sql = "SELECT * FROM livro WHERE nome_livro LIKE ?";
+    $stmt = $con->prepare($sql);
+
+    // Adicionar os coringas para busca parcial
+    $nome_livro_param = "%" . $nome_livro . "%";
+    $stmt->bind_param("s", $nome_livro_param); // "s" para string
+
+    // Executar a consulta
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Verificar se algum livro foi encontrado
+    if ($result->num_rows > 0) {
+        // Exibir os detalhes do livro na tabela
+        while ($livro = $result->fetch_assoc()) {
+            ?>
             <h2>Detalhes do Livro</h2>
             <table>
                 <tr>
-                    <th>Código</th>
-                    <td><?php echo $livro['id_livro']; ?></td>
+                    <th>Tombo</th>
+                    <td><?php echo $livro["id_livro"]; ?> </td>
                 </tr>
                 <tr>
                     <th>Data de cadastro</th>
+                    <td><?php echo $livro["data_cadastro"]; ?> </td>
                 </tr>
                 <tr>
                     <th>Arquivado</th>
-                    <td><?php if ($livro["arquivar_livro"] == 1) {
-                            echo "Sim";
-                        } else {
-                            echo "Não";
-                        } ?></td>
+                    <td><?php echo $livro["arquivar_livro"] == 1 ? "Sim" : "Não"; ?></td>
                 </tr>
-                
                 <tr>
                     <th>Título</th>
                     <td><?php echo $livro['nome_livro']; ?></td>
+                </tr>
+                <tr>
+                    <th>Subtítulo</th>
+                    <td><?php echo $livro['subtitulo']; ?></td>
+                </tr>
+                <tr>
+                    <th>Cdd</th>
+                    <td><?php echo $livro['cdd']; ?></td>
+                </tr>
+                <tr>
+                    <th>Cutter</th>
+                    <td><?php echo $livro['cutter']; ?></td>
                 </tr>
                 <tr>
                     <th>Autor</th>
                     <td><?php echo $livro['autor']; ?></td>
                 </tr>
                 <tr>
-                    <th>Gênero</th>
-                    <td><?php echo $livro['genero']; ?></td>
+                    <th>Série/Coleção</th>
+                    <td><?php echo $livro['serie_colecao']; ?></td>
                 </tr>
                 <tr>
                     <th>Edição</th>
                     <td><?php echo $livro['edicao']; ?></td>
                 </tr>
                 <tr>
-                    <th>Editora</th>
-                    <td><?php echo $livro['editora']; ?></td>
+                    <th>Local</th>
+                    <td><?php echo $livro['local']; ?></td>
                 </tr>
                 <tr>
-                    <th>Data de Publicação</th>
+                    <th>Editor</th>
+                    <td><?php echo $livro['editor']; ?></td>
+                </tr>
+                <tr>
+                    <th>Data de publicação</th>
                     <td><?php echo $livro['data_publicacao']; ?></td>
                 </tr>
                 <tr>
-                    <th>Quantidade</th>
-                    <td><?php echo $livro['quantidade']; ?></td>
+                    <th>Aquisição</th>
+                    <td><?php echo $livro['aquisicao']; ?></td>
                 </tr>
                 <tr>
-                    <th>Descrição</th>
-                    <td><?php echo $livro['descricao']; ?></td>
+                    <th>Exemplar</th>
+                    <td><?php echo $livro['exemplar']; ?></td>
+                </tr>
+                <tr>
+                    <th>Língua</th>
+                    <td><?php echo $livro['lingua']; ?></td>
+                </tr>
+                <tr>
+                    <th>Observação</th>
+                    <td><?php echo $livro['observacao']; ?></td>
+                </tr>
+                <tr>
+                    <th>Capa</th>
+                    <td><img src="<?php echo $livro['capa_livro']; ?>" width="50" height="50"></td>
                 </tr>
             </table>
-    <?php
-        } else {
-            echo "Livro não encontrado.";
+            <?php
         }
-
-        $stmt->close();
-        $con->close();
+    } else {
+        echo "<p>Nenhum livro encontrado com esse título.</p>";
     }
+    $stmt->close();
+ $con->close();
+}
+
+
+       
+
+       
+    
     ?>
 
     

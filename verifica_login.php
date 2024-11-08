@@ -1,12 +1,7 @@
 <?php
 session_start();
 
-$host  = "localhost:3306";
-$user  = "root";
-$pass  = "";
-$base  = "etecguaru01";
-
-$con = mysqli_connect($host, $user, $pass, $base);
+include('includes/db.php');
 
 if ($con->connect_error) {
     die("Falha na conexão: " . $con->connect_error);

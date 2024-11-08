@@ -1,6 +1,7 @@
 <?php
 
 include('verifica_login.php');
+include ('includes/db.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -74,14 +75,6 @@ include('verifica_login.php');
 </a>
    <center> <h2>Acervo</h2></center>
    <?php
-$host = "localhost:3306";
-$user = "root";
-$pass = "";
-$base = "etecguaru01";
-
-// Conexão com o banco de dados
-$con = mysqli_connect($host, $user, $pass, $base);
-
  
 $sql = "SELECT * FROM livro ";
 $result = $con->query($sql);
@@ -139,7 +132,7 @@ if ($result->num_rows > 0) {
                 <th>" . $row["exemplar"] . "</th>
                 <th>" . $row["lingua"] . "</th>
                 <th>" . $row["observacao"] . "</th>
-                <th><img src='" . $row['capa_livro'] . "' width='75' height='100'></th>
+                <th><img src='" . $row['capa_livro'] . "' width='50' height='50'></th>
               </tr>";
     }
     echo "</table></center>";

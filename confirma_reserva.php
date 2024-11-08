@@ -1,5 +1,6 @@
 <?php
 include('verifica_login.php');
+include('includes/db.php');
 $num_reserva = $_POST['num_reserva'];
 $rm_aluno = $_POST['rm_aluno'];
 ?>

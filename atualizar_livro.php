@@ -260,10 +260,6 @@ input[type="submit"]:hover {
         </div>
     
         <div class="form-group">
-            <label for="editora">Editora:</label>
-            <input type="text" id="editora" name="editora" required>
-        </div>
-        <div class="form-group">
             <label for="datacad">Data Cadastro:</label>
             <input type="date" id="datacad" name="datacad" required>
         </div>
@@ -323,50 +319,68 @@ input[type="submit"]:hover {
 
 <script>
 function buscarLivro() {
-    var titulo = document.getElementById("titulo").value;
+    const titulo = document.getElementById("titulo").value;
     if (titulo) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "buscar_livro.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                    var data = JSON.parse(xhr.responseText);
-                    if (data) {
-                       // document.getElementById("codigo").value = data.is_livro; // Ajustado para o nome correto
-                        document.getElementById("subtitulo").value = data.subtitulo;
-                        document.getElementById("serie").value = data.serie;
-                        document.getElementById("autor").value = data.autor;
-                        document.getElementById("editora").value = data.editora;
-                        document.getElementById("datacad").value = data.datacad;
-                        document.getElementById("datapubli").value = data.datapubli;
-                        document.getElementById("cutter").value = data.cutter; // Ajustado para o nome correto
-                        document.getElementById("aquisicao").value = data.aquisicao;
-                        document.getElementById("exemplar").value = data.exemplar;
-                        document.getElementById("edicao").value = data.edicao;
-                        document.getElementById("cdd").value = data.cdd;
-                        document.getElementById("volume").value = data.volume;
-                        document.getElementById("local").value = data.local;
-                        document.getElementById("editor").value = data.editor;
-                        document.getElementById("lingua").value = data.lingua;
-                        document.getElementById("observacao").value = data.observacao;
-                        document.getElementById("foto").value = data.foto;
-
-                    } else {
-                        alert("Livro não encontrado.");
-                    }
-                } else {
-                    alert("Erro na requisição: " + xhr.status);
-                }
+        fetch("buscar_livro.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "titulo=" + encodeURIComponent(titulo)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data) {
+                document.getElementById("subtitulo").value = data.subtitulo;
+                document.getElementById("serie").value = data.serie_colecao;
+                document.getElementById("autor").value = data.autor;
+                document.getElementById("editor").value = data.editor;
+                document.getElementById("datacad").value = data.data_cadastro;
+                document.getElementById("datapubli").value = data.data_publicacao;
+                document.getElementById("cutter").value = data.cutter;
+                document.getElementById("aquisicao").value = data.aquisicao;
+                document.getElementById("exemplar").value = data.exemplar;
+                document.getElementById("edicao").value = data.edicao;
+                document.getElementById("cdd").value = data.cdd;
+                document.getElementById("volume").value = data.volume;
+                document.getElementById("local").value = data.local;
+                document.getElementById("editor").value = data.editor;
+                document.getElementById("lingua").value = data.lingua;
+                document.getElementById("observacao").value = data.observacao;
+                // Não é possível preencher o campo de foto programaticamente
+            } else {
+                alert("Livro não encontrado.");
             }
-        };
-        xhr.send("titulo=" + encodeURIComponent(titulo));
+        })
+        .catch(error => {
+            console.error("Erro na requisição:", error);
+            alert("Erro ao buscar o livro.");
+        });
     } else {
         alert("Por favor, insira um título.");
     }
 }
+
+function atualizarLivro(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+
+    fetch("atualiza_livro.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert("Livro atualizado com sucesso!");
+        form.reset();
+    })
+    .catch(error => {
+        console.error("Erro ao atualizar o livro:", error);
+        alert("Erro ao atualizar o livro.");
+    });
+}
 </script>
+
 </body>
-
-
 </html>

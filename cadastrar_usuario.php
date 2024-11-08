@@ -1,5 +1,7 @@
 <?php
+
 include('verifica_login.php');
+include('includes/db.php');
 
 // Verifica se o usuário está logado e se a sessão 'usuario_tipo' está definida
 if (!isset($_SESSION['loggedin']) || $_SESSION['usuario_tipo'] !== 'master') {
@@ -115,12 +117,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['usuario_tipo'] !== 'master') {
 </html>
 
 <?php
-// Conexão com o banco de dados e código de cadastro
-$host = "localhost";
-$user = "root";
-$pass = "";
-$base = "etecguaru01";
-$con = new mysqli($host, $user, $pass, $base);
+
 
 if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
     $foto = $_FILES['foto'];

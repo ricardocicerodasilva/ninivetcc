@@ -3,14 +3,7 @@
 include('verifica_login.php');
 
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$base = "etecguaru01";
-
-// Conexão com o banco de dados
-$con = mysqli_connect($host, $user, $pass, $base);
-
+include('includes/db.php');
 
 // Recupera os dados do formulário
 $rm_aluno = $_POST['rm_aluno'] ?? null;

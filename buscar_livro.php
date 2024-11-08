@@ -2,19 +2,9 @@
 
 
 include('verifica_login.php');
+include('includes/db.php');
 
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$base = "etecguaru01";
-
-$con = mysqli_connect($host, $user, $pass, $base);
-
-if (mysqli_connect_errno()) {
-    echo json_encode(['error' => 'Falha na conexão com o banco de dados: ' . mysqli_connect_error()]);
-    exit();
-}
 
 if (isset($_POST['titulo'])) {
     $titulo = $_POST['titulo'];

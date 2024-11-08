@@ -1,18 +1,6 @@
 <?php
 include('verifica_login.php');
-
-$host = "localhost";
-$user = "root";
-$pass = "";
-$base = "etecguaru01";
-
-// Conexão com o banco de dados
-$con = mysqli_connect($host, $user, $pass, $base);
-
-if (mysqli_connect_errno()) {
-    echo json_encode(['status' => 'error', 'message' => 'Falha na conexão com o banco de dados.']);
-    exit();
-}
+include('includes/db.php');
 
 // Verifica se os campos necessários estão preenchidos
 if (isset($_POST['rm'], $_POST['nome'], $_POST['email'], $_POST['telefone'], $_POST['turma'], $_POST['periodo'], $_POST['senha'])) {
