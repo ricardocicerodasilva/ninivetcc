@@ -73,24 +73,84 @@ include('verifica_login.php');
     <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
 </a>
    <center> <h2>Acervo</h2></center>
-    <?php
-        $host = "localhost";
-        $user = "root";
-        $pass = "";
-        $base = "etecguaru01";
-        $con = mysqli_connect($host, $user, $pass, $base);
-        $res = mysqli_query($con,"select * from LIVRO");
-        echo "<table><tr><th>Codígo Livro</th><th>Nome do Livro</th><th>Autor</th><th>Gênero</th><th>Edição</th><th>Editora</th>
-        <th>Data de Publicação</th><th>Quantidade</th><th>Descrição</th><th>Arquivado</th><th>Motivo arquivamennto</th></tr>";
+   <?php
+$host = "localhost:3306";
+$user = "root";
+$pass = "";
+$base = "etecguaru01";
 
-        while($escrever=mysqli_fetch_array($res)){
-            echo "<tr><td>".$escrever['id_livro']."</td><td>".$escrever['nome_livro']."</td>
-            <td>".$escrever['autor']."</td><td>".$escrever['genero']."</td><td>".$escrever['edicao']."</td>
-            <td>".$escrever['editora']."</td><td>".$escrever['data_publicacao']."</td><td>".$escrever['quantidade']."</td>
-            <td>".$escrever['descricao']."</td><td>".$escrever['arquivar_livro']."</td><td>".$escrever['motivo_arq']."</td></tr>";
-        }
-        echo "</table>";
-        mysqli_close($con);
-    ?>
+// Conexão com o banco de dados
+$con = mysqli_connect($host, $user, $pass, $base);
+
+ 
+$sql = "SELECT * FROM livro ";
+$result = $con->query($sql);
+ 
+if ($result->num_rows > 0) {
+    echo "<center><table border='1'>
+            <tr>
+                <th>ID</th>
+                <th>Data do Cadastro</th>
+                <th>Livro Arquivado</th>
+                <th>Motivo do Arquivamento</th>
+                <th>CDD</th>
+                <th>Cutter</th>
+                <th>Autor</th>
+                <th>Nome do Livro</th>
+                <th>Subtítulo</th>
+                <th>Série/Coletânea</th>
+                <th>Edição</th>
+                <th>Volume</th>
+                <th>Local</th>
+                <th>Editora</th>
+                <th>Data de Publicação</th>
+                <th>Aquisição</th>
+                <th>Exemplar</th>
+                <th>Língua</th>
+                <th>Observação</th>
+                <th>Capa</th>
+            </tr>";
+ 
+    // Exibindo cada linha de dados
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>
+                <th>" . $row["id_livro"] . "</th>
+                <th>" . $row["data_cadastro"] . "</th>";
+ 
+                if ($row["arquivar_livro"] == 1) {
+                    echo "<th>Sim</th>";
+                } else {
+                    echo "<th>Não</th>";
+                }
+ 
+        echo   "<th>" . $row["motivo_arq"] . "</th>
+                <th>" . $row["cdd"] . "</th>
+                <th>" . $row["cutter"] . "</th>
+                <th>" . $row["autor"] . "</th>
+                <th>" . $row["nome_livro"] . "</th>
+                <th>" . $row["subtitulo"] . "</th>
+                <th>" . $row["serie_colecao"] . "</th>
+                <th>" . $row["edicao"] . "</th>
+                <th>" . $row["volume"] . "</th>
+                <th>" . $row["local"] . "</th>
+                <th>" . $row["editor"] . "</th>
+                <th>" . $row["data_publicacao"] . "</th>
+                <th>" . $row["aquisicao"] . "</th>
+                <th>" . $row["exemplar"] . "</th>
+                <th>" . $row["lingua"] . "</th>
+                <th>" . $row["observacao"] . "</th>
+                <th><img src='" . $row['capa_livro'] . "' width='75' height='100'></th>
+              </tr>";
+    }
+    echo "</table></center>";
+}
+ else {
+    echo "Nenhum resultado encontrado.";
+}
+ 
+$con->close();
+?>
+
+
 </body>
 </html>

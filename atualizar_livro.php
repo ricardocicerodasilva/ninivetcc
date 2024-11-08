@@ -245,40 +245,77 @@ input[type="submit"]:hover {
     </div>
 
     <div class="form-group">
-        <label for="autor">Autor:</label>
-        <input type="text" id="autor" name="autor" required>
+            <label for="subtitulo">Subtítulo do Livro:</label>
+            <input type="text" id="subtitulo" name="subtitulo" required>
+        </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="serie">Série/coleção:</label>
+            <input type="text" id="serie" name="serie" required>
+        </div>
+        <div class="form-group">
+            <label for="autor">Autor:</label>
+            <input type="text" id="autor" name="autor" required>
+        </div>
+    
+        <div class="form-group">
+            <label for="editora">Editora:</label>
+            <input type="text" id="editora" name="editora" required>
+        </div>
+        <div class="form-group">
+            <label for="datacad">Data Cadastro:</label>
+            <input type="date" id="datacad" name="datacad" required>
+        </div>
+        <div class="form-group">
+            <label for="datapubli">Data de Publicação:</label>
+            <input type="date" id="datapubli" name="datapubli" required>
+        </div>
+        <div class="form-group">
+            <label for="cutter">Cutter:</label>
+            <input type="text" id="cutter" name="cutter" required>
+        </div>
+        <div class="form-group">
+            <label for="aquisicao">Aquisição:</label>
+            <input type="text" id="aquisicao" name="aquisicao" required>
+        </div>
+        <div class="form-group">
+            <label for="exemplar">Exemplar:</label>
+            <input type="number" id="exemplar" name="exemplar" required>
+        </div>
+        <div class="form-group">
+            <label for="edicao">Edição:</label>
+            <input type="text" id="edicao" name="edicao" required>
+        </div>
+        <div class="form-group">
+            <label for="cdd">Cdd:</label>
+            <input type="number" id="cdd" name="cdd" required>
+        </div>
+        <div class="form-group">
+            <label for="volume">Volume:</label>
+            <input type="text" id="volume" name="volume" required>
+        </div>
+        <div class="form-group">
+            <label for="local">local:</label>
+            <input type="text" id="local" name="local" required>
+        </div>
+        <div class="form-group">
+            <label for="editor">Editor:</label>
+            <input type="text" id="editor" name="editor" required>
+        </div>
+        <div class="form-group">
+            <label for="lingua">Lingua:</label>
+            <input type="text" id="lingua" name="lingua" required>
+        </div>
+        <div class="form-group">
+            <label for="observacao">Observação:</label>
+            <textarea id="observacao" name="observacao" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+        <label for="foto">Foto do livro:</label>
+    <input type="file" id="foto" name="foto" accept="image/*">
     </div>
-
-    <div class="form-group">
-        <label for="editora">Editora:</label>
-        <input type="text" id="editora" name="editora" required>
-    </div>
-
-    <div class="form-group">
-        <label for="datapubli">Data de Publicação:</label>
-        <input type="date" id="datapubli" name="datapubli" required>
-    </div>
-
-    <div class="form-group">
-        <label for="edicao">Edição:</label>
-        <input type="text" id="edicao" name="edicao" required>
-    </div>
-
-    <div class="form-group">
-        <label for="genero">Gênero:</label>
-        <input type="text" id="genero" name="genero" required>
-    </div>
-
-    <div class="form-group">
-        <label for="unidades">Unidades:</label>
-        <input type="text" id="unidades" name="unidades" required>
-    </div>
-
-    <div class="form-group">
-        <label for="sinopse">Sinopse:</label>
-        <textarea id="sinopse" name="sinopse" rows="4" required></textarea>
-    </div><br>
-
+    
     <div class="button-container">
         <input type="submit" value="Atualizar">
     </div>
@@ -297,13 +334,24 @@ function buscarLivro() {
                     var data = JSON.parse(xhr.responseText);
                     if (data) {
                        // document.getElementById("codigo").value = data.is_livro; // Ajustado para o nome correto
+                        document.getElementById("subtitulo").value = data.subtitulo;
+                        document.getElementById("serie").value = data.serie;
                         document.getElementById("autor").value = data.autor;
                         document.getElementById("editora").value = data.editora;
-                        document.getElementById("datapubli").value = data.data_publi;
+                        document.getElementById("datacad").value = data.datacad;
+                        document.getElementById("datapubli").value = data.datapubli;
+                        document.getElementById("cutter").value = data.cutter; // Ajustado para o nome correto
+                        document.getElementById("aquisicao").value = data.aquisicao;
+                        document.getElementById("exemplar").value = data.exemplar;
                         document.getElementById("edicao").value = data.edicao;
-                        document.getElementById("genero").value = data.genero;
-                        document.getElementById("unidades").value = data.quantidade;
-                        document.getElementById("sinopse").value = data.descricao; // Ajustado para o nome correto
+                        document.getElementById("cdd").value = data.cdd;
+                        document.getElementById("volume").value = data.volume;
+                        document.getElementById("local").value = data.local;
+                        document.getElementById("editor").value = data.editor;
+                        document.getElementById("lingua").value = data.lingua;
+                        document.getElementById("observacao").value = data.observacao;
+                        document.getElementById("foto").value = data.foto;
+
                     } else {
                         alert("Livro não encontrado.");
                     }

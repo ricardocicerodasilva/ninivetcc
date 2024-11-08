@@ -1,5 +1,5 @@
-CREATE DATABASE etecguaru01;
-use etecguaru01;
+CREATE DATABASE bd_ninivebiblio;
+use bd_ninivebiblio;
 
 CREATE TABLE bibliotecario(
 	id_bibli int(4) PRIMARY KEY auto_increment NOT NULL,

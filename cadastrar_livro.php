@@ -293,8 +293,11 @@ input[type="submit"]:hover {
         <div class="form-group">
             <label for="observacao">Observação:</label>
             <textarea id="observacao" name="observacao" rows="4" required></textarea>
-        </div><br>
-
+        </div>
+        <div class="form-group">
+        <label for="foto">Foto do livro:</label>
+    <input type="file" id="foto" name="foto" accept="image/*">
+    </div>
         <div class="button-container">
     <input type="submit" value="Cadastrar">
 </div>
