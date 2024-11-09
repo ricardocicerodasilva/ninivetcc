@@ -56,12 +56,9 @@ CREATE TABLE reserva (
 	data_devolucao date,
 	rm_aluno int(4) NOT NULL,
 	id_livro  int(4) NOT NULL,
-    login varchar (30),
-    status ENUM('ativo', 'devolvido') DEFAULT 'ativo',
-    notificado BOOLEAN DEFAULT FALSE,
 	FOREIGN KEY (rm_aluno) REFERENCES aluno (rm_aluno) ON DELETE CASCADE,
-	FOREIGN KEY (id_livro) REFERENCES livro (id_livro) ON DELETE CASCADE,
-    FOREIGN KEY (login) REFERENCES bibliotecario (login) ON DELETE CASCADE
+	FOREIGN KEY (id_livro) REFERENCES livro (id_livro) ON DELETE CASCADE
+ 
 );
 
 CREATE TABLE confirma_reserva (

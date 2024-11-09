@@ -2,48 +2,55 @@
 include('verifica_login.php');  // Verifica o login do usuário
 include('includes/db.php');      // Conecta ao banco de dados
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Pegando os dados do formulário
-    $nomeLivro = $_POST['nomeLivro'];
-    $rmAluno = $_POST['rmAluno'];
-    $dataReserva = $_POST['dataReserva'];
-    $dataDevolucao = $_POST['dataDevolucao'];
+if (isset($_POST['btn-reservar'])) {
+    $nomeLivro = mysqli_escape_string($con, $_POST['nomeLivro']);
+    $rmAluno = mysqli_escape_string($con, $_POST['rmAluno']);
+    $dataReserva = mysqli_escape_string($con, $_POST['dataReserva']);
+    $dataDevolucao = mysqli_escape_string($con, $_POST['dataDevolucao']);
 
-    // Verificando se o livro está disponível
-    $sqlLivro = "SELECT id_livro FROM livro WHERE nome_livro = ? AND status = 'disponivel' LIMIT 1";
-    $stmt = $con->prepare($sqlLivro);
-    $stmt->bind_param("s", $nomeLivro);
-    $stmt->execute();
-    $stmt->store_result();
-
-    // Se o livro estiver disponível
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($idLivro);
-        $stmt->fetch();
-
-        // Inserir a reserva no banco de dados
-        $sqlReserva = "INSERT INTO reserva (id_livro, rm_aluno, data_reserva, data_devolucao, status) VALUES (?, ?, ?, ?, 'ativo')";
-        $stmtReserva = $con->prepare($sqlReserva);
-        $stmtReserva->bind_param("isss", $idLivro, $rmAluno, $dataReserva, $dataDevolucao);
-
-        if ($stmtReserva->execute()) {
-            // Atualizar o status do livro para 'reservado'
-            $sqlAtualizaLivro = "UPDATE livro SET status = 'reservado' WHERE id_livro = ?";
-            $stmtAtualizaLivro = $con->prepare($sqlAtualizaLivro);
-            $stmtAtualizaLivro->bind_param("i", $idLivro);
-            $stmtAtualizaLivro->execute();
-
-            echo "Reserva realizada com sucesso!";
-        } else {
-            echo "Erro ao realizar a reserva.";
-        }
+    if (empty($nomeLivro) || empty($rmAluno) || empty($dataReserva) || empty($dataDevolucao)) {
+        echo "Por favor, preencha todos os campos.";
     } else {
-        echo "Livro não disponível para reserva.";
-    }
+        $sqlLivro = "SELECT id_livro FROM livro WHERE nome_livro = '$nomeLivro'";
+        $resultLivro = mysqli_query($con, $sqlLivro);
 
-    // Fechar conexões
-    $stmt->close();
-    $stmtReserva->close();
-    $con->close();
+        if ($resultLivro && mysqli_num_rows($resultLivro) > 0) {
+            $rowLivro = mysqli_fetch_assoc($resultLivro);
+            $idLivro = $rowLivro['id_livro'];
+
+            $sqlAluno = "SELECT rm_aluno FROM aluno WHERE rm_aluno = '$rmAluno'";
+            $resultAluno = mysqli_query($con, $sqlAluno);
+
+            if ($resultAluno && mysqli_num_rows($resultAluno) > 0) {
+                $sqlReserva = "INSERT INTO reserva (id_livro, rm_aluno, data_reserva, data_devolucao)
+                               VALUES ('$idLivro', '$rmAluno', '$dataReserva', '$dataDevolucao')";
+                
+                if (mysqli_query($con, $sqlReserva)) {
+                    echo "Reserva realizada com sucesso!";
+
+                    if (isset($_SESSION['id_bibli'])) {
+                        $sqlNotificacao = "INSERT INTO notificacao (titulo_notificacao, mensagem_notificacao, id_bibli)
+                                           VALUES ('Reserva de Livro', 'O aluno com RM $rmAluno reservou o livro $nomeLivro.', " . $_SESSION['id_bibli'] . ")";
+                        
+                        if (mysqli_query($con, $sqlNotificacao)) {
+                            echo "Notificação criada com sucesso!";
+                        } else {
+                            echo "Erro ao criar notificação.";
+                        }
+                    } else {
+                        echo "Erro: o bibliotecário não está logado.";
+                    }
+                } else {
+                    echo "Erro ao realizar a reserva.";
+                }
+            } else {
+                echo "Aluno não encontrado!";
+            }
+        } else {
+            echo "Livro não encontrado!";
+        }
+    }
+} else {
+    echo "Formulário não enviado corretamente!";
 }
 ?>

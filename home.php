@@ -1,6 +1,6 @@
 <?php   
 include('verifica_login.php');
-
+include('includes/db.php');
 
 ?>
 
