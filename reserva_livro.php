@@ -1,6 +1,8 @@
 <?php
 include('verifica_login.php');  // Verifica o login do usuário
 include('includes/db.php');      // Conecta ao banco de dados
+$id_bibli = $_SESSION['login'];
+$num_reserva = $_SESSION['login'];
 
 if (isset($_POST['btn-reservar'])) {
     $nomeLivro = mysqli_escape_string($con, $_POST['nomeLivro']);
@@ -27,20 +29,8 @@ if (isset($_POST['btn-reservar'])) {
                 
                 if (mysqli_query($con, $sqlReserva)) {
                     echo "Reserva realizada com sucesso!";
-
-                    if (isset($_SESSION['id_bibli'])) {
-                        $sqlNotificacao = "INSERT INTO notificacao (titulo_notificacao, mensagem_notificacao, id_bibli)
-                                           VALUES ('Reserva de Livro', 'O aluno com RM $rmAluno reservou o livro $nomeLivro.', " . $_SESSION['id_bibli'] . ")";
-                        
-                        if (mysqli_query($con, $sqlNotificacao)) {
-                            echo "Notificação criada com sucesso!";
-                        } else {
-                            echo "Erro ao criar notificação.";
-                        }
-                    } else {
-                        echo "Erro: o bibliotecário não está logado.";
                     }
-                } else {
+                 else {
                     echo "Erro ao realizar a reserva.";
                 }
             } else {

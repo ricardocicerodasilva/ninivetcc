@@ -93,7 +93,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <a href="#">Relatório</a>
                 <ul class="submenu">
                     <li><a href="relatorio.php">Gerar relatório</a></li><br>
-                    <li><a href="listar_relatorio.php">Visualizar relatórios</a></li><br>
+                    <li><a href="visualizar_relatorio.php">Visualizar relatórios</a></li><br>
                 </ul>
             </li>
             <li>

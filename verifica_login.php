@@ -14,7 +14,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 $id_bibli = $_SESSION['login'];
 $foto_perfil = $_SESSION['foto_perfil'];
-
+//$num_reserva = $_SESSION['num_reserva'];
 ?>
 
  

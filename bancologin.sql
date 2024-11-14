@@ -1,4 +1,4 @@
-CREATE DATABASE bd_ninivebiblio;
+Create DATABASE bd_ninivebiblio;
 use bd_ninivebiblio;
 
 CREATE TABLE bibliotecario(
@@ -55,10 +55,11 @@ CREATE TABLE reserva (
 	data_reserva date,
 	data_devolucao date,
 	rm_aluno int(4) NOT NULL,
-	id_livro  int(4) NOT NULL,
+	id_livro  int(4) NOT NULL,   
+    status VARCHAR(20) NOT NULL DEFAULT 'ativo',
 	FOREIGN KEY (rm_aluno) REFERENCES aluno (rm_aluno) ON DELETE CASCADE,
 	FOREIGN KEY (id_livro) REFERENCES livro (id_livro) ON DELETE CASCADE
- 
+
 );
 
 CREATE TABLE confirma_reserva (
@@ -98,17 +99,15 @@ CREATE TABLE notificacao(
 	FOREIGN KEY (id_bibli) REFERENCES bibliotecario (id_bibli) ON DELETE CASCADE	
 );
 
-CREATE TABLE relatorio(
-	id_relatorio int(4) PRIMARY KEY AUTO_INCREMENT,
-	data_relatorio timestamp DEFAULT current_timestamp,
-	livros_cadastrados int(4) NOT NULL,
-    livros_arquivados int(4) NOT NULL,
-    total_livros int(4) NOT NULL,
-    alunos_cadastrados int(4) NOT NULL,
-    alunos_bloqueados int(4) NOT NULL,
-    livros_reservados int(4) NOT NULL,
-    livros_devolvidos int(4) NOT NULL
+CREATE TABLE relatorio_mensal (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    mes INT NOT NULL,
+    ano INT NOT NULL,
+    descricao VARCHAR(255),
+    data_geracao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    conteudo TEXT NOT NULL
 );
+
 
 
 
@@ -144,5 +143,9 @@ INSERT INTO reserva (data_reserva, data_devolucao, rm_aluno, id_livro) VALUES
 ('2024-10-02', '2024-10-16', 1002, '5'),
 ('2024-10-03', '2024-10-17', 1003, '8');
 
-select * from reserva
+select * from reserva;
+SELECT * FROM relatorio 
+
+
+
 

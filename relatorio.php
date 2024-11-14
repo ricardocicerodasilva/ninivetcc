@@ -151,55 +151,54 @@ if (isset($_POST['gerar_relatorio'])) {
     // Captura o mês e o ano selecionados pelo usuário
     $mes_atual = $_POST['mes'];
     $ano_atual = $_POST['ano'];
+    $descricao = $_POST['descricao'];
 
     // Consulta para obter os dados de empréstimos do mês e ano selecionados
-    $sql = "SELECT r.data_reserva, r.data_devolucao, l.nome_livro, b.login AS bibliotecario, a.nome_aluno
-            FROM reserva r
-            JOIN livro l ON r.id_livro = l.id_livro
-            JOIN bibliotecario b ON r.login = b.login
-            JOIN aluno a ON r.rm_aluno = a.rm_aluno
-            WHERE MONTH(r.data_reserva) = '$mes_atual' AND YEAR(r.data_reserva) = '$ano_atual'";
+    $sql = "SELECT r.data_reserva, r.data_devolucao, l.nome_livro, a.nome_aluno
+    FROM reserva r
+    JOIN livro l ON r.id_livro = l.id_livro
+    JOIN aluno a ON r.rm_aluno = a.rm_aluno
+    WHERE MONTH(r.data_reserva) = '$mes_atual' AND YEAR(r.data_reserva) = '$ano_atual'";
 
     $result = $con->query($sql);
 
     if ($result && $result->num_rows > 0) {
-        // Exibe o relatório na tela
-        echo "<center><h3>Relatório de Empréstimos - $mes_atual/$ano_atual</h3></center>";
-        echo "<table>
-                <tr>
-                    <th>Data de Empréstimo</th>
-                    <th>Data de Devolução</th>
-                    <th>Nome do Livro</th>
-                    <th>Bibliotecário</th>
-                    <th>Nome do Aluno</th>
-                </tr>";
-
-        // Inicializa o buffer de saída para salvar o conteúdo em um arquivo
-        ob_start();
+        // Inicializa o conteúdo do relatório em HTML
+        $conteudo = "<center><h3>Relatório de Empréstimos - $mes_atual/$ano_atual</h3></center>";
+        $conteudo .= "<table>
+                        <tr>
+                            <th>Data de Empréstimo</th>
+                            <th>Data de Devolução</th>
+                            <th>Nome do Livro</th>
+                            <th>Nome do Aluno</th>
+                        </tr>";
 
         while ($row = $result->fetch_assoc()) {
-            echo "<tr>
-                    <td>" . htmlspecialchars($row["data_reserva"]) . "</td>
-                    <td>" . htmlspecialchars($row["data_devolucao"]) . "</td>
-                    <td>" . htmlspecialchars($row["nome_livro"]) . "</td>
-                    <td>" . htmlspecialchars($row["bibliotecario"]) . "</td>
-                    <td>" . htmlspecialchars($row["nome_aluno"]) . "</td>
-                  </tr>";
+            $conteudo .= "<tr>
+                            <td>" . htmlspecialchars($row["data_reserva"]) . "</td>
+                            <td>" . htmlspecialchars($row["data_devolucao"]) . "</td>
+                            <td>" . htmlspecialchars($row["nome_livro"]) . "</td>                            
+                            <td>" . htmlspecialchars($row["nome_aluno"]) . "</td>
+                          </tr>";
+        }
+        $conteudo .= "</table>";
+
+        // Insere o conteúdo do relatório na tabela relatorio_mensal
+        $stmt = $con->prepare("INSERT INTO relatorio_mensal (mes, ano, descricao, conteudo) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("iiss", $mes_atual, $ano_atual, $descricao, $conteudo);
+
+        if ($stmt->execute()) {
+            echo "<p style='text-align: center;'>Relatório gerado e salvo com sucesso! <a href='visualizar_relatorio.php' onclick='alert(\"Relatório salvo no banco de dados.\")'>Visualizar Relatório</a></p>";
+        } else {
+            echo "<center><p>Erro ao salvar o relatório: " . $stmt->error . "</p></center>";
         }
 
-        echo "</table>";
-
-        // Salva o conteúdo do relatório em um arquivo
-        $conteudo = ob_get_clean();
-        $filename = 'relatorios/relatorio_' . date('Y-m-d_H-i-s') . '.html';
-        file_put_contents($filename, $conteudo);
-
-        echo "<p style='text-align: center;'>Relatório gerado com sucesso! <a href='$filename' target='_blank'>Visualizar Relatório</a></p>";
-
+        $stmt->close();
     } else {
         echo "<center><p>Nenhum resultado encontrado para o período selecionado.</p></center>";
     }
 }
+
 
 // Fecha a conexão com o banco de dados
 $con->close();
