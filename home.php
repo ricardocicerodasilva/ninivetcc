@@ -4,8 +4,6 @@ include('includes/db.php');
 
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,9 +110,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                 </ul>
             </li>
             <li>
-                <a href="cadastrar_usuario.php">Cadastro usuario</a>
-              
-
+                 <a href="cadastrar_usuario.php">Cadastro usuário</a>
                 </ul>
             </li>
         </ul>

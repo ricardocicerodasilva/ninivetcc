@@ -1,8 +1,6 @@
 <?php
 include('verifica_login.php');
-
 include('includes/db.php');
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -48,8 +46,7 @@ include('includes/db.php');
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         }
 
-        input {          
-          
+        input {
             gap: 40px;
             max-width: 600px;
             margin: 20px;
@@ -59,27 +56,26 @@ include('includes/db.php');
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         }
-        #descricao {
-    width: 100%;
-    max-width: 600px;
-    padding: 10px;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    margin: 10px 0; /* Ajusta o espaçamento ao redor */
-}
-     
 
-      label {
-        font-family: Arial, sans-serif;
-            margin-bottom: 5px;
-            font-weight: bold;
-            font-size:30px
+        #descricao {
+            width: 100%;
+            max-width: 600px;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            margin: 10px 0;
         }
 
+        label {
+            font-family: Arial, sans-serif;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 30px;
+        }
 
-       button[type="submit"] {
+        button[type="submit"] {
             background-color: #0a6789;
             color: white;
             justify-content: center;
@@ -97,73 +93,65 @@ include('includes/db.php');
         button[type="submit"]:hover {
             background-color: #676767;
         }
-        table {
-        width: 50%;
-        border-collapse: collapse;
-        margin: 20px 0;
-        
-    }
-    th, td {
-        border: 4px solid #ddd;
-        padding: 8px;
-        text-align: center;
-        font-family:Arial, sans-serif;
-        font-weight: bold;
-        
-        
-    }
-    th {
-        background-color: bold;
-        color: bold;
-    }
-    tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-    tr:hover {
-        background-color: #f1f1f1;
-    }
-       
-    </style>
 
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 4px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
 <a href="home.php">
     <img class="image" src="assets/ninive.png" alt="Descrição da Imagem">
 </a>
 
-</head>
-<body>
-
-<h2 style="text-align:center">Gerar Relatório de Empréstimos</h2>
+<h2>Gerar Relatório de Empréstimos</h2>
 
 <form method="post">
     <label>Mês:</label>
     <input type="number" name="mes" min="1" max="12" value="<?= htmlspecialchars(date('m')) ?>" required>
     <label>Ano:</label>
     <input type="number" name="ano" min="2000" max="2099" value="<?= htmlspecialchars(date('Y')) ?>" required><br>
-
     <label>Nome do relatório</label>
-    <input type="text" name="descricao" id="descricao" required >
-    <button type="submit" name="gerar_relatorio" class="submit-button">Gerar Relatório</button>
+    <input type="text" name="descricao" id="descricao" required>
+    <button type="submit" name="gerar_relatorio">Gerar Relatório</button>
 </form>
 
 <?php
-// Verifica se o formulário foi submetido
 if (isset($_POST['gerar_relatorio'])) {
-    // Captura o mês e o ano selecionados pelo usuário
     $mes_atual = $_POST['mes'];
     $ano_atual = $_POST['ano'];
     $descricao = $_POST['descricao'];
 
-    // Consulta para obter os dados de empréstimos do mês e ano selecionados
     $sql = "SELECT r.data_reserva, r.data_devolucao, l.nome_livro, a.nome_aluno
-    FROM reserva r
-    JOIN livro l ON r.id_livro = l.id_livro
-    JOIN aluno a ON r.rm_aluno = a.rm_aluno
-    WHERE MONTH(r.data_reserva) = '$mes_atual' AND YEAR(r.data_reserva) = '$ano_atual'";
+            FROM reserva r
+            JOIN livro l ON r.id_livro = l.id_livro
+            JOIN aluno a ON r.rm_aluno = a.rm_aluno
+            WHERE MONTH(r.data_reserva) = ? AND YEAR(r.data_reserva) = ?";
 
-    $result = $con->query($sql);
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("ii", $mes_atual, $ano_atual);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result && $result->num_rows > 0) {
-        // Inicializa o conteúdo do relatório em HTML
         $conteudo = "<center><h3>Relatório de Empréstimos - $mes_atual/$ano_atual</h3></center>";
         $conteudo .= "<table>
                         <tr>
@@ -183,26 +171,24 @@ if (isset($_POST['gerar_relatorio'])) {
         }
         $conteudo .= "</table>";
 
-        // Insere o conteúdo do relatório na tabela relatorio_mensal
         $stmt = $con->prepare("INSERT INTO relatorio_mensal (mes, ano, descricao, conteudo) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iiss", $mes_atual, $ano_atual, $descricao, $conteudo);
 
         if ($stmt->execute()) {
-            echo "<p style='text-align: center;'>Relatório gerado e salvo com sucesso! <a href='visualizar_relatorio.php' onclick='alert(\"Relatório salvo no banco de dados.\")'>Visualizar Relatório</a></p>";
+            $relatorio_id = $con->insert_id;
+            echo "<p style='text-align: center;'>Relatório gerado e salvo com sucesso! 
+                  <a href='visualizar_relatorio.php?id=$relatorio_id' onclick='alert(\"Relatório salvo no banco de dados.\")'>Visualizar Relatório</a></p>";
         } else {
             echo "<center><p>Erro ao salvar o relatório: " . $stmt->error . "</p></center>";
         }
 
         $stmt->close();
     } else {
-        echo "<center><p>Nenhum resultado encontrado para o período selecionado.</p></center>";
+        echo "<center><p>Nenhum empréstimo encontrado para o período selecionado.</p></center>";
     }
 }
 
-
-// Fecha a conexão com o banco de dados
 $con->close();
 ?>
-
 </body>
 </html>

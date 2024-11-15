@@ -79,7 +79,7 @@
     </style>
 </head>
 <body>
-<form method="POST">
+<form method="POST" >
     <label for="login">Login:</label>
     <input type="text" id="login" name="login" required><br>
 

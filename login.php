@@ -25,7 +25,7 @@ if (isset($_POST['btn-entrar'])) {
             $_SESSION['id_bibli'] = $dados['id_bibli'];
             $_SESSION['login'] = $dados['login'];
             $_SESSION['usuario_tipo'] = $dados['usuario_tipo']; // Armazena `usuario_tipo` na sessão
-            $_SESSION['num_reserva'] = $dados['num_reserva''];
+            $_SESSION['num_reserva'] = $dados['num_reserva'];
             header("Location: home.php");
             exit();
         } else {
