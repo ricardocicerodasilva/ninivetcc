@@ -1,18 +1,19 @@
 <?php
+session_start(); // Inicia a sessão para garantir que a sessão foi carregada
 
 include('verifica_login.php');
 include('includes/db.php');
 
-// Verifica se o usuário está logado e se a sessão 'usuario_tipo' está definida
-if (!isset($_SESSION['loggedin']) || $_SESSION['usuario_tipo'] !== 'master') {
-    // Redireciona para a página inicial ou exibe uma mensagem de acesso negado
-    header("Location: home.php");
+// Verificar se o usuário está logado e se é admin
+if (!isset($_SESSION['usuario_tipo']) || $_SESSION['usuario_tipo'] !== 'admin') {
+    // Se não for admin, redireciona para a página de login ou outra página de erro
+    header('Location: home.php'); // Ou pode ser redirecionado para a página de erro
     exit();
 }
-
-
-// O restante do código para o formulário
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>

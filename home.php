@@ -10,7 +10,8 @@ include('includes/db.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NINIVE</title>
-    <link rel="stylesheet" href="style/styles.css">  
+    
+    
   
 </head>
 <body>
@@ -165,16 +166,20 @@ if ($result && mysqli_num_rows($result) > 0) {
 <form id="contactForm" action="contactForm.php" method="post">
 
             <div class="form-group">
-                <label for="name">Nome:</label>
-                <input type="text" id="name" name="name" placeholder="Seu nome" required>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
             </div>
             <div class="form-group">
                 <label for="email">E-mail:</label>
                 <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
             </div>
             <div class="form-group">
-                <label for="message">Mensagem:</label>
-                <textarea id="message" name="message" placeholder="Sua mensagem" required></textarea>
+                <label for="assunto">Assunto:</label>
+                <input type="text" id="assunto" name="assunto" placeholder="Assunto" required>
+            </div>
+            <div class="form-group">
+                <label for="mensagem">Mensagem:</label>
+                <textarea id="mensagem" name="mensagem" placeholder="Sua mensagem" required></textarea>
             </div>
             <div class="form-group">
                 <input type="submit" value="Enviar">

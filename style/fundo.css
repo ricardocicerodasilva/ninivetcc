@@ -1,0 +1,28 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    background-image: url('assets/imgcadastro.jpg');
+    background-repeat: no-repeat;
+  /*  background-attachment: fixed;*/
+    background-size: cover; /* Ajusta a largura para 100% e a altura para 50% */
+    height:auto;
+   /* background-position: center top 60px; /* Ajuste a posição da imagem de fundo */
+}
+
+.image {
+    position: absolute; /* Fixa a imagem na tela */
+    top: 10px; /* Ajuste a posição vertical conforme necessário */
+    left: 20px; /* Ajuste a posição horizontal conforme necessário */
+    width: 100px; /* Ajuste o tamanho conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+    z-index: 1000; /* Garante que a imagem esteja acima de outros elementos */
+}
+
+h2 {
+    text-align: center;
+    margin-top: 40px;
+    color: bold;
+    font-size: 40px;        }

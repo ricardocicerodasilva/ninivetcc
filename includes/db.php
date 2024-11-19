@@ -1,11 +1,14 @@
 
 <?php
 // includes/db.php
-$servername = "SRVDS";
-$username = "ninivebiblio-user";
-$password = "ninivebiblio2024";
+//$servername = "SRVDS";
+//$username = "ninivebiblio-user";
+//$password = "ninivebiblio2024";
+//$dbname = "db_ninivebiblio";
+$servername = "localhost";
+$username = "root";
+$password = "";
 $dbname = "db_ninivebiblio";
-
 // Ativar relatório de erros
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 

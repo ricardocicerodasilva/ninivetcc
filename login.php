@@ -10,8 +10,7 @@ if (isset($_POST['btn-entrar'])) {
 
     if (!empty($_POST['loggedin']) && !empty($_POST['senha'])) {
         $login = mysqli_escape_string($con, $_POST['login']);
-        $senha = mysqli_escape_string($con, $_POST['senha']);
-        $senha = md5($senha); // Se estiver usando MD5 para criptografar senhas
+        $senha = md5($_POST['senha']); 
 
         // Consulta ao banco de dados
         $sql = "SELECT id_bibli, login, usuario_tipo FROM bibliotecario WHERE login = '$login' AND senha = '$senha'";
@@ -35,6 +34,7 @@ if (isset($_POST['btn-entrar'])) {
         $erros[] = "O campo login/senha precisa ser preenchido";
     }
 }
+
 
 // Exibe os erros, se houver
 if (!empty($erros)) {
