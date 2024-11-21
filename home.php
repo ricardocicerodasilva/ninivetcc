@@ -10,7 +10,7 @@ include('includes/db.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NINIVE</title>
-    
+    <link rel="stylesheet" href="style/styles.css"> 
     
   
 </head>
@@ -56,32 +56,16 @@ if ($result && mysqli_num_rows($result) > 0) {
     <nav class="nav-menu">
         <ul>
             <li>
-                <a href="#">Gerenciar livros</a>
-                <ul class="submenu">
-                    <li><a href="cadastrar_livro.php">Cadastrar </a></li><br>
-                    <li><a href="atualizar_livro.php">Atualizar</a></li><br>
-                    <li><a href="buscar.php">Buscar</a></li><br>
-                    <li><a href="arquivar_livro.php">Arquivar</a></li>
-                </ul>
+                <a href="gerenciar_livro.php">Gerenciar livros</a>
+                
             </li>
             <li>
-                <a href="#">Gerenciar alunos</a>
-                <ul class="submenu">
-                    <li><a href="cadastrar_aluno.php">Cadastrar</a></li><br>
-                    <li><a href="atualizar_aluno.php">Atualizar</a></li><br>
-                    <li><a href="buscar_aluno.php">Buscar</a></li><br>
-                    <li><a href="bloquear_aluno.php">Bloquear</a></li><br>
-                </ul>
+                <a href="gerenciar_alunos.php">Gerenciar alunos</a>
+                
             </li>
             <li>
-                <a href="#">Acervo</a>
-                <ul class="submenu">
-                    <li><a href="listar_acervo.php">Listar</a></li><br>
-                    <li><a href="reservar_livro.php">Reservar</a></li><br>
-                    <li><a href="reservas_livro.php">Reservas</a></li><br>
-                                  
-                </ul>
-            </li>
+                <a href="gerenciar_acervo.php">Acervo</a>
+                            </li>
             <li>
                 <a href="notificacoes.php">Notificações</a>
                 

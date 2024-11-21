@@ -1,0 +1,49 @@
+ 
+ 
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 80px;
+  }
+  
+  .caixa {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    border: 2px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;  /* Alinha o conteúdo na parte inferior */
+    text-align: center;
+    overflow: hidden;
+    border-radius: 5%;
+  }
+  
+  /* Faz o link ocupar toda a área da caixa */
+  .caixa a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .caixa img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .caixa p {
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.5);  /* Fundo semitransparente para o texto */
+    color: white;
+    padding: 5px;
+  }
+  
+  .caixa:hover {
+    background-color: #f4f4f4;
+  }

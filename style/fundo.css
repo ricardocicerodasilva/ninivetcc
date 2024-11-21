@@ -1,28 +1,191 @@
+/* Estilo para o fundo */
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    background-image: url('assets/imgcadastro.jpg');
-    background-repeat: no-repeat;
-  /*  background-attachment: fixed;*/
-    background-size: cover; /* Ajusta a largura para 100% e a altura para 50% */
-    height:auto;
-   /* background-position: center top 60px; /* Ajuste a posição da imagem de fundo */
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f4f4f4;
+  background-image: url('../assets/imgcadastro.jpg'); /* Caminho relativo da imagem */
+  background-repeat: no-repeat;
+  background-size: cover; /* A imagem vai cobrir toda a tela */
+  background-position: center center; /* Centraliza a imagem de fundo */
+}
+.menu-container {
+  position: absolute; /* Fixa o menu na tela */
+  top: 25px; /* Alinha o menu ao topo da página */
+  left: 0; /* Alinha o menu à esquerda da página */
+  z-index: 1000; /* Garante que o menu fique acima de outros elementos */
+  background-color: white; /* Adiciona fundo branco para o menu, se necessário */
+  }
+  /*botão */
+  /* Estilos para o botão de menu */
+  .menu-toggle {
+  cursor: pointer;
+  width: 40px;
+  height: 20px;
+  position: relative;
+  top: 10px; /* Ajuste a posição vertical conforme necessário */
+  left: 40px; /* Ajuste a posição horizontal conforme necessário */
+  }
+  
+  /* Estilos para as barras do botão */
+  .bar {
+  background-color: #333;
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  transition: all 0.3s ease;
+  border-radius: 3px; /* Adiciona arredondamento para um estilo mais suave */
+  }
+  
+  .bar1 {
+  top: 0;
+  }
+  
+  .bar2 {
+  top: 50%;
+  transform: translateY(-50%);
+  }
+  
+  .bar3 {
+  bottom: 0;
+  }
+  
+  /* Estilos para o botão de menu quando ativo (transforma em "X") */
+  .menu-toggle.active .bar1 {
+  transform: rotate(45deg);
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  background-color: red;
+  }
+  
+  .menu-toggle.active .bar2 {
+  opacity: 0;
+  }
+  
+  .menu-toggle.active .bar3 {
+  transform: rotate(-45deg);
+  bottom: 50%;
+  transform: translateY(50%) rotate(-45deg);
+  background-color: red;
+  }
+  
+  /* Estilos para o menu de navegação */
+  .nav-menu {
+  display: none;
+  height: 500px;
+  width: 100%; /* Ajustado para 100% da largura da tela */
+  position: absolute; /* Garante que o menu seja posicionado corretamente */
+  top: 50px; /* Ajusta a posição abaixo do botão de menu */
+  left: 0;
+  background-color: rgb(131, 126, 126); /* Fundo branco para o menu */
+  z-index: 1000; /* Garante que o menu fique acima de outros elementos */
+  }
+  
+  /* Exibe o menu quando o botão está ativo */
+  .menu-toggle.active + .nav-menu {
+  display: block;
+  }
+  
+  /* Estilos para itens do menu */
+  .nav-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  }
+  
+  .nav-menu li {
+  background-color: white; /* Cor de fundo */
+  height: 90px;
+  width:200px;
+  font-size: 20px;
+  color: black; /* Cor da fonte */
+  font-weight: bold; /* Fonte em negrito */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centraliza o texto no item */
+  position: relative;
+  }
+  
+  /* Estilos para submenus */
+
+  
+  .nav-menu li:hover .submenu {
+  display: block; /* Exibe o submenu quando o item do menu principal é hover */
+  }
+  
+  .submenu li {
+  height: 30px; /* Permite que a altura do submenu se ajuste ao conteúdo */
+  }
+  
+  
+  
+  .content {
+  margin: 10px 0; /* Adiciona margem vertical ao conteúdo */
+  padding: 50px;
+  }
+  
+  a{
+      color: black; /* Cor da fonte, aqui é vermelho */
+  font-weight: bold; /* Para tornar a fonte em negrito */
+  
+  }
+          
+        
+/* Container que vai conter a foto e o botão de sair */
+.perfil-container {
+  display: flex;  /* Usando flexbox para posicionar os itens lado a lado */
+  justify-content: flex-end;  /* Alinha os itens à direita */
+  align-items: center;  /* Alinha os itens verticalmente no centro */
+  padding: 10px 20px;  /* Espaçamento ao redor do conteúdo */
+  position: fixed;  /* Fixa o perfil no canto superior direito */
+  top: 0;  /* No topo da página */
+  right: 0;  /* No canto direito da página */
+  z-index: 1000;  /* Garante que o perfil fique sobre outros elementos */
 }
 
-.image {
-    position: absolute; /* Fixa a imagem na tela */
-    top: 10px; /* Ajuste a posição vertical conforme necessário */
-    left: 20px; /* Ajuste a posição horizontal conforme necessário */
-    width: 100px; /* Ajuste o tamanho conforme necessário */
-    height: auto; /* Mantém a proporção da imagem */
-    z-index: 1000; /* Garante que a imagem esteja acima de outros elementos */
+.foto {
+  display: flex;
+  flex-direction: column;  /* Alinha a imagem e o nome em coluna (um embaixo do outro) */
+  align-items: center;  /* Alinha a imagem e o nome no centro */
+  margin-right: 10px;  /* Espaço entre a foto e o botão */
 }
 
-h2 {
-    text-align: center;
-    margin-top: 40px;
-    color: bold;
-    font-size: 40px;        }
+.foto img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;  /* Torna a imagem redonda */
+  margin-bottom: 5px;  /* Espaço entre a foto e o nome */
+  margin-top:10px;
+}
+
+.foto p {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;  /* Remove qualquer margem extra */
+}
+
+.botao-sair {
+  padding: 10px 20px;
+  background-color: #ff4b5c;
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+          .img {
+              position: absolute; /* Fixa a imagem na tela */
+              top: 10px; /* Ajuste a posição vertical conforme necessário */
+              left: 130px; /* Ajuste a posição horizontal conforme necessário */
+              width: 80px; /* Ajuste o tamanho conforme necessário */
+              height: auto; /* Mantém a proporção da imagem */
+             /* z-index: 1000; /* Garante que a imagem esteja acima de outros elementos */
+             
+          }
+         

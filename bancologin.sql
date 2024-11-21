@@ -1,5 +1,5 @@
-Create DATABASE bd_ninivebiblio;
-use bd_ninivebiblio;
+Create DATABASE db_ninivebiblio;
+use db_ninivebiblio;
 
 CREATE TABLE bibliotecario(
 	id_bibli int(4) PRIMARY KEY auto_increment NOT NULL,

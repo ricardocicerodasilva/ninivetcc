@@ -18,27 +18,27 @@ include('includes/fundo.php');
 
 <div class="container">
         <div class="caixa">
-            <a href="cadastrar_livro.php">
-                <img src="assets/imagens/cadastrar.png" alt="Cadastrar">
+            <a href="cadastrar_aluno.php">
+                <img src="assets/imagens/aluno.png" alt="Cadastrar">
                 <p>Cadastrar</p>
             </a>
         </div>
         <div class="caixa">
-            <a href="atualizar_livro.php">
+            <a href="atualizar_aluno.php">
                 <img src="assets/imagens/atualizar.png" alt="Atualizar">
                 <p>Atualizar</p>
             </a>
         </div>
         <div class="caixa">
-            <a href="buscar.php">
-                <img src="assets/imagens/buscar.png" alt="Buscar">
+            <a href="buscar_aluno.php">
+                <img src="assets/imagens/buscaraluno.png" alt="Buscar">
                 <p>Buscar</p>
             </a>
         </div>
         <div class="caixa">
-            <a href="arquivar_livro.php">
-                <img src="assets/imagens/arquivar.png" alt="Arquivar">
-                <p>Arquivar</p>
+            <a href="bloquear_aluno.php">
+                <img src="assets/imagens/bloquear.png" alt="Arquivar">
+                <p>Bloquear</p>
             </a>
         </div>
     </div>
